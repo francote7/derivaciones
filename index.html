@@ -12,27 +12,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Fondo oscuro institucional y transiciones suaves */
+        /* Tipografía y transiciones */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #0f172a; 
-            color: #f1f5f9; 
         }
         .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #f97316; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="bg-slate-50 text-slate-800">
 
-    <div class="max-w-7xl mx-auto">
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 border-b border-slate-800 pb-6">
+    <div class="bg-slate-900 border-b-4 border-orange-500 shadow-md">
+        <div class="max-w-7xl mx-auto p-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            
             <div class="flex items-center gap-4">
-                <img src="logo apos.png" alt="APOS La Rioja" class="h-16 w-auto object-contain bg-slate-800/50 p-2 rounded-lg border border-slate-700">
+                <img src="logo apos.png" alt="APOS La Rioja" class="h-16 w-auto object-contain bg-white p-2 rounded-lg shadow-sm border border-slate-700">
                 
                 <div>
                     <h1 class="text-3xl font-bold text-white flex items-center gap-3">
@@ -42,114 +41,120 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800 p-1 rounded-lg shadow-lg border border-slate-700 flex">
+            <div class="bg-slate-800 p-1 rounded-lg shadow-inner border border-slate-700 flex">
                 <button onclick="filtrarDatos('Todos')" id="btn-Todos" class="filter-btn px-4 py-2 text-sm font-medium rounded-md bg-orange-600 text-white transition-colors shadow-sm">Trimestre Completo</button>
                 <button onclick="filtrarDatos('Enero')" id="btn-Enero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Enero</button>
                 <button onclick="filtrarDatos('Febrero')" id="btn-Febrero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Febrero</button>
                 <button onclick="filtrarDatos('Marzo')" id="btn-Marzo" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Marzo</button>
             </div>
-        </header>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+            <div class="card bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-sm font-medium text-slate-400 mb-1">Volumen Total</p>
-                        <h3 class="text-3xl font-bold text-white" id="kpi-total">0</h3>
-                        <p class="text-xs font-semibold text-slate-500 mt-1">100% de la muestra</p>
+                        <p class="text-sm font-medium text-slate-500 mb-1">Volumen Total</p>
+                        <h3 class="text-3xl font-bold text-slate-800" id="kpi-total">0</h3>
+                        <p class="text-xs font-semibold text-slate-400 mt-1">100% de la muestra</p>
                     </div>
-                    <div class="p-3 rounded-lg bg-orange-500/20 text-orange-500 border border-orange-500/30"><i class="fa-solid fa-users fa-lg"></i></div>
+                    <div class="p-3 rounded-lg bg-orange-50 text-orange-600 border border-orange-100"><i class="fa-solid fa-users fa-lg"></i></div>
                 </div>
             </div>
 
-            <div class="card bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+            <div class="card bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-sm font-medium text-slate-400 mb-1">Ambulatorias</p>
-                        <h3 class="text-3xl font-bold text-white flex items-baseline gap-2" id="kpi-amb-abs">
+                        <p class="text-sm font-medium text-slate-500 mb-1">Ambulatorias</p>
+                        <h3 class="text-3xl font-bold text-slate-800 flex items-baseline gap-2" id="kpi-amb-abs">
                             0 <span class="text-lg text-amber-500 font-medium" id="kpi-amb-pct">(0%)</span>
                         </h3>
-                        <p class="text-xs font-semibold text-slate-500 mt-1">Baja / Media complejidad</p>
+                        <p class="text-xs font-semibold text-slate-400 mt-1">Baja / Media complejidad</p>
                     </div>
-                    <div class="p-3 rounded-lg bg-amber-500/20 text-amber-500 border border-amber-500/30"><i class="fa-solid fa-stethoscope fa-lg"></i></div>
+                    <div class="p-3 rounded-lg bg-amber-50 text-amber-600 border border-amber-100"><i class="fa-solid fa-stethoscope fa-lg"></i></div>
                 </div>
             </div>
 
-            <div class="card bg-red-950/40 rounded-xl p-6 shadow-lg border border-red-900/50">
+            <div class="card bg-red-50/50 rounded-xl p-6 shadow-sm border border-red-200">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-sm font-medium text-red-400 mb-1">Internación</p>
-                        <h3 class="text-3xl font-bold text-white flex items-baseline gap-2" id="kpi-int-abs">
-                            0 <span class="text-lg text-red-400 font-medium" id="kpi-int-pct">(0%)</span>
+                        <p class="text-sm font-medium text-red-600 mb-1">Internación</p>
+                        <h3 class="text-3xl font-bold text-red-700 flex items-baseline gap-2" id="kpi-int-abs">
+                            0 <span class="text-lg text-red-500 font-medium" id="kpi-int-pct">(0%)</span>
                         </h3>
-                        <p class="text-xs font-semibold text-red-500/80 mt-1">Alto impacto presupuestario</p>
+                        <p class="text-xs font-semibold text-red-500 mt-1">Alto impacto presupuestario</p>
                     </div>
-                    <div class="p-3 rounded-lg bg-red-500/20 text-red-500 border border-red-500/30"><i class="fa-solid fa-bed-pulse fa-lg"></i></div>
+                    <div class="p-3 rounded-lg bg-red-100 text-red-600 border border-red-200"><i class="fa-solid fa-bed-pulse fa-lg"></i></div>
                 </div>
             </div>
 
-            <div class="card bg-orange-950/40 rounded-xl p-6 shadow-lg border border-orange-900/50">
+            <div class="card bg-orange-50/50 rounded-xl p-6 shadow-sm border border-orange-200">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-sm font-medium text-orange-400 mb-1">Teleconsulta</p>
-                        <h3 class="text-3xl font-bold text-white flex items-baseline gap-2" id="kpi-tele-abs">
-                            0 <span class="text-lg text-orange-400 font-medium" id="kpi-tele-pct">(0%)</span>
+                        <p class="text-sm font-medium text-orange-600 mb-1">Teleconsulta</p>
+                        <h3 class="text-3xl font-bold text-orange-700 flex items-baseline gap-2" id="kpi-tele-abs">
+                            0 <span class="text-lg text-orange-500 font-medium" id="kpi-tele-pct">(0%)</span>
                         </h3>
-                        <p class="text-xs font-semibold text-orange-500/80 mt-1">Oportunidad de ahorro</p>
+                        <p class="text-xs font-semibold text-orange-500 mt-1">Oportunidad de ahorro</p>
                     </div>
-                    <div class="p-3 rounded-lg bg-orange-500/20 text-orange-500 border border-orange-500/30"><i class="fa-solid fa-laptop-medical fa-lg"></i></div>
+                    <div class="p-3 rounded-lg bg-orange-100 text-orange-600 border border-orange-200"><i class="fa-solid fa-laptop-medical fa-lg"></i></div>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div class="lg:col-span-2 bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card">
-                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-building-user text-orange-500 mr-2"></i>Concentración por Prestador</h2>
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-building-user text-orange-500 mr-2"></i>Concentración por Prestador</h2>
                 <div class="relative h-80 w-full">
                     <canvas id="chartPrestadores"></canvas>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card flex flex-col">
-                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-chart-pie text-orange-500 mr-2"></i>Composición del Gasto</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-pie text-orange-500 mr-2"></i>Composición del Gasto</h2>
                 <div class="relative flex-grow w-full flex justify-center min-h-[200px]">
                     <canvas id="chartModalidad"></canvas>
+                </div>
+                <div class="mt-6 p-4 bg-orange-50 border-l-4 border-orange-500 text-sm text-orange-800 rounded-r-lg">
+                    <strong>Análisis:</strong> Tasa de teleconsulta nula (< 1%). Se recomienda desviar el 15% de la carga ambulatoria a plataformas digitales.
                 </div>
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold text-white mb-4 mt-12 flex items-center gap-2 border-b border-slate-800 pb-4">
+        <h2 class="text-2xl font-bold text-slate-800 mb-4 mt-12 flex items-center gap-2 border-b border-slate-200 pb-4">
             <i class="fa-solid fa-file-prescription text-amber-500"></i> Auditoría de Órdenes Emitidas (Inducción Prestacional)
         </h2>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card flex flex-col justify-center">
-                <div class="mb-6 border-b border-slate-700 pb-4">
-                    <p class="text-sm font-medium text-slate-400 mb-1">Total Órdenes Generadas</p>
-                    <h3 class="text-4xl font-bold text-white" id="kpi-ordenes-total">0</h3>
-                    <p class="text-xs text-slate-500 mt-1">Prácticas, laboratorios, imágenes solicitadas.</p>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col justify-center">
+                <div class="mb-6 border-b border-slate-100 pb-4">
+                    <p class="text-sm font-medium text-slate-500 mb-1">Total Órdenes Generadas</p>
+                    <h3 class="text-4xl font-bold text-slate-800" id="kpi-ordenes-total">0</h3>
+                    <p class="text-xs text-slate-400 mt-1">Prácticas, laboratorios, imágenes solicitadas.</p>
                 </div>
                 
                 <div class="mb-6">
-                    <p class="text-sm font-medium text-slate-400 mb-1">Promedio Global (Órdenes / Derivación Amb.)</p>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Promedio Global (Órdenes / Derivación Amb.)</p>
                     <h3 class="text-4xl font-bold text-amber-500" id="kpi-ordenes-prom">0.0</h3>
                 </div>
 
-                <div class="p-4 bg-red-950/40 border-l-4 border-red-500 text-sm text-red-200 rounded-r-lg">
-                    <strong>Alerta de Auditoría:</strong> Valores de inducción que superen la franja de <strong>2.0 a 2.5 órdenes</strong> por consulta indican alta probabilidad de sobrefacturación (prácticas redundantes).
+                <div class="p-4 bg-red-50 border-l-4 border-red-500 text-sm text-red-800 rounded-r-lg">
+                    <strong>Alerta de Auditoría:</strong> Valores de inducción que superen la franja de <strong>2.0 a 2.5 órdenes</strong> por consulta indican alta probabilidad de sobrefacturación.
                 </div>
             </div>
 
-            <div class="lg:col-span-2 bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card">
-                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2">Promedio de Órdenes por Institución</h2>
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Promedio de Órdenes por Institución</h2>
                 <div class="relative h-72 w-full">
                     <canvas id="chartOrdenes"></canvas>
                 </div>
             </div>
         </div>
 
-        <div id="contenedorTendencia" class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card mb-12">
-            <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de Siniestralidad</h2>
+        <div id="contenedorTendencia" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card mb-12">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de Siniestralidad</h2>
             <div class="relative h-72 w-full">
                 <canvas id="chartTendencia"></canvas>
             </div>
@@ -157,23 +162,24 @@
     </div>
 
     <script>
-        Chart.defaults.color = '#cbd5e1'; 
-        Chart.defaults.borderColor = '#334155'; 
+        // Configuración Global de Chart.js para Modo Claro
+        Chart.defaults.color = '#475569'; // text-slate-600
+        Chart.defaults.borderColor = '#e2e8f0'; // text-slate-200 (Grillas más suaves)
         Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
         const coloresTheme = {
-            ambulatorias: '#f97316', 
-            internacion: '#c2410c', 
-            teleconsulta: '#fdba74', 
-            alertaCritica: '#ef4444', // Rojo para sobreprestación
+            ambulatorias: '#f97316', // orange-500
+            internacion: '#c2410c', // orange-700
+            teleconsulta: '#fdba74', // orange-300
+            alertaCritica: '#ef4444', // red-500
             lineaTotal: '#f97316',
             lineaInternacion: '#ef4444' 
         };
 
-        // Base de Datos Ampliada con el dato de "Órdenes Ambulatorias Emitidas"
+        // Base de Datos
         const rawData = [
             { mes: 'Enero', institucion: 'Hospital Privado', amb: 355, int: 88, tele: 4, ordenes: 1185 },
-            { mes: 'Enero', institucion: 'Sanatorio Allende', amb: 80, int: 24, tele: 0, ordenes: 200 }, // Aprox (80 * 2.5 prom)
+            { mes: 'Enero', institucion: 'Sanatorio Allende', amb: 80, int: 24, tele: 0, ordenes: 200 }, 
             { mes: 'Enero', institucion: 'Instituto Oulton', amb: 65, int: 2, tele: 0, ordenes: 76 },
             { mes: 'Enero', institucion: 'Reyes-Giobellina', amb: 62, int: 2, tele: 0, ordenes: 51 },
             { mes: 'Enero', institucion: 'Otros', amb: 20, int: 0, tele: 0, ordenes: 20 },
@@ -194,11 +200,12 @@
         let chartPrestadoresObj = null;
         let chartModalidadObj = null;
         let chartTendenciaObj = null;
-        let chartOrdenesObj = null; // Nuevo Gráfico
+        let chartOrdenesObj = null; 
 
         const formatNum = (num) => new Intl.NumberFormat('es-AR').format(num);
 
         function filtrarDatos(mesFiltro) {
+            // Estilos de los botones (Se mantienen oscuros porque están en la franja oscura)
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-orange-600', 'text-white');
                 btn.classList.add('text-slate-300', 'hover:bg-slate-700');
@@ -218,24 +225,17 @@
             });
             const totalGlobal = totalAmb + totalInt + totalTele;
 
-            // Actualizar KPIs Principales (Absolutos y Porcentuales)
             document.getElementById('kpi-total').innerText = formatNum(totalGlobal);
-            
             document.getElementById('kpi-amb-abs').innerHTML = `${formatNum(totalAmb)} <span class="text-lg text-amber-500 font-medium">(${totalGlobal ? ((totalAmb/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
-            
-            document.getElementById('kpi-int-abs').innerHTML = `${formatNum(totalInt)} <span class="text-lg text-red-400 font-medium">(${totalGlobal ? ((totalInt/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
-            
-            document.getElementById('kpi-tele-abs').innerHTML = `${formatNum(totalTele)} <span class="text-lg text-orange-400 font-medium">(${totalGlobal ? ((totalTele/totalGlobal)*100).toFixed(2) : 0}%)</span>`;
+            document.getElementById('kpi-int-abs').innerHTML = `${formatNum(totalInt)} <span class="text-lg text-red-500 font-medium">(${totalGlobal ? ((totalInt/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
+            document.getElementById('kpi-tele-abs').innerHTML = `${formatNum(totalTele)} <span class="text-lg text-orange-500 font-medium">(${totalGlobal ? ((totalTele/totalGlobal)*100).toFixed(2) : 0}%)</span>`;
 
-            // Actualizar KPIs de Órdenes
             const promGlobalOrdenes = totalAmb > 0 ? (totalOrdenes / totalAmb).toFixed(2) : 0;
             document.getElementById('kpi-ordenes-total').innerText = formatNum(totalOrdenes);
             document.getElementById('kpi-ordenes-prom').innerText = promGlobalOrdenes;
-            // Alerta visual de color
-            document.getElementById('kpi-ordenes-prom').className = promGlobalOrdenes >= 2.5 ? "text-4xl font-bold text-red-500" : "text-4xl font-bold text-amber-500";
+            document.getElementById('kpi-ordenes-prom').className = promGlobalOrdenes >= 2.5 ? "text-4xl font-bold text-red-600" : "text-4xl font-bold text-amber-500";
 
 
-            // Preparar datos para Gráficos
             const agrupadoPrestadores = {};
             datosFiltrados.forEach(d => {
                 if(!agrupadoPrestadores[d.institucion]) {
@@ -246,7 +246,6 @@
                 agrupadoPrestadores[d.institucion].ordenes += d.ordenes;
             });
 
-            // Ordenamiento por Volumen
             const labelsPrestadores = Object.keys(agrupadoPrestadores).sort((a,b) => 
                 (agrupadoPrestadores[b].amb + agrupadoPrestadores[b].int) - (agrupadoPrestadores[a].amb + agrupadoPrestadores[a].int)
             );
@@ -254,7 +253,6 @@
             const dataAmb = labelsPrestadores.map(l => agrupadoPrestadores[l].amb);
             const dataInt = labelsPrestadores.map(l => agrupadoPrestadores[l].int);
             
-            // Calculo de Promedio por Prestador
             const dataPromedios = labelsPrestadores.map(l => {
                 const amb = agrupadoPrestadores[l].amb;
                 return amb > 0 ? (agrupadoPrestadores[l].ordenes / amb).toFixed(2) : 0;
@@ -271,8 +269,6 @@
                 document.getElementById('contenedorTendencia').style.display = 'none';
             }
         }
-
-        // --- Dibujo de Gráficos ---
 
         function renderizarGraficoPrestadores(labels, dataAmb, dataInt) {
             const ctx = document.getElementById('chartPrestadores').getContext('2d');
@@ -293,7 +289,7 @@
                         x: { stacked: true, grid: { display: false } },
                         y: { stacked: true, border: { dash: [4, 4] } }
                     },
-                    plugins: { legend: { position: 'top', labels: { color: '#e2e8f0' } } }
+                    plugins: { legend: { position: 'top' } }
                 }
             });
         }
@@ -309,23 +305,21 @@
                     datasets: [{
                         data: [amb, int, tele],
                         backgroundColor: [coloresTheme.ambulatorias, coloresTheme.internacion, coloresTheme.teleconsulta],
-                        borderColor: '#1e293b', 
+                        borderColor: '#ffffff', // Borde blanco para separar en modo claro
                         borderWidth: 2, hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { color: '#e2e8f0' } } }
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
         }
 
-        // NUEVO: Gráfico de Órdenes (Inducción Prestacional)
         function renderizarGraficoOrdenes(labels, dataPromedios) {
             const ctx = document.getElementById('chartOrdenes').getContext('2d');
             if (chartOrdenesObj) chartOrdenesObj.destroy();
 
-            // Colorear de rojo las barras que superen 2.5
             const backgroundColors = dataPromedios.map(val => val >= 2.5 ? coloresTheme.alertaCritica : coloresTheme.ambulatorias);
 
             chartOrdenesObj = new Chart(ctx, {
@@ -340,19 +334,17 @@
                     }]
                 },
                 options: {
-                    indexAxis: 'y', // Barra horizontal para mejor lectura de nombres
+                    indexAxis: 'y',
                     responsive: true, maintainAspectRatio: false,
                     scales: {
-                        x: { beginAtZero: true, border: { dash: [4, 4] }, title: { display: true, text: 'Promedio de Órdenes Emitidas', color: '#94a3b8' } },
+                        x: { beginAtZero: true, border: { dash: [4, 4] }, title: { display: true, text: 'Promedio de Órdenes Emitidas' } },
                         y: { grid: { display: false } }
                     },
                     plugins: { 
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
-                                    return `Promedio: ${context.parsed.x} órdenes`;
-                                }
+                                label: function(context) { return `Promedio: ${context.parsed.x} órdenes`; }
                             }
                         }
                     }
@@ -373,8 +365,8 @@
                 data: {
                     labels: meses,
                     datasets: [
-                        { label: 'Volumen Total', data: dataTotalMensual, borderColor: coloresTheme.lineaTotal, backgroundColor: coloresTheme.lineaTotal, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#0f172a' },
-                        { label: 'Solo Internaciones', data: dataIntMensual, borderColor: coloresTheme.lineaInternacion, backgroundColor: coloresTheme.lineaInternacion, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#0f172a', borderDash: [5, 5] }
+                        { label: 'Volumen Total', data: dataTotalMensual, borderColor: coloresTheme.lineaTotal, backgroundColor: coloresTheme.lineaTotal, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#ffffff' },
+                        { label: 'Solo Internaciones', data: dataIntMensual, borderColor: coloresTheme.lineaInternacion, backgroundColor: coloresTheme.lineaInternacion, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#ffffff', borderDash: [5, 5] }
                     ]
                 },
                 options: {
@@ -383,7 +375,7 @@
                         y: { beginAtZero: true, border: { dash: [4, 4] } },
                         x: { grid: { display: false } }
                     },
-                    plugins: { legend: { position: 'top', labels: { color: '#e2e8f0' } } }
+                    plugins: { legend: { position: 'top' } }
                 }
             });
         }
