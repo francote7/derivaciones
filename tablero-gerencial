@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Gerencial APOS La Rioja - Derivaciones Q1</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Fondo oscuro institucional y transiciones suaves */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f172a; /* bg-slate-900 - Gris muy oscuro */
+            color: #f1f5f9; /* text-slate-100 */
+        }
+        .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        
+        /* Personalización de scrollbar para modo oscuro */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f97316; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 border-b border-slate-800 pb-6">
+            <div class="flex items-center gap-4">
+                <img src="logo apos.png" alt="APOS La Rioja" class="h-16 w-auto object-contain bg-slate-800/50 p-2 rounded-lg border border-slate-700">
+                
+                <div>
+                    <h1 class="text-3xl font-bold text-white flex items-center gap-3">
+                        Monitor de Derivaciones Q1-2026
+                    </h1>
+                    <p class="text-slate-400 mt-1">Auditoría Prestacional - Instituciones de Córdoba y CABA</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-1 rounded-lg shadow-lg border border-slate-700 flex">
+                <button onclick="filtrarDatos('Todos')" id="btn-Todos" class="filter-btn px-4 py-2 text-sm font-medium rounded-md bg-orange-600 text-white transition-colors shadow-sm">Trimestre Completo</button>
+                <button onclick="filtrarDatos('Enero')" id="btn-Enero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Enero</button>
+                <button onclick="filtrarDatos('Febrero')" id="btn-Febrero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Febrero</button>
+                <button onclick="filtrarDatos('Marzo')" id="btn-Marzo" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Marzo</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="card bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-slate-400 mb-1">Volumen Total</p>
+                        <h3 class="text-3xl font-bold text-white" id="kpi-total">0</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-orange-500/20 text-orange-500 border border-orange-500/30"><i class="fa-solid fa-users fa-lg"></i></div>
+                </div>
+                <p class="text-sm mt-4 text-slate-500 font-medium">Derivaciones procesadas</p>
+            </div>
+
+            <div class="card bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-slate-400 mb-1">Ambulatorias</p>
+                        <h3 class="text-3xl font-bold text-white" id="kpi-amb">0%</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-amber-500/20 text-amber-500 border border-amber-500/30"><i class="fa-solid fa-stethoscope fa-lg"></i></div>
+                </div>
+                <p class="text-sm mt-4 text-slate-500 font-medium">Baja / Media complejidad</p>
+            </div>
+
+            <div class="card bg-red-950/40 rounded-xl p-6 shadow-lg border border-red-900/50">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-red-400 mb-1">Internación</p>
+                        <h3 class="text-3xl font-bold text-red-400" id="kpi-int">0%</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-red-500/20 text-red-500 border border-red-500/30"><i class="fa-solid fa-bed-pulse fa-lg"></i></div>
+                </div>
+                <p class="text-sm mt-4 text-red-500/80 font-medium">Alto impacto presupuestario</p>
+            </div>
+
+            <div class="card bg-orange-950/40 rounded-xl p-6 shadow-lg border border-orange-900/50">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm font-medium text-orange-400 mb-1">Teleconsulta</p>
+                        <h3 class="text-3xl font-bold text-orange-400" id="kpi-tele">0%</h3>
+                    </div>
+                    <div class="p-3 rounded-lg bg-orange-500/20 text-orange-500 border border-orange-500/30"><i class="fa-solid fa-laptop-medical fa-lg"></i></div>
+                </div>
+                <p class="text-sm mt-4 text-orange-500/80 font-medium">Oportunidad de ahorro crítica</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card">
+                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-building-user text-orange-500 mr-2"></i>Concentración por Prestador</h2>
+                <div class="relative h-80 w-full">
+                    <canvas id="chartPrestadores"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card flex flex-col">
+                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-chart-pie text-orange-500 mr-2"></i>Composición del Gasto</h2>
+                <div class="relative flex-grow w-full flex justify-center min-h-[200px]">
+                    <canvas id="chartModalidad"></canvas>
+                </div>
+                <div class="mt-6 p-4 bg-orange-950/50 border-l-4 border-orange-500 text-sm text-orange-200 rounded-r-lg">
+                    <strong>Análisis:</strong> Tasa de teleconsulta nula (< 1%). Se recomienda desviar el 15% de la carga ambulatoria a plataformas digitales para contención de siniestralidad.
+                </div>
+            </div>
+
+            <div id="contenedorTendencia" class="lg:col-span-3 bg-slate-800 rounded-xl shadow-lg border border-slate-700 p-6 card">
+                <h2 class="text-lg font-bold text-white mb-4 border-b border-slate-700 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de Siniestralidad</h2>
+                <div class="relative h-72 w-full">
+                    <canvas id="chartTendencia"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración Global de Chart.js para Modo Oscuro
+        Chart.defaults.color = '#cbd5e1'; // Texto gris claro (slate-300)
+        Chart.defaults.borderColor = '#334155'; // Líneas de grilla oscuras (slate-700)
+        Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
+        // Paleta de Colores (Naranjas Institucionales APOS)
+        const coloresTheme = {
+            ambulatorias: '#f97316', // orange-500
+            internacion: '#c2410c', // orange-700 (más oscuro para contraste)
+            teleconsulta: '#fdba74', // orange-300 (más claro)
+            lineaTotal: '#f97316',
+            lineaInternacion: '#ef4444' // red-500 para alerta
+        };
+
+        // 1. Base de Datos Cruda (Auditoría Q1 2026)
+        const rawData = [
+            { mes: 'Enero', institucion: 'Hospital Privado', amb: 355, int: 88, tele: 4 },
+            { mes: 'Enero', institucion: 'Sanatorio Allende', amb: 80, int: 24, tele: 0 },
+            { mes: 'Enero', institucion: 'Instituto Oulton', amb: 65, int: 2, tele: 0 },
+            { mes: 'Enero', institucion: 'Reyes-Giobellina', amb: 62, int: 2, tele: 0 },
+            { mes: 'Enero', institucion: 'Otros', amb: 20, int: 0, tele: 0 },
+
+            { mes: 'Febrero', institucion: 'Hospital Privado', amb: 244, int: 63, tele: 1 },
+            { mes: 'Febrero', institucion: 'Sanatorio Allende', amb: 110, int: 29, tele: 0 },
+            { mes: 'Febrero', institucion: 'Instituto Oulton', amb: 60, int: 2, tele: 0 },
+            { mes: 'Febrero', institucion: 'Reyes-Giobellina', amb: 38, int: 6, tele: 0 },
+            { mes: 'Febrero', institucion: 'Otros', amb: 4, int: 1, tele: 0 },
+
+            { mes: 'Marzo', institucion: 'Hospital Privado', amb: 347, int: 76, tele: 1 },
+            { mes: 'Marzo', institucion: 'Sanatorio Allende', amb: 95, int: 25, tele: 0 },
+            { mes: 'Marzo', institucion: 'Instituto Oulton', amb: 71, int: 9, tele: 0 },
+            { mes: 'Marzo', institucion: 'Reyes-Giobellina', amb: 60, int: 3, tele: 0 },
+            { mes: 'Marzo', institucion: 'Otros', amb: 11, int: 2, tele: 0 },
+        ];
+
+        let chartPrestadoresObj = null;
+        let chartModalidadObj = null;
+        let chartTendenciaObj = null;
+
+        const formatNum = (num) => new Intl.NumberFormat('es-AR').format(num);
+
+        // 2. Función Principal de Renderizado
+        function filtrarDatos(mesFiltro) {
+            // Actualizar botones de filtro
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-600', 'text-white');
+                btn.classList.add('text-slate-300', 'hover:bg-slate-700');
+            });
+            const activeBtn = document.getElementById(`btn-${mesFiltro}`);
+            activeBtn.classList.remove('text-slate-300', 'hover:bg-slate-700');
+            activeBtn.classList.add('bg-orange-600', 'text-white');
+
+            const datosFiltrados = mesFiltro === 'Todos' ? rawData : rawData.filter(d => d.mes === mesFiltro);
+
+            let totalAmb = 0, totalInt = 0, totalTele = 0;
+            datosFiltrados.forEach(d => {
+                totalAmb += d.amb;
+                totalInt += d.int;
+                totalTele += d.tele;
+            });
+            const totalGlobal = totalAmb + totalInt + totalTele;
+
+            // Actualizar KPIs
+            document.getElementById('kpi-total').innerText = formatNum(totalGlobal);
+            document.getElementById('kpi-amb').innerText = totalGlobal ? ((totalAmb/totalGlobal)*100).toFixed(1) + '%' : '0%';
+            document.getElementById('kpi-int').innerText = totalGlobal ? ((totalInt/totalGlobal)*100).toFixed(1) + '%' : '0%';
+            document.getElementById('kpi-tele').innerText = totalGlobal ? ((totalTele/totalGlobal)*100).toFixed(2) + '%' : '0%';
+
+            // Preparar datos para Gráficos
+            const agrupadoPrestadores = {};
+            datosFiltrados.forEach(d => {
+                if(!agrupadoPrestadores[d.institucion]) {
+                    agrupadoPrestadores[d.institucion] = { amb: 0, int: 0 };
+                }
+                agrupadoPrestadores[d.institucion].amb += d.amb;
+                agrupadoPrestadores[d.institucion].int += d.int;
+            });
+
+            const labelsPrestadores = Object.keys(agrupadoPrestadores).sort((a,b) => 
+                (agrupadoPrestadores[b].amb + agrupadoPrestadores[b].int) - (agrupadoPrestadores[a].amb + agrupadoPrestadores[a].int)
+            );
+            const dataAmb = labelsPrestadores.map(l => agrupadoPrestadores[l].amb);
+            const dataInt = labelsPrestadores.map(l => agrupadoPrestadores[l].int);
+
+            renderizarGraficoPrestadores(labelsPrestadores, dataAmb, dataInt);
+            renderizarGraficoModalidad(totalAmb, totalInt, totalTele);
+
+            if (mesFiltro === 'Todos') {
+                document.getElementById('contenedorTendencia').style.display = 'block';
+                renderizarGraficoTendencia();
+            } else {
+                document.getElementById('contenedorTendencia').style.display = 'none';
+            }
+        }
+
+        // 3. Funciones de Dibujo (Chart.js)
+        function renderizarGraficoPrestadores(labels, dataAmb, dataInt) {
+            const ctx = document.getElementById('chartPrestadores').getContext('2d');
+            if (chartPrestadoresObj) chartPrestadoresObj.destroy();
+
+            chartPrestadoresObj = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Ambulatorias', data: dataAmb, backgroundColor: coloresTheme.ambulatorias, borderRadius: {topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4} },
+                        { label: 'Internación', data: dataInt, backgroundColor: coloresTheme.internacion, borderRadius: {topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0} }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, border: { dash: [4, 4] } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { color: '#e2e8f0' } } }
+                }
+            });
+        }
+
+        function renderizarGraficoModalidad(amb, int, tele) {
+            const ctx = document.getElementById('chartModalidad').getContext('2d');
+            if (chartModalidadObj) chartModalidadObj.destroy();
+
+            chartModalidadObj = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ambulatorias', 'Internación', 'Teleconsulta'],
+                    datasets: [{
+                        data: [amb, int, tele],
+                        backgroundColor: [coloresTheme.ambulatorias, coloresTheme.internacion, coloresTheme.teleconsulta],
+                        borderColor: '#1e293b', // Borde oscuro para separar las porciones
+                        borderWidth: 2,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { color: '#e2e8f0' } } }
+                }
+            });
+        }
+
+        function renderizarGraficoTendencia() {
+            const ctx = document.getElementById('chartTendencia').getContext('2d');
+            if (chartTendenciaObj) chartTendenciaObj.destroy();
+
+            const meses = ['Enero', 'Febrero', 'Marzo'];
+            const dataTotalMensual = meses.map(mes => rawData.filter(d => d.mes === mes).reduce((acc, curr) => acc + curr.amb + curr.int + curr.tele, 0));
+            const dataIntMensual = meses.map(mes => rawData.filter(d => d.mes === mes).reduce((acc, curr) => acc + curr.int, 0));
+
+            chartTendenciaObj = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [
+                        { label: 'Volumen Total', data: dataTotalMensual, borderColor: coloresTheme.lineaTotal, backgroundColor: coloresTheme.lineaTotal, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#0f172a' },
+                        { label: 'Solo Internaciones', data: dataIntMensual, borderColor: coloresTheme.lineaInternacion, backgroundColor: coloresTheme.lineaInternacion, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#0f172a', borderDash: [5, 5] }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, border: { dash: [4, 4] } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top', labels: { color: '#e2e8f0' } } }
+                }
+            });
+        }
+
+        // 4. Inicializar tablero
+        window.onload = () => filtrarDatos('Todos');
+    </script>
+</body>
+</html>
