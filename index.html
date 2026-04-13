@@ -174,7 +174,9 @@
             </div>
         </div>
 
-        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Especialización de la Demanda por Prestador (Top 3 Histórico)</h3>
+        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2 flex items-center gap-2">
+            Especialización de la Demanda por Prestador - <span id="lbl-mes-especializacion" class="text-slate-500">Trimestre Completo</span>
+        </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
@@ -182,11 +184,8 @@
                     <i class="fa-regular fa-hospital text-slate-400"></i>
                     <h4 class="font-bold text-slate-700">Hospital Privado</h4>
                 </div>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li class="flex justify-between items-center"><span>Insuf. Renal Crónica</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">68 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Trasplante Renal</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">32 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">26 Casos</span></li>
-                </ul>
+                <ul id="esp-hp" class="text-sm text-slate-600 space-y-2">
+                    </ul>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
@@ -194,11 +193,8 @@
                     <i class="fa-regular fa-hospital text-slate-400"></i>
                     <h4 class="font-bold text-slate-700">Instituto Oulton</h4>
                 </div>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">35 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Cáncer de Colon</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">5 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Cáncer de Próstata</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">4 Casos</span></li>
-                </ul>
+                <ul id="esp-io" class="text-sm text-slate-600 space-y-2">
+                    </ul>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
@@ -206,11 +202,8 @@
                     <i class="fa-regular fa-hospital text-slate-400"></i>
                     <h4 class="font-bold text-slate-700">Sanatorio Allende</h4>
                 </div>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">8 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Escoliosis</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">7 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Gonartrosis</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">7 Casos</span></li>
-                </ul>
+                <ul id="esp-sa" class="text-sm text-slate-600 space-y-2">
+                    </ul>
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
@@ -218,11 +211,8 @@
                     <i class="fa-regular fa-eye text-slate-400"></i>
                     <h4 class="font-bold text-slate-700">Reyes-Giobellina</h4>
                 </div>
-                <ul class="text-sm text-slate-600 space-y-2">
-                    <li class="flex justify-between items-center"><span>Retinopatía Diabética</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">29 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Cataratas</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">21 Casos</span></li>
-                    <li class="flex justify-between items-center"><span>Otras Retinopatías</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">20 Casos</span></li>
-                </ul>
+                <ul id="esp-rg" class="text-sm text-slate-600 space-y-2">
+                    </ul>
             </div>
 
         </div>
@@ -282,6 +272,7 @@
             { mes: 'Marzo', institucion: 'Otros', amb: 11, int: 2, tele: 0, ordenes: 11 },
         ];
 
+        // Top 5 Diagnósticos Globales y por Mes
         const diagData = {
             'Todos': [
                 { diag: 'CÁNCER DE MAMA', count: 78 },
@@ -313,6 +304,34 @@
             ]
         };
 
+        // Especialización Top 3 por Prestador y por Mes (Datos Dinámicos)
+        const especializacionData = {
+            "Todos": {
+                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 68 }, { diag: "TRASPLANTE RENAL", count: 32 }, { diag: "CÁNCER DE MAMA", count: 26 }],
+                "io": [{ diag: "CÁNCER DE MAMA", count: 35 }, { diag: "CÁNCER DE COLON", count: 5 }, { diag: "NODULO MAMARIO", count: 4 }],
+                "sa": [{ diag: "CÁNCER DE MAMA", count: 8 }, { diag: "GONARTROSIS", count: 7 }, { diag: "ESCOLIOSIS", count: 7 }],
+                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 29 }, { diag: "CATARATAS", count: 21 }, { diag: "OTRAS RETINOPATÍAS", count: 20 }]
+            },
+            "Enero": {
+                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 25 }, { diag: "TRASPLANTE RENAL", count: 14 }, { diag: "TUMOR RENAL", count: 8 }],
+                "io": [{ diag: "CÁNCER DE MAMA", count: 14 }, { diag: "CANCER DE UTERO", count: 2 }, { diag: "CANCER DE RECTO", count: 2 }],
+                "sa": [{ diag: "CÁNCER DE MAMA", count: 3 }, { diag: "POLIPO ESFENOIDAL", count: 2 }, { diag: "ESCOLIOSIS", count: 2 }],
+                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 12 }, { diag: "CATARATAS", count: 10 }, { diag: "OTRAS RETINOPATÍAS", count: 9 }]
+            },
+            "Febrero": {
+                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 22 }, { diag: "TRASPLANTE RENAL", count: 10 }, { diag: "CÁNCER DE MAMA", count: 9 }],
+                "io": [{ diag: "CÁNCER DE MAMA", count: 6 }, { diag: "CÁNCER DE COLON", count: 3 }, { diag: "CONTROL MAMARIO", count: 2 }],
+                "sa": [{ diag: "EPILEPSIA", count: 2 }, { diag: "CÁNCER DE MAMA", count: 2 }, { diag: "POLIARTRALGIA", count: 2 }],
+                "rg": [{ diag: "CATARATAS", count: 6 }, { diag: "RETINOPATÍA DIABÉTICA", count: 4 }, { diag: "OTRAS RETINOPATÍAS", count: 4 }]
+            },
+            "Marzo": {
+                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 21 }, { diag: "CÁNCER DE MAMA", count: 11 }, { diag: "TRASPLANTE RENAL", count: 8 }],
+                "io": [{ diag: "CÁNCER DE MAMA", count: 15 }, { diag: "CÁNCER DE PRÓSTATA", count: 3 }, { diag: "CONTROL ANUAL", count: 2 }],
+                "sa": [{ diag: "GONARTROSIS", count: 6 }, { diag: "ESCOLIOSIS", count: 4 }, { diag: "CANCER DE PULMON", count: 3 }],
+                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 13 }, { diag: "OTRAS RETINOPATÍAS", count: 7 }, { diag: "GLAUCOMA", count: 6 }]
+            }
+        };
+
         let chartPrestadoresObj = null;
         let chartModalidadObj = null;
         let chartTendenciaObj = null;
@@ -322,6 +341,7 @@
         const formatNum = (num) => new Intl.NumberFormat('es-AR').format(num);
 
         function filtrarDatos(mesFiltro) {
+            // Estilo de botones
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-orange-600', 'text-white');
                 btn.classList.add('text-slate-300', 'hover:bg-slate-700');
@@ -330,6 +350,7 @@
             activeBtn.classList.remove('text-slate-300', 'hover:bg-slate-700');
             activeBtn.classList.add('bg-orange-600', 'text-white');
 
+            // Filtrado de RawData para KPIs
             const datosFiltrados = mesFiltro === 'Todos' ? rawData : rawData.filter(d => d.mes === mesFiltro);
 
             let totalAmb = 0, totalInt = 0, totalTele = 0, totalOrdenes = 0;
@@ -341,6 +362,7 @@
             });
             const totalGlobal = totalAmb + totalInt + totalTele;
 
+            // Actualización de KPIs Numéricos
             document.getElementById('kpi-total').innerText = formatNum(totalGlobal);
             document.getElementById('kpi-amb-abs').innerHTML = `${formatNum(totalAmb)} <span class="text-lg text-amber-500 font-medium">(${totalGlobal ? ((totalAmb/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
             document.getElementById('kpi-int-abs').innerHTML = `${formatNum(totalInt)} <span class="text-lg text-red-500 font-medium">(${totalGlobal ? ((totalInt/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
@@ -351,8 +373,19 @@
             document.getElementById('kpi-ordenes-prom').innerText = promGlobalOrdenes;
             document.getElementById('kpi-ordenes-prom').className = promGlobalOrdenes >= 2.5 ? "text-4xl font-bold text-red-600" : "text-4xl font-bold text-amber-500";
 
-            document.getElementById('lbl-mes-diag').innerText = mesFiltro === 'Todos' ? 'Trimestre Completo' : mesFiltro;
+            // Títulos de Diagnósticos
+            const etiquetaMes = mesFiltro === 'Todos' ? 'Trimestre Completo' : mesFiltro;
+            document.getElementById('lbl-mes-diag').innerText = etiquetaMes;
+            document.getElementById('lbl-mes-especializacion').innerText = etiquetaMes;
 
+            // Actualizar Tarjetas de Especialización Dinámicamente
+            const espMes = especializacionData[mesFiltro];
+            actualizarListaEspecializacion('esp-hp', espMes.hp);
+            actualizarListaEspecializacion('esp-io', espMes.io);
+            actualizarListaEspecializacion('esp-sa', espMes.sa);
+            actualizarListaEspecializacion('esp-rg', espMes.rg);
+
+            // Preparación de arrays para gráficos de Barras
             const agrupadoPrestadores = {};
             datosFiltrados.forEach(d => {
                 if(!agrupadoPrestadores[d.institucion]) {
@@ -366,19 +399,17 @@
             const labelsPrestadores = Object.keys(agrupadoPrestadores).sort((a,b) => 
                 (agrupadoPrestadores[b].amb + agrupadoPrestadores[b].int) - (agrupadoPrestadores[a].amb + agrupadoPrestadores[a].int)
             );
-            
             const dataAmb = labelsPrestadores.map(l => agrupadoPrestadores[l].amb);
             const dataInt = labelsPrestadores.map(l => agrupadoPrestadores[l].int);
-            
             const dataPromedios = labelsPrestadores.map(l => {
                 const amb = agrupadoPrestadores[l].amb;
                 return amb > 0 ? (agrupadoPrestadores[l].ordenes / amb).toFixed(2) : 0;
             });
 
+            // Llamada a renderizadores
             renderizarGraficoPrestadores(labelsPrestadores, dataAmb, dataInt);
             renderizarGraficoModalidad(totalAmb, totalInt, totalTele);
             renderizarGraficoOrdenes(labelsPrestadores, dataPromedios);
-            
             renderizarGraficoDiagnosticos(mesFiltro);
 
             if (mesFiltro === 'Todos') {
@@ -387,6 +418,18 @@
             } else {
                 document.getElementById('contenedorTendencia').style.display = 'none';
             }
+        }
+
+        // Función Auxiliar para poblar HTML de las Tarjetas de Especialidad
+        function actualizarListaEspecializacion(elementId, datos) {
+            const ul = document.getElementById(elementId);
+            ul.innerHTML = ''; // Limpiar lista
+            datos.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "flex justify-between items-center";
+                li.innerHTML = `<span>${item.diag}</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">${item.count} Casos</span>`;
+                ul.appendChild(li);
+            });
         }
 
         function renderizarGraficoPrestadores(labels, dataAmb, dataInt) {
