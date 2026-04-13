@@ -136,7 +136,7 @@
                 </div>
                 
                 <div class="mb-6">
-                    <p class="text-sm font-medium text-slate-500 mb-1">Promedio Global (Órdenes / Derivación Amb.)</p>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Promedio Global (Órdenes / Derivación)</p>
                     <h3 class="text-4xl font-bold text-amber-500" id="kpi-ordenes-prom">0.0</h3>
                 </div>
 
@@ -153,8 +153,82 @@
             </div>
         </div>
 
+        <h2 class="text-2xl font-bold text-slate-800 mb-4 mt-12 flex items-center gap-2 border-b border-slate-200 pb-4">
+            <i class="fa-solid fa-notes-medical text-orange-500"></i> Perfil Epidemiológico y Complejidad Médica
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">
+                    Top 5 Patologías Frecuentes - <span id="lbl-mes-diag" class="text-orange-600">Trimestre Completo</span>
+                </h2>
+                <div class="relative h-72 w-full">
+                    <canvas id="chartDiagnosticos"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col justify-center">
+                <div class="p-4 bg-orange-50 border-l-4 border-orange-500 text-sm text-orange-800 rounded-r-lg shadow-sm">
+                    <strong>Patrón Clínico:</strong> La demanda asistencial está fuertemente impulsada por patologías crónicas y oncológicas de altísimo costo.
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Especialización de la Demanda por Prestador (Top 3 Histórico)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
+                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
+                    <i class="fa-regular fa-hospital text-slate-400"></i>
+                    <h4 class="font-bold text-slate-700">Hospital Privado</h4>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li class="flex justify-between items-center"><span>Insuf. Renal Crónica</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">68 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Trasplante Renal</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">32 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">26 Casos</span></li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
+                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
+                    <i class="fa-regular fa-hospital text-slate-400"></i>
+                    <h4 class="font-bold text-slate-700">Instituto Oulton</h4>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">35 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Cáncer de Colon</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">5 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Cáncer de Próstata</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">4 Casos</span></li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
+                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
+                    <i class="fa-regular fa-hospital text-slate-400"></i>
+                    <h4 class="font-bold text-slate-700">Sanatorio Allende</h4>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li class="flex justify-between items-center"><span>Cáncer de Mama</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">8 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Escoliosis</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">7 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Gonartrosis</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">7 Casos</span></li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
+                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
+                    <i class="fa-regular fa-eye text-slate-400"></i>
+                    <h4 class="font-bold text-slate-700">Reyes-Giobellina</h4>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li class="flex justify-between items-center"><span>Retinopatía Diabética</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">29 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Cataratas</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">21 Casos</span></li>
+                    <li class="flex justify-between items-center"><span>Otras Retinopatías</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">20 Casos</span></li>
+                </ul>
+            </div>
+
+        </div>
+
         <div id="contenedorTendencia" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
-            <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de Siniestralidad</h2>
+            <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de la Demanda</h2>
             <div class="relative h-72 w-full">
                 <canvas id="chartTendencia"></canvas>
             </div>
@@ -184,7 +258,8 @@
             teleconsulta: '#fdba74', 
             alertaCritica: '#ef4444', 
             lineaTotal: '#f97316',
-            lineaInternacion: '#ef4444' 
+            lineaInternacion: '#ef4444',
+            diagnosticos: '#f59e0b'
         };
 
         const rawData = [
@@ -207,10 +282,42 @@
             { mes: 'Marzo', institucion: 'Otros', amb: 11, int: 2, tele: 0, ordenes: 11 },
         ];
 
+        const diagData = {
+            'Todos': [
+                { diag: 'CÁNCER DE MAMA', count: 78 },
+                { diag: 'INSUF. RENAL CRÓNICA', count: 72 },
+                { diag: 'TRASPLANTE RENAL', count: 35 },
+                { diag: 'RETINOPATÍA DIABÉTICA', count: 31 },
+                { diag: 'CÁNCER DE COLON', count: 24 }
+            ],
+            'Enero': [
+                { diag: 'INSUF. RENAL CRÓNICA', count: 27 },
+                { diag: 'CÁNCER DE MAMA', count: 26 },
+                { diag: 'TRASPLANTE RENAL', count: 15 },
+                { diag: 'RETINOPATÍA DIABÉTICA', count: 14 },
+                { diag: 'CATARATAS', count: 11 }
+            ],
+            'Febrero': [
+                { diag: 'INSUF. RENAL CRÓNICA', count: 23 },
+                { diag: 'CÁNCER DE MAMA', count: 18 },
+                { diag: 'TRASPLANTE RENAL', count: 10 },
+                { diag: 'CÁNCER DE COLON', count: 7 },
+                { diag: 'DIABETES', count: 7 }
+            ],
+            'Marzo': [
+                { diag: 'CÁNCER DE MAMA', count: 34 },
+                { diag: 'INSUF. RENAL CRÓNICA', count: 22 },
+                { diag: 'RETINOPATÍA DIABÉTICA', count: 13 },
+                { diag: 'CÁNCER DE COLON', count: 10 },
+                { diag: 'TRASPLANTE RENAL', count: 10 }
+            ]
+        };
+
         let chartPrestadoresObj = null;
         let chartModalidadObj = null;
         let chartTendenciaObj = null;
         let chartOrdenesObj = null; 
+        let chartDiagnosticosObj = null;
 
         const formatNum = (num) => new Intl.NumberFormat('es-AR').format(num);
 
@@ -244,6 +351,7 @@
             document.getElementById('kpi-ordenes-prom').innerText = promGlobalOrdenes;
             document.getElementById('kpi-ordenes-prom').className = promGlobalOrdenes >= 2.5 ? "text-4xl font-bold text-red-600" : "text-4xl font-bold text-amber-500";
 
+            document.getElementById('lbl-mes-diag').innerText = mesFiltro === 'Todos' ? 'Trimestre Completo' : mesFiltro;
 
             const agrupadoPrestadores = {};
             datosFiltrados.forEach(d => {
@@ -270,6 +378,8 @@
             renderizarGraficoPrestadores(labelsPrestadores, dataAmb, dataInt);
             renderizarGraficoModalidad(totalAmb, totalInt, totalTele);
             renderizarGraficoOrdenes(labelsPrestadores, dataPromedios);
+            
+            renderizarGraficoDiagnosticos(mesFiltro);
 
             if (mesFiltro === 'Todos') {
                 document.getElementById('contenedorTendencia').style.display = 'block';
@@ -282,7 +392,6 @@
         function renderizarGraficoPrestadores(labels, dataAmb, dataInt) {
             const ctx = document.getElementById('chartPrestadores').getContext('2d');
             if (chartPrestadoresObj) chartPrestadoresObj.destroy();
-
             chartPrestadoresObj = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -294,10 +403,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        x: { stacked: true, grid: { display: false } },
-                        y: { stacked: true, border: { dash: [4, 4] } }
-                    },
+                    scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, border: { dash: [4, 4] } } },
                     plugins: { legend: { position: 'top' } }
                 }
             });
@@ -306,57 +412,65 @@
         function renderizarGraficoModalidad(amb, int, tele) {
             const ctx = document.getElementById('chartModalidad').getContext('2d');
             if (chartModalidadObj) chartModalidadObj.destroy();
-
             chartModalidadObj = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Ambulatorias', 'Internación', 'Teleconsulta'],
                     datasets: [{
-                        data: [amb, int, tele],
-                        backgroundColor: [coloresTheme.ambulatorias, coloresTheme.internacion, coloresTheme.teleconsulta],
-                        borderColor: '#ffffff', 
-                        borderWidth: 2, hoverOffset: 6
+                        data: [amb, int, tele], backgroundColor: [coloresTheme.ambulatorias, coloresTheme.internacion, coloresTheme.teleconsulta],
+                        borderColor: '#ffffff', borderWidth: 2, hoverOffset: 6
                     }]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom' } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
             });
         }
 
         function renderizarGraficoOrdenes(labels, dataPromedios) {
             const ctx = document.getElementById('chartOrdenes').getContext('2d');
             if (chartOrdenesObj) chartOrdenesObj.destroy();
-
             const backgroundColors = dataPromedios.map(val => val >= 2.5 ? coloresTheme.alertaCritica : coloresTheme.ambulatorias);
 
             chartOrdenesObj = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
+                    datasets: [{ label: 'Órdenes Emitidas', data: dataPromedios, backgroundColor: backgroundColors, borderRadius: 4 }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, border: { dash: [4, 4] } }, y: { grid: { display: false } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderizarGraficoDiagnosticos(mesFiltro) {
+            const ctx = document.getElementById('chartDiagnosticos').getContext('2d');
+            if (chartDiagnosticosObj) chartDiagnosticosObj.destroy();
+            
+            const dataDelMes = diagData[mesFiltro];
+            const labels = dataDelMes.map(d => d.diag);
+            const values = dataDelMes.map(d => d.count);
+
+            chartDiagnosticosObj = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
                     datasets: [{
-                        label: 'Órdenes por cada 1 Consulta',
-                        data: dataPromedios,
-                        backgroundColor: backgroundColors,
+                        label: 'Cantidad de Derivaciones',
+                        data: values,
+                        backgroundColor: coloresTheme.diagnosticos,
                         borderRadius: 4
                     }]
                 },
                 options: {
-                    indexAxis: 'y',
+                    indexAxis: 'y', 
                     responsive: true, maintainAspectRatio: false,
                     scales: {
-                        x: { beginAtZero: true, border: { dash: [4, 4] }, title: { display: true, text: 'Promedio de Órdenes Emitidas' } },
+                        x: { beginAtZero: true, border: { dash: [4, 4] } },
                         y: { grid: { display: false } }
                     },
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) { return `Promedio: ${context.parsed.x} órdenes`; }
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
@@ -380,10 +494,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        y: { beginAtZero: true, border: { dash: [4, 4] } },
-                        x: { grid: { display: false } }
-                    },
+                    scales: { y: { beginAtZero: true, border: { dash: [4, 4] } }, x: { grid: { display: false } } },
                     plugins: { legend: { position: 'top' } }
                 }
             });
