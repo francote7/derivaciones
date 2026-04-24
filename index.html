@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tablero Gerencial APOS La Rioja - Derivaciones Q1</title>
+    <title>Tablero Gerencial de Derivaciones - APOS La Rioja</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Tipografía y transiciones */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        }
-        .card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; }
+        .card { background-color: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border-left: 4px solid #f97316; }
+        .tab-btn { padding: 0.5rem 1.25rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; transition: all 0.2s; cursor: pointer; }
+        .tab-btn-active { background-color: #f97316; color: white; box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3); }
+        .tab-btn-inactive { background-color: white; color: #475569; border: 1px solid #cbd5e1; }
+        .tab-btn-inactive:hover { background-color: #f8fafc; }
         
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -25,525 +23,335 @@
         ::-webkit-scrollbar-thumb:hover { background: #f97316; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="text-slate-800">
 
-    <div class="bg-slate-900 border-b-4 border-orange-500 shadow-md">
-        <div class="max-w-7xl mx-auto p-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div class="bg-white border-b-4 border-orange-500 shadow-sm sticky top-0 z-50">
+        <div class="max-w-[1500px] mx-auto p-4 md:px-8 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
             
             <div class="flex items-center gap-4">
-                <img src="logo apos.png" alt="APOS La Rioja" class="h-16 w-auto object-contain bg-white p-2 rounded-lg shadow-sm border border-slate-700">
-                
+                <img src="logo%20apos.png" alt="Logo APOS La Rioja" class="h-16 w-auto object-contain" onerror="this.src='https://via.placeholder.com/150x60?text=APOS+Logo'">
                 <div>
-                    <h1 class="text-3xl font-bold text-white flex items-center gap-3">
-                        Monitor de Derivaciones Q1-2026
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2">
+                        Monitor de Derivaciones Q1
                     </h1>
-                    <p class="text-slate-400 mt-1">Auditoría Prestacional - Instituciones de Córdoba y CABA</p>
+                    <p class="text-slate-500 mt-1 text-sm font-medium">
+                        <i class="fa-solid fa-file-invoice text-orange-500 mr-1"></i> Análisis Estricto de Utilización y Órdenes
+                    </p>
                 </div>
             </div>
 
-            <div class="bg-slate-800 p-1 rounded-lg shadow-inner border border-slate-700 flex">
-                <button onclick="filtrarDatos('Todos')" id="btn-Todos" class="filter-btn px-4 py-2 text-sm font-medium rounded-md bg-orange-600 text-white transition-colors shadow-sm">Trimestre Completo</button>
-                <button onclick="filtrarDatos('Enero')" id="btn-Enero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Enero</button>
-                <button onclick="filtrarDatos('Febrero')" id="btn-Febrero" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Febrero</button>
-                <button onclick="filtrarDatos('Marzo')" id="btn-Marzo" class="filter-btn px-4 py-2 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-700 transition-colors">Marzo</button>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <div class="flex gap-2">
+                    <button onclick="setDestino('General')" id="btn-dest-General" class="tab-btn tab-btn-active">Ambos Destinos</button>
+                    <button onclick="setDestino('Córdoba')" id="btn-dest-Córdoba" class="tab-btn tab-btn-inactive">Córdoba</button>
+                    <button onclick="setDestino('Buenos Aires')" id="btn-dest-Buenos Aires" class="tab-btn tab-btn-inactive">Buenos Aires</button>
+                </div>
+                <div class="flex gap-2 border-l-2 border-slate-200 pl-3">
+                    <button onclick="setMes('Total')" id="btn-mes-Total" class="tab-btn tab-btn-active">Trimestre</button>
+                    <button onclick="setMes('Enero')" id="btn-mes-Enero" class="tab-btn tab-btn-inactive">Ene</button>
+                    <button onclick="setMes('Febrero')" id="btn-mes-Febrero" class="tab-btn tab-btn-inactive">Feb</button>
+                    <button onclick="setMes('Marzo')" id="btn-mes-Marzo" class="tab-btn tab-btn-inactive">Mar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto p-4 md:p-8">
+    <div class="max-w-[1500px] mx-auto p-4 md:p-8 space-y-8">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-slate-500 mb-1">Volumen Total</p>
-                        <h3 class="text-3xl font-bold text-slate-800" id="kpi-total">0</h3>
-                        <p class="text-xs font-semibold text-slate-400 mt-1">100% de la muestra</p>
-                    </div>
-                    <div class="p-3 rounded-lg bg-orange-50 text-orange-600 border border-orange-100"><i class="fa-solid fa-users fa-lg"></i></div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="card border-l-slate-400">
+                <p class="text-sm font-medium text-slate-500 mb-1">Volumen Total Procesado</p>
+                <h3 class="text-4xl font-bold text-slate-800" id="kpi-total">0</h3>
+                <p class="text-xs font-semibold text-slate-400 mt-2 bg-slate-100 inline-block px-2 py-1 rounded">100% de la demanda</p>
             </div>
 
-            <div class="card bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-slate-500 mb-1">Ambulatorias</p>
-                        <h3 class="text-3xl font-bold text-slate-800 flex items-baseline gap-2" id="kpi-amb-abs">
-                            0 <span class="text-lg text-amber-500 font-medium" id="kpi-amb-pct">(0%)</span>
-                        </h3>
-                        <p class="text-xs font-semibold text-slate-400 mt-1">Baja / Media complejidad</p>
-                    </div>
-                    <div class="p-3 rounded-lg bg-amber-50 text-amber-600 border border-amber-100"><i class="fa-solid fa-stethoscope fa-lg"></i></div>
+            <div class="card border-l-amber-500">
+                <p class="text-sm font-medium text-slate-500 mb-1">Ambulatorias</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-4xl font-bold text-amber-600" id="kpi-amb">0</h3>
+                    <span class="text-lg font-bold text-amber-500" id="kpi-amb-pct">(0%)</span>
                 </div>
+                <p class="text-xs font-semibold text-amber-500/80 mt-2">Baja y media complejidad</p>
             </div>
 
-            <div class="card bg-red-50/50 rounded-xl p-6 shadow-sm border border-red-200">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-red-600 mb-1">Internación</p>
-                        <h3 class="text-3xl font-bold text-red-700 flex items-baseline gap-2" id="kpi-int-abs">
-                            0 <span class="text-lg text-red-500 font-medium" id="kpi-int-pct">(0%)</span>
-                        </h3>
-                        <p class="text-xs font-semibold text-red-500 mt-1">Alto impacto presupuestario</p>
-                    </div>
-                    <div class="p-3 rounded-lg bg-red-100 text-red-600 border border-red-200"><i class="fa-solid fa-bed-pulse fa-lg"></i></div>
+            <div class="card border-l-red-500">
+                <p class="text-sm font-medium text-slate-500 mb-1">Internación</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-4xl font-bold text-red-600" id="kpi-int">0</h3>
+                    <span class="text-lg font-bold text-red-500" id="kpi-int-pct">(0%)</span>
                 </div>
+                <p class="text-xs font-semibold text-red-500/80 mt-2">Alta complejidad</p>
             </div>
 
-            <div class="card bg-orange-50/50 rounded-xl p-6 shadow-sm border border-orange-200">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-orange-600 mb-1">Teleconsulta</p>
-                        <h3 class="text-3xl font-bold text-orange-700 flex items-baseline gap-2" id="kpi-tele-abs">
-                            0 <span class="text-lg text-orange-500 font-medium" id="kpi-tele-pct">(0%)</span>
-                        </h3>
-                        <p class="text-xs font-semibold text-orange-500 mt-1">Oportunidad de ahorro</p>
-                    </div>
-                    <div class="p-3 rounded-lg bg-orange-100 text-orange-600 border border-orange-200"><i class="fa-solid fa-laptop-medical fa-lg"></i></div>
+            <div class="card border-l-indigo-500">
+                <p class="text-sm font-medium text-slate-500 mb-1">Teleconsulta</p>
+                <div class="flex items-baseline gap-2">
+                    <h3 class="text-4xl font-bold text-indigo-600" id="kpi-tele">0</h3>
+                    <span class="text-lg font-bold text-indigo-500" id="kpi-tele-pct">(0%)</span>
                 </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-building-user text-orange-500 mr-2"></i>Concentración por Prestador</h2>
-                <div class="relative h-80 w-full">
-                    <canvas id="chartPrestadores"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-pie text-orange-500 mr-2"></i>Composición del Gasto</h2>
-                <div class="relative flex-grow w-full flex justify-center min-h-[200px]">
-                    <canvas id="chartModalidad"></canvas>
-                </div>
-                <div class="mt-6 p-4 bg-orange-50 border-l-4 border-orange-500 text-sm text-orange-800 rounded-r-lg">
-                    <strong>Análisis:</strong> Tasa de teleconsulta nula (< 1%). Se recomienda desviar el 15% de la carga ambulatoria a plataformas digitales.
-                </div>
+                <p class="text-xs font-semibold text-indigo-500/80 mt-2">Atenciones digitales</p>
             </div>
         </div>
 
         <h2 class="text-2xl font-bold text-slate-800 mb-4 mt-12 flex items-center gap-2 border-b border-slate-200 pb-4">
-            <i class="fa-solid fa-file-prescription text-amber-500"></i> Auditoría de Órdenes Emitidas (Inducción Prestacional)
+            <i class="fa-solid fa-file-prescription text-amber-500"></i> Auditoría de Órdenes Emitidas (Consultas)
         </h2>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col justify-center">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col justify-center !border-l-0">
                 <div class="mb-6 border-b border-slate-100 pb-4">
                     <p class="text-sm font-medium text-slate-500 mb-1">Total Órdenes Generadas</p>
-                    <h3 class="text-4xl font-bold text-slate-800" id="kpi-ordenes-total">0</h3>
-                    <p class="text-xs text-slate-400 mt-1">Prácticas, laboratorios, imágenes solicitadas.</p>
+                    <h3 class="text-5xl font-bold text-slate-800" id="kpi-ordenes-total">0</h3>
                 </div>
                 
-                <div class="mb-6">
-                    <p class="text-sm font-medium text-slate-500 mb-1">Promedio Global (Órdenes / Derivación)</p>
-                    <h3 class="text-4xl font-bold text-amber-500" id="kpi-ordenes-prom">0.0</h3>
-                </div>
-
-                <div class="p-4 bg-red-50 border-l-4 border-red-500 text-sm text-red-800 rounded-r-lg">
-                    <strong>Alerta de Auditoría:</strong> Valores de inducción que superen la franja de <strong>2.0 a 2.5 órdenes</strong> por consulta indican alta probabilidad de sobrefacturación.
+                <div>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Promedio Global (Órdenes / Derivación Amb.)</p>
+                    <h3 class="text-5xl font-bold text-amber-500" id="kpi-ordenes-prom">0.00</h3>
                 </div>
             </div>
 
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Promedio de Órdenes por Institución</h2>
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card !border-l-0">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Promedio de Consultas/Órdenes por Institución</h2>
                 <div class="relative h-72 w-full">
                     <canvas id="chartOrdenes"></canvas>
                 </div>
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold text-slate-800 mb-4 mt-12 flex items-center gap-2 border-b border-slate-200 pb-4">
-            <i class="fa-solid fa-notes-medical text-orange-500"></i> Perfil Epidemiológico y Complejidad Médica
-        </h2>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-slate-200 card !border-l-0">
                 <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">
-                    Top 5 Patologías Frecuentes - <span id="lbl-mes-diag" class="text-orange-600">Trimestre Completo</span>
+                    <i class="fa-solid fa-hospital text-orange-500 mr-2"></i>Concentración de Derivaciones por Institución
                 </h2>
-                <div class="relative h-72 w-full">
+                <div class="relative h-96 w-full">
+                    <canvas id="chartInstituciones"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 card !border-l-0 flex flex-col">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">
+                    <i class="fa-solid fa-stethoscope text-orange-500 mr-2"></i>Patologías Prevalentes
+                </h2>
+                <div class="relative flex-grow min-h-[300px]">
                     <canvas id="chartDiagnosticos"></canvas>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card flex flex-col justify-center">
-                <div class="p-4 bg-orange-50 border-l-4 border-orange-500 text-sm text-orange-800 rounded-r-lg shadow-sm">
-                    <strong>Patrón Clínico:</strong> La demanda asistencial está fuertemente impulsada por patologías crónicas y oncológicas de altísimo costo.
-                </div>
-            </div>
         </div>
-
-        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2 flex items-center gap-2">
-            Especialización de la Demanda por Prestador - <span id="lbl-mes-especializacion" class="text-slate-500">Trimestre Completo</span>
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
-                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-                    <i class="fa-regular fa-hospital text-slate-400"></i>
-                    <h4 class="font-bold text-slate-700">Hospital Privado</h4>
-                </div>
-                <ul id="esp-hp" class="text-sm text-slate-600 space-y-2">
-                    </ul>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
-                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-                    <i class="fa-regular fa-hospital text-slate-400"></i>
-                    <h4 class="font-bold text-slate-700">Instituto Oulton</h4>
-                </div>
-                <ul id="esp-io" class="text-sm text-slate-600 space-y-2">
-                    </ul>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
-                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-                    <i class="fa-regular fa-hospital text-slate-400"></i>
-                    <h4 class="font-bold text-slate-700">Sanatorio Allende</h4>
-                </div>
-                <ul id="esp-sa" class="text-sm text-slate-600 space-y-2">
-                    </ul>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 card">
-                <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
-                    <i class="fa-regular fa-eye text-slate-400"></i>
-                    <h4 class="font-bold text-slate-700">Reyes-Giobellina</h4>
-                </div>
-                <ul id="esp-rg" class="text-sm text-slate-600 space-y-2">
-                    </ul>
-            </div>
-
-        </div>
-
-        <div id="contenedorTendencia" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 card">
-            <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-chart-line text-orange-500 mr-2"></i>Evolución Temporal de la Demanda</h2>
-            <div class="relative h-72 w-full">
-                <canvas id="chartTendencia"></canvas>
-            </div>
-        </div>
-
-        <footer class="mt-12 mb-4 border-t border-slate-200 pt-6 pb-2 text-slate-500 text-sm flex flex-col md:flex-row justify-center md:justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-database text-slate-400"></i>
-                <span><strong>Fuente de Datos:</strong> Martín Pelliza / Gustavo Pistek (Dirección de Sistemas)</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-code text-slate-400"></i>
-                <span><strong>Análisis y Desarrollo:</strong> Franco Testa</span>
-            </div>
-        </footer>
 
     </div>
 
     <script>
-        Chart.defaults.color = '#475569'; 
-        Chart.defaults.borderColor = '#e2e8f0'; 
+        Chart.defaults.color = '#64748b'; 
         Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
-        const coloresTheme = {
-            ambulatorias: '#f97316', 
-            internacion: '#c2410c', 
-            teleconsulta: '#fdba74', 
-            alertaCritica: '#ef4444', 
-            lineaTotal: '#f97316',
-            lineaInternacion: '#ef4444',
-            diagnosticos: '#f59e0b'
-        };
+        let currentMes = 'Total';
+        let currentDestino = 'General';
 
-        const rawData = [
-            { mes: 'Enero', institucion: 'Hospital Privado', amb: 355, int: 88, tele: 4, ordenes: 1185 },
-            { mes: 'Enero', institucion: 'Sanatorio Allende', amb: 80, int: 24, tele: 0, ordenes: 200 }, 
-            { mes: 'Enero', institucion: 'Instituto Oulton', amb: 65, int: 2, tele: 0, ordenes: 76 },
-            { mes: 'Enero', institucion: 'Reyes-Giobellina', amb: 62, int: 2, tele: 0, ordenes: 51 },
-            { mes: 'Enero', institucion: 'Otros', amb: 20, int: 0, tele: 0, ordenes: 20 },
+        // Base de datos estricta extraída de los archivos resumen.csv
+        const dataEstricta = [
+            // ENERO 
+            { mes: 'Enero', region: 'Córdoba', inst: 'Centro Kuspide', amb: 2, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Clinica Central de Ojos', amb: 1, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Reyes-Giobellina', amb: 62, int: 2, tele: 0, ord: 51 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Fecundart', amb: 5, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Fund. Bulimia y Anorexia', amb: 1, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Hospital Privado', amb: 355, int: 88, tele: 4, ord: 1185 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Instituto Oulton', amb: 65, int: 2, tele: 0, ord: 76 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Instituto Radioterapia', amb: 7, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Nascentis', amb: 7, int: 0, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Sanatorio Allende', amb: 86, int: 18, tele: 0, ord: 257 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Sanatorio Mayo', amb: 8, int: 1, tele: 0, ord: 46 },
+            { mes: 'Enero', region: 'Córdoba', inst: 'Sanatorio Morra', amb: 0, int: 1, tele: 0, ord: 4 },
+            { mes: 'Enero', region: 'Buenos Aires', inst: 'Hospital Garrahan', amb: 1, int: 1, tele: 0, ord: 0 },
+            { mes: 'Enero', region: 'Buenos Aires', inst: 'Hospital Italiano', amb: 20, int: 1, tele: 1, ord: 0 },
+            { mes: 'Enero', region: 'Buenos Aires', inst: 'Sanatorio Guemes', amb: 1, int: 0, tele: 0, ord: 0 },
 
-            { mes: 'Febrero', institucion: 'Hospital Privado', amb: 244, int: 63, tele: 1, ordenes: 962 },
-            { mes: 'Febrero', institucion: 'Sanatorio Allende', amb: 110, int: 29, tele: 0, ordenes: 286 },
-            { mes: 'Febrero', institucion: 'Instituto Oulton', amb: 60, int: 2, tele: 0, ordenes: 72 },
-            { mes: 'Febrero', institucion: 'Reyes-Giobellina', amb: 38, int: 6, tele: 0, ordenes: 66 },
-            { mes: 'Febrero', institucion: 'Otros', amb: 4, int: 1, tele: 0, ordenes: 4 },
+            // FEBRERO 
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Centro Kuspide', amb: 1, int: 0, tele: 0, ord: 0 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Reyes-Giobellina', amb: 38, int: 6, tele: 0, ord: 66 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Fecundart', amb: 1, int: 0, tele: 0, ord: 0 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Hospital Privado', amb: 244, int: 63, tele: 1, ord: 962 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Instituto Oulton', amb: 60, int: 2, tele: 0, ord: 72 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Instituto Radioterapia', amb: 2, int: 0, tele: 0, ord: 0 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Nascentis', amb: 0, int: 1, tele: 0, ord: 0 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Sanatorio Allende', amb: 118, int: 21, tele: 0, ord: 224 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Sanatorio Mayo', amb: 10, int: 3, tele: 0, ord: 39 },
+            { mes: 'Febrero', region: 'Córdoba', inst: 'Sanatorio Morra', amb: 0, int: 1, tele: 0, ord: 3 },
+            { mes: 'Febrero', region: 'Buenos Aires', inst: 'Hospital Garrahan', amb: 2, int: 0, tele: 0, ord: 0 },
+            { mes: 'Febrero', region: 'Buenos Aires', inst: 'Hospital Italiano', amb: 20, int: 4, tele: 0, ord: 0 },
 
-            { mes: 'Marzo', institucion: 'Hospital Privado', amb: 347, int: 76, tele: 1, ordenes: 1147 },
-            { mes: 'Marzo', institucion: 'Sanatorio Allende', amb: 95, int: 25, tele: 0, ordenes: 242 },
-            { mes: 'Marzo', institucion: 'Instituto Oulton', amb: 71, int: 9, tele: 0, ordenes: 82 },
-            { mes: 'Marzo', institucion: 'Reyes-Giobellina', amb: 60, int: 3, tele: 0, ordenes: 54 },
-            { mes: 'Marzo', institucion: 'Otros', amb: 11, int: 2, tele: 0, ordenes: 11 },
+            // MARZO 
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Centro Kuspide', amb: 1, int: 1, tele: 0, ord: 0 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Reyes-Giobellina', amb: 60, int: 3, tele: 0, ord: 54 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Fecundart', amb: 4, int: 0, tele: 0, ord: 0 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Hospital Privado', amb: 347, int: 76, tele: 1, ord: 1147 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Instituto Oulton', amb: 71, int: 9, tele: 0, ord: 82 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Instituto Radioterapia', amb: 6, int: 1, tele: 0, ord: 0 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Nascentis', amb: 2, int: 0, tele: 0, ord: 0 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Sanatorio Allende', amb: 176, int: 39, tele: 0, ord: 325 },
+            { mes: 'Marzo', region: 'Córdoba', inst: 'Sanatorio Mayo', amb: 14, int: 0, tele: 0, ord: 63 },
+            { mes: 'Marzo', region: 'Buenos Aires', inst: 'Hospital Italiano', amb: 18, int: 4, tele: 0, ord: 0 },
+            { mes: 'Marzo', region: 'Buenos Aires', inst: 'Sanatorio Guemes', amb: 1, int: 0, tele: 0, ord: 0 }
         ];
 
-        // Top 5 Diagnósticos Globales y por Mes
-        const diagData = {
-            'Todos': [
-                { diag: 'CÁNCER DE MAMA', count: 78 },
-                { diag: 'INSUF. RENAL CRÓNICA', count: 72 },
-                { diag: 'TRASPLANTE RENAL', count: 35 },
-                { diag: 'RETINOPATÍA DIABÉTICA', count: 31 },
-                { diag: 'CÁNCER DE COLON', count: 24 }
-            ],
-            'Enero': [
-                { diag: 'INSUF. RENAL CRÓNICA', count: 27 },
-                { diag: 'CÁNCER DE MAMA', count: 26 },
-                { diag: 'TRASPLANTE RENAL', count: 15 },
-                { diag: 'RETINOPATÍA DIABÉTICA', count: 14 },
-                { diag: 'CATARATAS', count: 11 }
-            ],
-            'Febrero': [
-                { diag: 'INSUF. RENAL CRÓNICA', count: 23 },
-                { diag: 'CÁNCER DE MAMA', count: 18 },
-                { diag: 'TRASPLANTE RENAL', count: 10 },
-                { diag: 'CÁNCER DE COLON', count: 7 },
-                { diag: 'DIABETES', count: 7 }
-            ],
-            'Marzo': [
-                { diag: 'CÁNCER DE MAMA', count: 34 },
-                { diag: 'INSUF. RENAL CRÓNICA', count: 22 },
-                { diag: 'RETINOPATÍA DIABÉTICA', count: 13 },
-                { diag: 'CÁNCER DE COLON', count: 10 },
-                { diag: 'TRASPLANTE RENAL', count: 10 }
-            ]
-        };
+        const diagnosticosData = [
+            { dx: 'Oncológicos (Mama/Renal/Hepat.)', val: 245 },
+            { dx: 'Traumatología (Gonartrosis/Coxartrosis)', val: 180 },
+            { dx: 'Neurología (Epilepsia/Aneurismas)', val: 95 },
+            { dx: 'Oftalmología (Retina/Maculopatía)', val: 78 },
+            { dx: 'Nefrología (Insuf. Renal/Hidronefrosis)', val: 62 }
+        ];
 
-        // Especialización Top 3 por Prestador y por Mes (Datos Dinámicos)
-        const especializacionData = {
-            "Todos": {
-                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 68 }, { diag: "TRASPLANTE RENAL", count: 32 }, { diag: "CÁNCER DE MAMA", count: 26 }],
-                "io": [{ diag: "CÁNCER DE MAMA", count: 35 }, { diag: "CÁNCER DE COLON", count: 5 }, { diag: "NODULO MAMARIO", count: 4 }],
-                "sa": [{ diag: "CÁNCER DE MAMA", count: 8 }, { diag: "GONARTROSIS", count: 7 }, { diag: "ESCOLIOSIS", count: 7 }],
-                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 29 }, { diag: "CATARATAS", count: 21 }, { diag: "OTRAS RETINOPATÍAS", count: 20 }]
-            },
-            "Enero": {
-                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 25 }, { diag: "TRASPLANTE RENAL", count: 14 }, { diag: "TUMOR RENAL", count: 8 }],
-                "io": [{ diag: "CÁNCER DE MAMA", count: 14 }, { diag: "CANCER DE UTERO", count: 2 }, { diag: "CANCER DE RECTO", count: 2 }],
-                "sa": [{ diag: "CÁNCER DE MAMA", count: 3 }, { diag: "POLIPO ESFENOIDAL", count: 2 }, { diag: "ESCOLIOSIS", count: 2 }],
-                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 12 }, { diag: "CATARATAS", count: 10 }, { diag: "OTRAS RETINOPATÍAS", count: 9 }]
-            },
-            "Febrero": {
-                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 22 }, { diag: "TRASPLANTE RENAL", count: 10 }, { diag: "CÁNCER DE MAMA", count: 9 }],
-                "io": [{ diag: "CÁNCER DE MAMA", count: 6 }, { diag: "CÁNCER DE COLON", count: 3 }, { diag: "CONTROL MAMARIO", count: 2 }],
-                "sa": [{ diag: "EPILEPSIA", count: 2 }, { diag: "CÁNCER DE MAMA", count: 2 }, { diag: "POLIARTRALGIA", count: 2 }],
-                "rg": [{ diag: "CATARATAS", count: 6 }, { diag: "RETINOPATÍA DIABÉTICA", count: 4 }, { diag: "OTRAS RETINOPATÍAS", count: 4 }]
-            },
-            "Marzo": {
-                "hp": [{ diag: "INSUF. RENAL CRÓNICA", count: 21 }, { diag: "CÁNCER DE MAMA", count: 11 }, { diag: "TRASPLANTE RENAL", count: 8 }],
-                "io": [{ diag: "CÁNCER DE MAMA", count: 15 }, { diag: "CÁNCER DE PRÓSTATA", count: 3 }, { diag: "CONTROL ANUAL", count: 2 }],
-                "sa": [{ diag: "GONARTROSIS", count: 6 }, { diag: "ESCOLIOSIS", count: 4 }, { diag: "CANCER DE PULMON", count: 3 }],
-                "rg": [{ diag: "RETINOPATÍA DIABÉTICA", count: 13 }, { diag: "OTRAS RETINOPATÍAS", count: 7 }, { diag: "GLAUCOMA", count: 6 }]
-            }
-        };
+        let chartInstObj = null;
+        let chartDxObj = null;
+        let chartOrdenesObj = null;
 
-        let chartPrestadoresObj = null;
-        let chartModalidadObj = null;
-        let chartTendenciaObj = null;
-        let chartOrdenesObj = null; 
-        let chartDiagnosticosObj = null;
-
-        const formatNum = (num) => new Intl.NumberFormat('es-AR').format(num);
-
-        function filtrarDatos(mesFiltro) {
-            // Estilo de botones
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-orange-600', 'text-white');
-                btn.classList.add('text-slate-300', 'hover:bg-slate-700');
-            });
-            const activeBtn = document.getElementById(`btn-${mesFiltro}`);
-            activeBtn.classList.remove('text-slate-300', 'hover:bg-slate-700');
-            activeBtn.classList.add('bg-orange-600', 'text-white');
-
-            // Filtrado de RawData para KPIs
-            const datosFiltrados = mesFiltro === 'Todos' ? rawData : rawData.filter(d => d.mes === mesFiltro);
-
-            let totalAmb = 0, totalInt = 0, totalTele = 0, totalOrdenes = 0;
-            datosFiltrados.forEach(d => {
-                totalAmb += d.amb;
-                totalInt += d.int;
-                totalTele += d.tele;
-                totalOrdenes += d.ordenes;
-            });
-            const totalGlobal = totalAmb + totalInt + totalTele;
-
-            // Actualización de KPIs Numéricos
-            document.getElementById('kpi-total').innerText = formatNum(totalGlobal);
-            document.getElementById('kpi-amb-abs').innerHTML = `${formatNum(totalAmb)} <span class="text-lg text-amber-500 font-medium">(${totalGlobal ? ((totalAmb/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
-            document.getElementById('kpi-int-abs').innerHTML = `${formatNum(totalInt)} <span class="text-lg text-red-500 font-medium">(${totalGlobal ? ((totalInt/totalGlobal)*100).toFixed(1) : 0}%)</span>`;
-            document.getElementById('kpi-tele-abs').innerHTML = `${formatNum(totalTele)} <span class="text-lg text-orange-500 font-medium">(${totalGlobal ? ((totalTele/totalGlobal)*100).toFixed(2) : 0}%)</span>`;
-
-            const promGlobalOrdenes = totalAmb > 0 ? (totalOrdenes / totalAmb).toFixed(2) : 0;
-            document.getElementById('kpi-ordenes-total').innerText = formatNum(totalOrdenes);
-            document.getElementById('kpi-ordenes-prom').innerText = promGlobalOrdenes;
-            document.getElementById('kpi-ordenes-prom').className = promGlobalOrdenes >= 2.5 ? "text-4xl font-bold text-red-600" : "text-4xl font-bold text-amber-500";
-
-            // Títulos de Diagnósticos
-            const etiquetaMes = mesFiltro === 'Todos' ? 'Trimestre Completo' : mesFiltro;
-            document.getElementById('lbl-mes-diag').innerText = etiquetaMes;
-            document.getElementById('lbl-mes-especializacion').innerText = etiquetaMes;
-
-            // Actualizar Tarjetas de Especialización Dinámicamente
-            const espMes = especializacionData[mesFiltro];
-            actualizarListaEspecializacion('esp-hp', espMes.hp);
-            actualizarListaEspecializacion('esp-io', espMes.io);
-            actualizarListaEspecializacion('esp-sa', espMes.sa);
-            actualizarListaEspecializacion('esp-rg', espMes.rg);
-
-            // Preparación de arrays para gráficos de Barras
-            const agrupadoPrestadores = {};
-            datosFiltrados.forEach(d => {
-                if(!agrupadoPrestadores[d.institucion]) {
-                    agrupadoPrestadores[d.institucion] = { amb: 0, int: 0, ordenes: 0 };
-                }
-                agrupadoPrestadores[d.institucion].amb += d.amb;
-                agrupadoPrestadores[d.institucion].int += d.int;
-                agrupadoPrestadores[d.institucion].ordenes += d.ordenes;
-            });
-
-            const labelsPrestadores = Object.keys(agrupadoPrestadores).sort((a,b) => 
-                (agrupadoPrestadores[b].amb + agrupadoPrestadores[b].int) - (agrupadoPrestadores[a].amb + agrupadoPrestadores[a].int)
-            );
-            const dataAmb = labelsPrestadores.map(l => agrupadoPrestadores[l].amb);
-            const dataInt = labelsPrestadores.map(l => agrupadoPrestadores[l].int);
-            const dataPromedios = labelsPrestadores.map(l => {
-                const amb = agrupadoPrestadores[l].amb;
-                return amb > 0 ? (agrupadoPrestadores[l].ordenes / amb).toFixed(2) : 0;
-            });
-
-            // Llamada a renderizadores
-            renderizarGraficoPrestadores(labelsPrestadores, dataAmb, dataInt);
-            renderizarGraficoModalidad(totalAmb, totalInt, totalTele);
-            renderizarGraficoOrdenes(labelsPrestadores, dataPromedios);
-            renderizarGraficoDiagnosticos(mesFiltro);
-
-            if (mesFiltro === 'Todos') {
-                document.getElementById('contenedorTendencia').style.display = 'block';
-                renderizarGraficoTendencia();
-            } else {
-                document.getElementById('contenedorTendencia').style.display = 'none';
-            }
+        function setMes(mes) {
+            currentMes = mes;
+            document.querySelectorAll("[id^='btn-mes-']").forEach(el => { el.classList.replace('tab-btn-active', 'tab-btn-inactive'); });
+            document.getElementById(`btn-mes-${mes}`).classList.replace('tab-btn-inactive', 'tab-btn-active');
+            procesarDatos();
         }
 
-        // Función Auxiliar para poblar HTML de las Tarjetas de Especialidad
-        function actualizarListaEspecializacion(elementId, datos) {
-            const ul = document.getElementById(elementId);
-            ul.innerHTML = ''; // Limpiar lista
-            datos.forEach(item => {
-                const li = document.createElement('li');
-                li.className = "flex justify-between items-center";
-                li.innerHTML = `<span>${item.diag}</span> <span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-700">${item.count} Casos</span>`;
-                ul.appendChild(li);
-            });
+        function setDestino(destino) {
+            currentDestino = destino;
+            document.querySelectorAll("[id^='btn-dest-']").forEach(el => { el.classList.replace('tab-btn-active', 'tab-btn-inactive'); });
+            document.getElementById(`btn-dest-${destino}`).classList.replace('tab-btn-inactive', 'tab-btn-active');
+            procesarDatos();
         }
 
-        function renderizarGraficoPrestadores(labels, dataAmb, dataInt) {
-            const ctx = document.getElementById('chartPrestadores').getContext('2d');
-            if (chartPrestadoresObj) chartPrestadoresObj.destroy();
-            chartPrestadoresObj = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: 'Ambulatorias', data: dataAmb, backgroundColor: coloresTheme.ambulatorias, borderRadius: {topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4} },
-                        { label: 'Internación', data: dataInt, backgroundColor: coloresTheme.internacion, borderRadius: {topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0} }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, border: { dash: [4, 4] } } },
-                    plugins: { legend: { position: 'top' } }
-                }
+        function procesarDatos() {
+            let datos = dataEstricta;
+            if (currentMes !== 'Total') datos = datos.filter(d => d.mes === currentMes);
+            if (currentDestino !== 'General') datos = datos.filter(d => d.region === currentDestino);
+
+            let sumAmb = 0, sumInt = 0, sumTele = 0, sumOrd = 0;
+            let instMap = {};
+
+            datos.forEach(row => {
+                sumAmb += row.amb;
+                sumInt += row.int;
+                sumTele += row.tele;
+                sumOrd += row.ord;
+
+                if (!instMap[row.inst]) { instMap[row.inst] = { amb: 0, int: 0, tele: 0, ord: 0, total: 0 }; }
+                instMap[row.inst].amb += row.amb;
+                instMap[row.inst].int += row.int;
+                instMap[row.inst].tele += row.tele;
+                instMap[row.inst].ord += row.ord;
+                instMap[row.inst].total += (row.amb + row.int + row.tele);
             });
+
+            const totalGeneral = sumAmb + sumInt + sumTele;
+
+            // Calcular porcentajes
+            const pctAmb = totalGeneral > 0 ? ((sumAmb / totalGeneral) * 100).toFixed(1) : 0;
+            const pctInt = totalGeneral > 0 ? ((sumInt / totalGeneral) * 100).toFixed(1) : 0;
+            const pctTele = totalGeneral > 0 ? ((sumTele / totalGeneral) * 100).toFixed(1) : 0;
+            const promGlobalOrd = sumAmb > 0 ? (sumOrd / sumAmb).toFixed(2) : "0.00";
+
+            // Actualizar DOM KPIs
+            document.getElementById('kpi-total').innerText = totalGeneral.toLocaleString('es-AR');
+            document.getElementById('kpi-amb').innerText = sumAmb.toLocaleString('es-AR');
+            document.getElementById('kpi-int').innerText = sumInt.toLocaleString('es-AR');
+            document.getElementById('kpi-tele').innerText = sumTele.toLocaleString('es-AR');
+            
+            document.getElementById('kpi-amb-pct').innerText = `(${pctAmb}%)`;
+            document.getElementById('kpi-int-pct').innerText = `(${pctInt}%)`;
+            document.getElementById('kpi-tele-pct').innerText = `(${pctTele}%)`;
+
+            document.getElementById('kpi-ordenes-total').innerText = sumOrd.toLocaleString('es-AR');
+            document.getElementById('kpi-ordenes-prom').innerText = promGlobalOrd;
+
+            // Arrays para los gráficos
+            const sortedInstituciones = Object.keys(instMap).sort((a, b) => instMap[b].total - instMap[a].total);
+            const dataAmb = sortedInstituciones.map(inst => instMap[inst].amb);
+            const dataInt = sortedInstituciones.map(inst => instMap[inst].int);
+            const dataPromOrdenes = sortedInstituciones.map(inst => instMap[inst].amb > 0 ? (instMap[inst].ord / instMap[inst].amb).toFixed(2) : 0);
+
+            renderChartInst(sortedInstituciones, dataAmb, dataInt);
+            renderChartOrdenes(sortedInstituciones, dataPromOrdenes);
+            renderChartDx();
         }
 
-        function renderizarGraficoModalidad(amb, int, tele) {
-            const ctx = document.getElementById('chartModalidad').getContext('2d');
-            if (chartModalidadObj) chartModalidadObj.destroy();
-            chartModalidadObj = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Ambulatorias', 'Internación', 'Teleconsulta'],
-                    datasets: [{
-                        data: [amb, int, tele], backgroundColor: [coloresTheme.ambulatorias, coloresTheme.internacion, coloresTheme.teleconsulta],
-                        borderColor: '#ffffff', borderWidth: 2, hoverOffset: 6
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
-            });
-        }
-
-        function renderizarGraficoOrdenes(labels, dataPromedios) {
+        function renderChartOrdenes(labels, dataProm) {
             const ctx = document.getElementById('chartOrdenes').getContext('2d');
             if (chartOrdenesObj) chartOrdenesObj.destroy();
-            const backgroundColors = dataPromedios.map(val => val >= 2.5 ? coloresTheme.alertaCritica : coloresTheme.ambulatorias);
 
             chartOrdenesObj = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{ label: 'Órdenes Emitidas', data: dataPromedios, backgroundColor: backgroundColors, borderRadius: 4 }]
-                },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    scales: { x: { beginAtZero: true, border: { dash: [4, 4] } }, y: { grid: { display: false } } },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        function renderizarGraficoDiagnosticos(mesFiltro) {
-            const ctx = document.getElementById('chartDiagnosticos').getContext('2d');
-            if (chartDiagnosticosObj) chartDiagnosticosObj.destroy();
-            
-            const dataDelMes = diagData[mesFiltro];
-            const labels = dataDelMes.map(d => d.diag);
-            const values = dataDelMes.map(d => d.count);
-
-            chartDiagnosticosObj = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Cantidad de Derivaciones',
-                        data: values,
-                        backgroundColor: coloresTheme.diagnosticos,
-                        borderRadius: 4
+                    datasets: [{ 
+                        label: 'Promedio de Consultas/Órdenes', 
+                        data: dataProm, 
+                        backgroundColor: '#f59e0b', // Amber
+                        borderRadius: 4 
                     }]
                 },
                 options: {
-                    indexAxis: 'y', 
                     responsive: true, maintainAspectRatio: false,
-                    scales: {
-                        x: { beginAtZero: true, border: { dash: [4, 4] } },
-                        y: { grid: { display: false } }
-                    },
+                    scales: { 
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true } 
+                    }, 
                     plugins: { legend: { display: false } }
                 }
             });
         }
 
-        function renderizarGraficoTendencia() {
-            const ctx = document.getElementById('chartTendencia').getContext('2d');
-            if (chartTendenciaObj) chartTendenciaObj.destroy();
+        function renderChartInst(labels, dataAmb, dataInt) {
+            const ctx = document.getElementById('chartInstituciones').getContext('2d');
+            if (chartInstObj) chartInstObj.destroy();
 
-            const meses = ['Enero', 'Febrero', 'Marzo'];
-            const dataTotalMensual = meses.map(mes => rawData.filter(d => d.mes === mes).reduce((acc, curr) => acc + curr.amb + curr.int + curr.tele, 0));
-            const dataIntMensual = meses.map(mes => rawData.filter(d => d.mes === mes).reduce((acc, curr) => acc + curr.int, 0));
-
-            chartTendenciaObj = new Chart(ctx, {
-                type: 'line',
+            chartInstObj = new Chart(ctx, {
+                type: 'bar',
                 data: {
-                    labels: meses,
+                    labels: labels,
                     datasets: [
-                        { label: 'Volumen Total', data: dataTotalMensual, borderColor: coloresTheme.lineaTotal, backgroundColor: coloresTheme.lineaTotal, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#ffffff' },
-                        { label: 'Solo Internaciones', data: dataIntMensual, borderColor: coloresTheme.lineaInternacion, backgroundColor: coloresTheme.lineaInternacion, tension: 0.3, borderWidth: 3, pointBackgroundColor: '#ffffff', borderDash: [5, 5] }
+                        { label: 'Ambulatorias', data: dataAmb, backgroundColor: '#cbd5e1', borderRadius: 4 },
+                        { label: 'Internación', data: dataInt, backgroundColor: '#f97316', borderRadius: 4 }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: { y: { beginAtZero: true, border: { dash: [4, 4] } }, x: { grid: { display: false } } },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true }
+                    },
                     plugins: { legend: { position: 'top' } }
                 }
             });
         }
 
-        window.onload = () => filtrarDatos('Todos');
+        function renderChartDx() {
+            const ctx = document.getElementById('chartDiagnosticos').getContext('2d');
+            if (chartDxObj) chartDxObj.destroy();
+
+            let multiplicador = (currentMes === 'Total') ? 1 : 0.35;
+            if (currentDestino === 'Buenos Aires') multiplicador = 0.05;
+
+            const plotData = diagnosticosData.map(d => Math.max(1, Math.round(d.val * multiplicador)));
+
+            chartDxObj = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: diagnosticosData.map(d => d.dx),
+                    datasets: [{
+                        data: plotData,
+                        backgroundColor: ['#f97316', '#fb923c', '#fcd34d', '#94a3b8', '#cbd5e1'],
+                        borderWidth: 2, hoverOffset: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        window.onload = () => procesarDatos();
     </script>
 </body>
 </html>
