@@ -140,6 +140,17 @@
             </div>
         </div>
 
+        <footer class="mt-12 mb-4 border-t border-slate-200 pt-6 pb-2 text-slate-500 text-sm flex flex-col md:flex-row justify-center md:justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-database text-slate-400"></i>
+                <span>Fuente de Datos: Pelliza, M. y Pistek, G. (Dirección de Sistemas Apos)</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-code text-slate-400"></i>
+                <span>Análisis y Desarrollo: Testa, F.</span>
+            </div>
+        </footer>
+
     </div>
 
     <script>
@@ -327,7 +338,6 @@
             document.getElementById('tag-total-dx').innerText = `Total Cuadrado: ${totalExacto}`;
 
             // Algoritmo para cuadre estricto: distribuye el Total Exacto en grandes grupos
-            // Esto asegura que la sumatoria de las partes siempre sea igual al 100% de 'totalExacto'
             let onco = Math.round(totalExacto * 0.35);
             let trauma = Math.round(totalExacto * 0.25);
             let neuro = Math.round(totalExacto * 0.15);
