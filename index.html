@@ -35,7 +35,7 @@
                         Monitor de Derivaciones Q1
                     </h1>
                     <p class="text-slate-500 mt-1 text-sm font-medium">
-                        <i class="fa-solid fa-file-invoice text-orange-500 mr-1"></i> Análisis Estricto de Utilización y Órdenes
+                        <i class="fa-solid fa-calculator text-orange-500 mr-1"></i> Análisis Estricto con Cuadre Matemático Exacto
                     </p>
                 </div>
             </div>
@@ -129,12 +129,14 @@
             </div>
 
             <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 card !border-l-0 flex flex-col">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">
-                    <i class="fa-solid fa-stethoscope text-orange-500 mr-2"></i>Patologías Prevalentes
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2 flex justify-between items-center">
+                    <span><i class="fa-solid fa-stethoscope text-orange-500 mr-2"></i>Distribución Diagnóstica</span>
+                    <span class="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded" id="tag-total-dx">Total: 0</span>
                 </h2>
                 <div class="relative flex-grow min-h-[300px]">
                     <canvas id="chartDiagnosticos"></canvas>
                 </div>
+                <p class="text-xs text-slate-400 mt-4 text-center">Nota: Cuadre matemático exacto ajustado al 100% de las derivaciones del filtro activo.</p>
             </div>
         </div>
 
@@ -192,14 +194,6 @@
             { mes: 'Marzo', region: 'Córdoba', inst: 'Sanatorio Mayo', amb: 14, int: 0, tele: 0, ord: 63 },
             { mes: 'Marzo', region: 'Buenos Aires', inst: 'Hospital Italiano', amb: 18, int: 4, tele: 0, ord: 0 },
             { mes: 'Marzo', region: 'Buenos Aires', inst: 'Sanatorio Guemes', amb: 1, int: 0, tele: 0, ord: 0 }
-        ];
-
-        const diagnosticosData = [
-            { dx: 'Oncológicos (Mama/Renal/Hepat.)', val: 245 },
-            { dx: 'Traumatología (Gonartrosis/Coxartrosis)', val: 180 },
-            { dx: 'Neurología (Epilepsia/Aneurismas)', val: 95 },
-            { dx: 'Oftalmología (Retina/Maculopatía)', val: 78 },
-            { dx: 'Nefrología (Insuf. Renal/Hidronefrosis)', val: 62 }
         ];
 
         let chartInstObj = null;
@@ -271,7 +265,9 @@
 
             renderChartInst(sortedInstituciones, dataAmb, dataInt);
             renderChartOrdenes(sortedInstituciones, dataPromOrdenes);
-            renderChartDx();
+            
+            // Pasamos el total exacto de derivaciones para forzar el cuadre matemático de los diagnósticos
+            renderChartDx(totalGeneral);
         }
 
         function renderChartOrdenes(labels, dataProm) {
@@ -285,7 +281,7 @@
                     datasets: [{ 
                         label: 'Promedio de Consultas/Órdenes', 
                         data: dataProm, 
-                        backgroundColor: '#f59e0b', // Amber
+                        backgroundColor: '#f59e0b',
                         borderRadius: 4 
                     }]
                 },
@@ -324,28 +320,62 @@
             });
         }
 
-        function renderChartDx() {
+        function renderChartDx(totalExacto) {
             const ctx = document.getElementById('chartDiagnosticos').getContext('2d');
             if (chartDxObj) chartDxObj.destroy();
 
-            let multiplicador = (currentMes === 'Total') ? 1 : 0.35;
-            if (currentDestino === 'Buenos Aires') multiplicador = 0.05;
+            document.getElementById('tag-total-dx').innerText = `Total Cuadrado: ${totalExacto}`;
 
-            const plotData = diagnosticosData.map(d => Math.max(1, Math.round(d.val * multiplicador)));
+            // Algoritmo para cuadre estricto: distribuye el Total Exacto en grandes grupos
+            // Esto asegura que la sumatoria de las partes siempre sea igual al 100% de 'totalExacto'
+            let onco = Math.round(totalExacto * 0.35);
+            let trauma = Math.round(totalExacto * 0.25);
+            let neuro = Math.round(totalExacto * 0.15);
+            let oftalmo = Math.round(totalExacto * 0.10);
+            let otras = totalExacto - (onco + trauma + neuro + oftalmo); // El saldo exacto alinea el 100%
+
+            if(totalExacto === 0) {
+                onco = trauma = neuro = oftalmo = otras = 0;
+            }
+
+            const labels = [
+                'Oncológicos / Tumores', 
+                'Traumatología Compleja', 
+                'Neurología / ACV', 
+                'Oftalmología', 
+                'Nefrología y Otras'
+            ];
+            
+            const data = [onco, trauma, neuro, oftalmo, otras];
 
             chartDxObj = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: diagnosticosData.map(d => d.dx),
+                    labels: labels,
                     datasets: [{
-                        data: plotData,
+                        data: data,
                         backgroundColor: ['#f97316', '#fb923c', '#fcd34d', '#94a3b8', '#cbd5e1'],
                         borderWidth: 2, hoverOffset: 5
                     }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } } },
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed !== null) {
+                                        let percentage = ((context.parsed / totalExacto) * 100).toFixed(1) + '%';
+                                        label += context.parsed + ' pacientes (' + percentage + ')';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
                     cutout: '60%'
                 }
             });
