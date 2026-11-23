@@ -204,3 +204,16 @@ body {
 .mc-trend-up   { background: #fef2f2; color: #f08a8a; }
 .mc-trend-down { background: #f0fdf4; color: #7dd1a0; }
 .mc-trend-neutral { background: #f8fafc; color: #94a3b8; }
+/* ── Pestaña Análisis de Costos ── */
+.cost-table { width:100%; border-collapse:collapse; font-size:0.75rem; color:#64748b; }
+.cost-table th { text-align:left; font-weight:500; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.06em; color:#94a3b8; padding:0.5rem 0.6rem; border-bottom:1px solid #e2e8f0; white-space:nowrap; }
+.cost-table td { padding:0.55rem 0.6rem; border-bottom:1px solid #f1f5f9; white-space:nowrap; }
+.cost-table tbody tr:hover { background:#f8fafc; }
+.cost-table td.num { text-align:right; font-variant-numeric:tabular-nums; }
+.cost-table th:not(:first-child) { text-align:right; }
+.cost-bar { display:inline-block; vertical-align:middle; width:70px; height:6px; background:#f1f5f9; border-radius:999px; margin-right:0.5rem; overflow:hidden; }
+.cost-bar span { display:block; height:100%; border-radius:999px; }
+.cost-pct { display:inline-block; min-width:2.8rem; text-align:right; font-variant-numeric:tabular-nums; }
+.insight-card { display:flex; gap:0.85rem; align-items:flex-start; padding:0.9rem 1rem; border:1px solid #e2e8f0; border-radius:0.75rem; background:#fff; }
+.insight-card i { margin-top:0.2rem; font-size:1rem; }
+.insight-card p { font-size:0.78rem; line-height:1.55; color:#64748b; }
