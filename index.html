@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,8 +19,8 @@
             theme: {
                 extend: {
                     colors: {
-                        aposTeal: '#00a896',
-                        aposOrange: '#f59e0b',
+                        aposTeal: '#45b5a9',
+                        aposOrange: '#f2bf78',
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -40,22 +40,22 @@ body {
     border-radius: 1rem; 
     padding: 1.5rem; 
     box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); 
-    border-left: 5px solid #00a896;
+    border-left: 5px solid #45b5a9;
 }
 
 .tab-btn { 
     padding: 0.5rem 1.25rem; 
     border-radius: 0.5rem; 
-    font-weight: 600; 
+    font-weight: 400; 
     font-size: 0.875rem; 
     transition: all 0.2s; 
     cursor: pointer; 
 }
 
 .tab-btn-active { 
-    background-color: #00a896; 
+    background-color: #45b5a9; 
     color: white; 
-    box-shadow: 0 4px 6px rgba(0, 168, 150, 0.3); 
+    box-shadow: 0 4px 6px rgba(69, 181, 169, 0.3); 
 }
 
 .tab-btn-inactive { 
@@ -66,8 +66,8 @@ body {
 
 .tab-btn-inactive:hover { 
     background-color: #f8fafc; 
-    border-color: #00a896; 
-    color: #00a896; 
+    border-color: #45b5a9; 
+    color: #45b5a9; 
 }
 
 /* Indicadores de tendencia en KPI cards */
@@ -76,17 +76,17 @@ body {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
 }
 .kpi-trend-up {
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
 }
 .kpi-trend-down {
     background-color: #f0fdf4;
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .kpi-trend-neutral {
     background-color: #f8fafc;
@@ -99,7 +99,7 @@ body {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
     text-transform: uppercase;
@@ -107,15 +107,15 @@ body {
 }
 .kpi-balance-warn {
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
 }
 .kpi-balance-mid {
     background-color: #fffbeb;
-    color: #f59e0b;
+    color: #f2bf78;
 }
 .kpi-balance-ok {
     background-color: #f0fdf4;
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .monthly-card {
     background-color: white;
@@ -123,7 +123,7 @@ body {
     padding: 1.25rem;
     box-shadow: 0 2px 12px -2px rgba(0,0,0,0.06);
     border: 1px solid #e2e8f0;
-    border-top: 4px solid #00a896;
+    border-top: 4px solid #45b5a9;
     transition: transform 0.15s, box-shadow 0.15s;
     cursor: default;
 }
@@ -132,12 +132,12 @@ body {
     box-shadow: 0 8px 24px -4px rgba(0,0,0,0.10);
 }
 .monthly-card.alert {
-    border-top-color: #f87171;
+    border-top-color: #f5a8a8;
     background: linear-gradient(135deg, #fff 80%, #fff5f5 100%);
 }
 .monthly-card .month-label {
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #94a3b8;
@@ -145,12 +145,12 @@ body {
 }
 .monthly-card .month-total {
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 400;
     line-height: 1;
-    color: #1e293b;
+    color: #6b7280;
 }
 .monthly-card.alert .month-total {
-    color: #ef4444;
+    color: #f08a8a;
 }
 .monthly-card .month-indicator {
     display: flex;
@@ -158,13 +158,13 @@ body {
     gap: 0.35rem;
     margin-top: 0.5rem;
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 500;
 }
 .monthly-card .trend-up {
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .monthly-card .trend-down {
-    color: #f87171;
+    color: #f5a8a8;
 }
 .monthly-card .trend-neutral {
     color: #94a3b8;
@@ -174,9 +174,9 @@ body {
     align-items: center;
     gap: 0.25rem;
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
     font-size: 0.6rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     margin-top: 0.5rem;
@@ -189,7 +189,7 @@ body {
     margin-top: 0.6rem;
     font-size: 0.65rem;
     color: #94a3b8;
-    font-weight: 600;
+    font-weight: 400;
 }
 .monthly-card .sub-breakdown span {
     display: flex;
@@ -212,14 +212,14 @@ body {
 }
 .mc-sub-label {
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #94a3b8;
     min-width: 2.5rem;
 }
 .mc-sub-val {
     font-size: 0.8rem;
-    font-weight: 700;
-    color: #334155;
+    font-weight: 500;
+    color: #6b7280;
 }
 .mc-sub-trend {
     margin-left: auto;
@@ -229,12 +229,12 @@ body {
     align-items: center;
     gap: 0.2rem;
     font-size: 0.6rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.1rem 0.4rem;
     border-radius: 999px;
 }
-.mc-trend-up   { background: #fef2f2; color: #ef4444; }
-.mc-trend-down { background: #f0fdf4; color: #22c55e; }
+.mc-trend-up   { background: #fef2f2; color: #f08a8a; }
+.mc-trend-down { background: #f0fdf4; color: #7dd1a0; }
 .mc-trend-neutral { background: #f8fafc; color: #94a3b8; }
 </style>
 </head>
@@ -246,12 +246,12 @@ body {
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAA8CAYAAADPLpCHAAAh7ElEQVR42u2deXhb1bX2f+voSLYl2c5ImAnzDG2ZLtACBVIaZpoGKBDLoWEsFFpKgZRy014oUKBM5ZYyxJLDVELKVMZAmQqhBcIUhjJmgDAkTuJY58iSzjnr/nG2E9uxE0m2g+n37efxA7Esae+1373Wu4a9jjDAw8lU7ywa7BVI/M/J1LJgQL7j9hER8ZZORfW4AVxKO+gisN4DeRGxH4fo7HiqrZ21PJzMcBGKSShuixY3BdYFvwqIAkWwc8DnSOxDsN4PpCqbbFisfEWjPT2UQLwY+KPR4nYI66FBDaiEP6KI5YF8CfY8xX4LqVqeqGDOMpALcTPJCJq7BPRgJHpIPJVfMBDfk719RMQqtmRAj19Le6RgfQ48BdbdSOR5saoX10xoHUBZ1tqQXx/VXSDYG/SbwLYQDANi3fZSQQogi4G3QV5FZJZivSpEF8ZTTnGgBeQ2jxDUqQNvWzTYDXQfYCfQjUCrAGtVmUoRpBWYA/IGIs+C9TrE5sdT2eIgAHRsG7T4COiGYJ+rUnttIrVU/wMA3XnkwJoN9u+R6GPxlJPvVxmm6yNI+w6odwYE+4CONgAud+RBPgXrGcRuDjTyfLLR7XdgZ9O1IhRHCl4KgiNAtwOt7wHApYyCmfOziN0E0efjqaz3lQDabU7GCNong3chEAHrNSR6dDyVf/8/DNAdolwM1i2IfZ1q9WeJxr5pa6e53hLNbYH6J0IwDnTz/tsv+RKsGUikGexX4qm+AzubHooluWGo9wMIToRglwoPXm9z/gys+8CaqhJ7NZFy/J7+yhqQrQXQ/C7gnxaCGSDYGfVOcjO1Fv+RQ0eA/wu0eIeQ28rJrNMHy1ZTLeqejBb/Bv65oFv0r/LRdcA/FS0+gBbOdzNVw91pI/tCLcUSZwe0cCd410OwZ/+CGUDXA/9U8O4VCie7mZrkWgN0NhOPoUEj6MiuOA+OhPzmA8FoB8mwQ1rg/VF02Y7OtFopT8vV4mZiW6KFq1DvctAtB2qPwv3QkeBNRou3ESzb1c0kI+VbkngU8oeixQwEY4DqgTSDoBui3hVo4Uo3U71hNlM/sIDO3j4Cwdsx5E/dtYpujgbHOc21kX5dZSAKBIME1BYEB4L3ZwkKG5RMxKeNFEsK26Jec2jZtG4tzbcagoNQbzqaP8pJx0vGhNucjIgWfoR6adBvDbRP1glHCfAnoYW0RfvGAwpoy8vWof7ZoVnrabP9SRLkd+vX5QVoGK4aNEMg2B31znEy8Zo1m+w60WDZt9FiEwS7rz1gdNF8o8G7SiiMdzPVa6QLTiYeRdsnof6loMO+AhlHINgPLf7GSVcPGxBAv3KKgPp7htSit03RDcBvcDMJu7++9+NcUQFvkJHqCAQTBe9Ip3lorwBty9QB+c1R/2oI9hhAilGKatgY/BtQ/1A30ztdWjp9GKLFXVF/Cuj6X7GMjxO8sxyDp34V3jZ7VoemAE2uQXsdBsUdcs0j+uV79zu3FbACBt3QetT7qag7sjfnOaLtW6DFP0PwzUEy5+Hg/Q7yu/cG6io3NxL8C0BHDYIJx8A/UbSwQ78COpcZioi/G+gBJQhtAzQ4Q9WN95tPKAxCQHdEd/w9ejHbMfDPhmC/r1YzryLRrVHvGihstKoTOAy0OB6C738F1Kh3PBEc7jQPkX4z+0puJOpdADqkNM7mj4PiX4CZff3uggdgvQp67wDQy2iYGNBNjXktF3g1oIe5mdqH46k2f6VDNUQInCMgOHZwgXnFQdwN9X7mZhLnxVNOYaUD7tZBMJ4wzV6pTOeDPA8yB4IWsNYPnUrdq0I+LqCHoIVb+wXQ7rSR4C/9rklvlnhqdQganOBm4s/EU26hT5GVdgWrvgk00+9nX9USbY9CsFmYNPCPM0mOMkCoeyv+BsD8lb/KrQv++aGJH5QjAsExUJzRNm3IP2onLDO/9jcJs3+V6R6wHkailyGxV/yaWq92/EKcdD0i+WooHI76kyHYqXztrzsJxb37BdAatNULwUmgZcYgg7Got2+2ecTMZMPiPs0hPmGxD/gDtLl54A03UzsHzd8F3iUQHFXG4d1CKO7SAWgnMxS07QcQ7MigHrou6l1kBe3jgY7U5xagQyuMgc1Aoj+Jp/JLQ5G2AZBoXALQ7jQPmS64b6PF6aDblDnXalT36jOg3UydoLlDQPeoQGAjwP+5pdl/AssrnYMVq2LHvz44LoADy7BRb8SEm18+5HslR0fiqbYAeNfNxC5Hi9/uJTTZ0zpjaDB65b/bRxiqEe2j+H2QRSAfgiwxB9oGrTVFQBv18TsEdA9R/1vAU+Y3dahEys9mSRtip0Mw9zwSDcvUydS/LfiPgL9N+dMNtuoHDZ3f0JjO2soEFnwH9Q+YMkXunTKlspSfVRVDle8qnFrG2x4RS6ZWFu6LzgHvDdADy1jqJgCLm4Yj2vojE2/ugx9szQXresR6HOz5KjV5QRRUUCcKwTposDcEkyD4TuU8XesgGO9k6p5NpJb7IBVaQckpdgusnl0mU62Bk46+Bb6WTztkvT4B2m2uFwJnLATb9GFvEuCfcO7o6semkHPXoj31qDBpHki83VL30zLfVQ1QI7k4BAdTea2DD9ZMJHqRUvNKIrUsCEHiduOqfJxtHvmxBMufE7zJEPyoQqUD6L5CcUNgHqrLQb3y5x8MF82PcTKJ1xMpx1t9xMpahFrvlX8I5eM+AVo1P0oIJvXddOoBgj/WbR42I96wZG0BughSEaAtvAhIspLzIOJtjOpOlYYeIHKnin2+bQ//tOr4havXdg2LAOa5mfhZaOED8P4HqKrElIN3VNv09a/BXfQpKg5ouQcyAsE5QsF1M4mMrVWtscZe9lpiMxV7/3LlK0ihYkA7zcmIBO0nQ/CNfnA+6sE7C3WeARavLUCLaGUcR3N1YRivrGNQgAA02Dr0HSo6Si8gkclXfFz4dMqUhaU7zCm33c1U34TqRmHFWtkKyEb9PSO57A1gzQfmAhU4hjoC9S4F/yCP/N/ctP0BWFlEXAhaIdIGdjbQ6vZkatHCSiRUMaBFC6PBn9APjk2HFtgd9cfkmte5s6bhy7UB6IJo+cmY1j8NAbK7AFuVuZmfLp0+DJzl36yMbshyiFyG1C6YMqWl/ChQqr3VTVddEpZ26q4VgHELtFirxFoE7ynwK8xsahz0YAjGAu0gHkoByIK3FAoLLcnPcjPRmRD5AKqWxVOtJfP2ihwFN1Nnof54c3uiv0YVBCnVtrVS6KKQh/I0dDZTJ9G4ux0a/GIN6f3uYCyCfBTLqQ3B1hVq53uQ6NPxhpbKVQbRL8G6o8Lw5gjwhyRTbQESuQOkrxc1hDDpVBvG4nUT0G9AcDBanIJ6j6CFx9HsDW7aPszNVK2Xa06u0UmsUEPnvwF6amnvl9aVtGKNIt8Piqlspvaa/Ufcq37I00oqNS0GapcpzQA82ePhh2VV30A0CGL68mEHEF5I8KohGAq5fVD/Qgi2LXPv5iOx11G3qsJinhzI9HjKdfqCoGRjVt1M7Ak0WFxBHUY9MFzhI6V6thD8PizmH5D650gY69ahwLdAUqj/byW40c1UT1cSLYlUS/8A2knHY2h+EgQbl+bEWDeGXrc/uQRwVqHBBEsKdyu60FP9kSrHa2mgLosCKOzr+PatvYC9RSS4FGhB3e1Brww1CBuGUZmyx3NI5GNRrTfAKFeZLQHrw/6xTDXzBP918L9X5jujqB8HSKSWq5upno7qbuA3MLBF/ZiE3c5o8Q/gjxf8q9109d/jje1unwEtUtwKDQ4vLUYonyOR24F2NDgedLMSzsAOqD/22cXH3PJfw+96XuE8hW0HQEpbm5+ewD4PuB5ogWAI6LeBSgupCoj1aLyhrehm4lGQ6gqSEjkk0i8hzbxdtby62Da3Mq0pyS6cPBM/D80D/sT+86VWO2og2D/0AYLfu5maa+KpnFMxh3YztR1Xq9YrMV76V8V+V4l+BNZtlJbEiEJwiqq7eUT4CKgw+TFYhsyByLMdrjSV3awR+qmyrapgSYW+kwUS6xY9WYbYk8G+FOTztSdTrQP/ArRwjZupGlURoEUACntB0FDa++QDFfu6RMotJlKOj8RuAeuVEt2Xb0Gx4R+Lx2GJzBD4+GsKZhfsJl+qzGYHRdAKGtOoDX6/XFuTiJcAqYTHB6CFVaMn+RaI/Q/Yp4G8tRaVTwL8RtQ7x83Eq8sGdDZdU4MWT+128XV13PkOkdhK3iexT8D6YxiqKUUbBMdCflNLmC9wO4PrilUpwwPrJiTaVNuwPOQYGrSH4amyRy2q/XMbQrMjyy/86bC42tZjSLDR9USqH4DowRC5AOSNtQRsG4JT0cLZZd1YEQHB27m04n0AyYMVI2hvcNPRRjcdbSRwUyCjwnhqSZLfHIIjn2v5AQI3C7zxNQKzgvUiYl/VJTJh1Xgroz7lmljd0W1etx9m5m8OWsEHSR6J9BplqUm1BfHGwnys+B+QqsPAvhisFzoVTQ2UqGvB/4lQ3KFkp9BpqqlHC2eVXrurNVCczKreTzlcMIL6P7XIP21ZMlsDTSvsTB+SQWsRzI8j9tlBUP1JWCbZsfpoISxur0gTnaK67Emg4nZqbqY2grqHh/tT9milhCxuvKEtAOa7zUN/i+auBX9LVHcOqzF1a2BLc2EiaqJe/eAb6Aaof5KbqT17jeBwp40Af9n+4T3Asr68HxwZ3Qj1j31+8ZGv7zn8vodE9QztJTLR/7CsKCvugzUL7HM0MuTdZKprxrO+cZG23mq/Zw56mbIJdhUtHuM2J6+ON2TL1nhOplbQ/I4V7GPHdn4GkaWl/nW8YakCy4CXgJec5hFToT0pGmyGFoaDjDDFUutDsEWYVNGtqKjWBIHgcChMWyOgNcjWCcEpFcZf++zDQHA0WkhbwjsK16pyVRi+GeAvlrJjawWIpJHoxQHVC5InrJq+L/oQ8ktxK5CnDcFZaOFNNzNkZryMTq6hZilsDd4NJp5eiUTeQGJZyFXmwTUsDghr3l9b1XLURSA/EvWPAP+XpYV3e9LS3v6rBXS2uVZE278DuudXaME3hOCY5xcfdfFew++drugEhT0H+hRJ6cHiAORjiNyIRG+Np3JLV+v3inyI8hmwRUWyUO96cM5yMonHe+vv1hUsSQstbIEWLzUtuirRzi4SeSre0Bq4maqt0OK+ZX6Oj9hPxFOFeT1q89RyH/g8Oy15sxXkF6JeUwVX0wRk69UC2tLCumGqd6118ekt4nEqFGZGLP7h+zQBuzKwgXxfkDVpwDxY7yFWBqyHlNh7iVR2zVpTYp+h3kumX10l0bMtQW8R1ZucTM0NWInFiQmrUlv3tvXAb6uB/DjwfmXMeYUUUN6EiLnMrHuA3ghaTiw7j/pHESaseh3JCdnAbU7MRL0XgMMq2LbaXgHtNg8Vgraxg6NfhI5A/ROe/fKIf+414r5HAuU+oPv1py0V1i9LyPAFPWviBbIiTCh5kLlmHkvDBIK8BzILsd9QkvMTqcW6ppsYHaNuYra4fGpsOlo8uLT6lh7lsT54k0WD/fELM920/QoSaQF1gADVIXhfbgt6GOi+ld8BNE6uyONI9bKQbmgO1Ke85IwNUpLGVY14UimvgdW0MdDc0LAtakUkfSBYwOEi3o0bBC2vLbSGr5LcCeBqVU4u4zNft6ABWVV4AkURWoyIXgc5CKyiEjhITX5JPlLc6KQWE2otL0/i+QDRx8B7BvTwPsgkFjaG5DtGA+bNIdXQx9AEJRZ2rUH0X4D113jD0sA4VYsJD3s5FjICur+bSd4TT2VXKzDR9k2NBa7EmDt2z2G6ZATNHzp4uvkA6Dqof9Y9SyeeGU+1dwnw27V1bHvHPeV6/nlVXfDmYQettkYinirkgU+6Kva+DU+qXFvzGdD9yytD7dXnqy7/xn1pUwXrHrDfWWmwIkvQwAnrmsuiSuPQ3Fw3U3O9L3VLaxu+6MYI6iy0fUfU++8KHdcA5M2eNbRV2Bj1z6fygpyB4tLjUP9O4LFVtnTQdPEpgXY0LMHN1DyO6qPg/4BB2Wgm5M4q0csTqVynU2wtBD4FymworXXgT0bz34mw5AY3U/0v1GtD7PBCb5A7CrxJ5iZQBXtpfY5En7V7iFdaou640Pko9RT3ORMkxoStYSGaBL/RydQ8m0jlcnyNhxDPqgRTzJWsQdifQ7IQuQ6in3amVYq9VCjOAv8bFXxoFQQHoroHeAtBl6B+FTDKtISo1NFXkAeU6Gx7VUEXR0FwPKUV7+cR+9rwwS59ohND0eJ5po/Emv52jODvlc0MfzK5oshbvlYaGqAm1YLbXPs26l8J/p/KN+EDOjyINCPR6YlUWxenOdmY9Z109G40+GGJdT097WEtKxJk/dGtXpaBdXsitTxvd9XO8ShaOLPEVk8K1v1gXxbGXisfTiZhC4GAd+WanVAdhnqTLXFeA1r4Go94Q5u6meoZKBuANxlIDoJpBWDdj0SmFN0qp3vAQRWQ6udR9zrwL2Lt1EGvbhTDa2X2y1Dsyt2E4pbgn0BJlzilFawb+gpmgETK8RB7Bljvlhjx2BP19mlrWmdVJv11A3Wq3UGi10LkNr76isIgvFluX/BQPL+o/rRlvR3EIhK9Gazn+WofCGLqZmK/jTfm2unsjLiZRAQNJoStSUtS8zMV++X+o2zRz0GaKa3ssAaCSRGrrbbTyr6+mjqVc5HohRD5XchdvzIwP4zYKaj+YPz41f+xH1R/gding/XEVyR+D6xHEPscteq+7BQ5MMX76m0HwQ9L87hlCUSarpjb3m+djuINbYrY94L1VomHc2/wDnQzdTL0mqsrPEQyiEDd3oLELgfr2pATrtXRDpG7kOiZGhnyUTy1fI0ArZ24DF+GvoPYPwfrRQa0RLRHMD+ARE8Sqf93YsIXdAG0k05Ug/dL0ya2FDU/Dal6stJedL2qCCs5F7GuoKRgr9aj/gWQHzV8yEjKDX0JOLYlPoNoxFO5nBK7GCKp0g92n03jAohMRqKnxVP5uYkTSu+JUtvwBaqxOUj0GIj8iXKzTJXNdxHYFyHR0/z48IU1YXeolYAOdVRxR/NILinpA8W6I57KFvp7qskJLapEngRrTolHYCfwD9jX+qDce3IKvG2Vmq9eiyPRmGv3peZBxJ4AVhPI0oEx6eKC9RRiN6qVvDaeal9e2XyzxFP5BSqxXyH2eeEdyoHQ1uKC9TRin4LUXBFP5b+sHb9qcyXLaU5Wo/5JpbeGte5X7NcGjuVXfYFYt4bNWdY4qtDg5Cltl42kjDSvwHxLuP2VQ8YMSupdm2rTeKrwKlJ9OmIfCZGb+4+GSBasRyGSQmLjPKn9e6Khtc+P80ikcsuV+PVI9DBDQ2b3D7AlC5EZEGlAYkepJO6Lp9q83mGfiR2Cev9bWrmefI7YE+KpwqyB3FA3k1gHbZ8WPqR9jSPvS9Wv9x52/5aKHFlKmEeEP1uWdc1rBx/o8zUYTiZZJRT2Rf3Dw6ck6MYmlluKVfJB2oB5IC9B5CGk6imVqtZEw8BEPZ3moYK2byJa/H7Y8ku3B9YzN2XWxAI8M99PwHoesR6BqifjqWxJTXbEzVRtBv76Jd3QEGsp1LwTTy0f0Af0ONNGIcHSTVG/pIiLit0yZtjdixyJl5Kc8C348tVDx3zdLt3iZOoiUBgh4b3A7Q1Qtg9bsgVVIcDFh4gD+gHwDsjbIO+ANVck1lLT6TkvAz3c5lGoZquF4jqobmFKZreCYD2wRhPWoCwCXQBWG+hCRD4B+QCsBSqxxYmG8ub7tYzd/v8RjrbmERIhqEPdWrQQBYkAHhIvqMRaI57vVJ+4bPAdzOaRUQjqIIgIds4Dp65hUb8oybIAPWVK1/8OlvHv38C6IxE3QNc74+s3//4aS28KPYmhP/5/95CLm+ZMeu63VlTlThHmA6OAMYR1qgLMAZ4F3gf2BvbtTYmoMi0xkSUAbpptgeOAu+ONvNnFPKXZADgaeCqA15KNK1/LNmFZwoGE+f/meCOtc9MwEqolvI61D7AB4Z21FxSe8zwW1U8yGiFNXMK64f2AOsL+xv9QmJ1o7BoijNmw7Bb2BL7biaMWgQ+BfwKfxBvDqEPbLRCx2R34PpD5eC7ztp/SZU3bAEd1clgVcIDXFV5OTqStM9Nra0IiwkFGzn+ON7JojWY9jUXYKu27If0A4G3gaYW3UZIiNAAvxBt5pdt7twQOAu5WaBH4AcpyVWaKUI8wwcjLcFs+BV5DeTc+sWtWU0I5rw80AjPV56XEj7t810bAj1iZhVYT5ntX4UXxaMFmF2BsL0vNodwOJBF+SM+1Rott4FzC+om53V5sR3gcWAJcbUD7gtmcI4AzDTi3Mf8GGGbA/74RwCLgXmBJ21Qss9hfAEOyTZydnNjFC94ImAKMteAYYCnAsptBhO2Aawkvxz4AtI6EOoELgeMJb568awCfEngxanMKsNBJIwKnAOcT9vb4AkgBZwv8krCJTRdAE4L/POAjs44o4Q2ZBea97wJEbKqAnwM/BKzRm3AJXdPX2wO/Np/TURQRB0YI3OU0cV68cWXsNiLUEs5pL+DDtlu4s3bSakx3Exbhg5KuM3N81fz3EOAs4GfAm8A5Zh3dO1dtbV57lvCG9vGET+r6OzDcvOYSNsexzO8shBucNNcnGlc+ByMbHqzTDZ72JMKx5vB2jE0I92shHY+/Cps8riPwhEY4XWDTTliqB0YDH5jPWY7wELCZkenH3T4fYG4Hyh9U5ZzuvpaCK8JOwB5mcfeb1zYHdgc+UZgmMN38fhzwE5RxCB3x0zYBIhY7AQcbYe1nCZuYje4SWDba6VgnzU2JRvyozRCB35rFfdEhPIGJZgMuBmYotEoI+P2Ai4BfO2nOk3AjxgEzgMkKOQnBuW8PG9x5fGiAugTFJpTDlcAEZyoXJk5EzWHeA3gOOE6Ev4SOWJfRSnig3mJFMT7HAmcA04CXYUXScldzcGYCx0ZsHjFAW9W0CoiwK/AHA8irDBjFbPoEAU/75ie1A2cby2SZuR0BnC5gO01cnpgYlioIbAwcCcwCviFhD5UXukekDOCfWxF2hW8Dl4lwuCp3i/CEee0A4HqUnyC8arCUNWtzgJ+qrrJ/QQegC4mJtPZi0qqMes8rFBONeMCcz69kDsC6v1ixcNw0jtEErfHGlRthNMmxQFHhFwI3AYe6aW6IN3bR0ovNYn8m8Fp2Ki+KcLgBzZPADkZ4Q411eFRhaifakHfT3G/M5NUC9wCvGxB5qhRzOfIjTmdB9hZuW3O4a+U6Wm/hqajNo8A2CLbThAccCnwO/IawqeT326bybu2JXRIhAdDWWR5umnuAE40165BRjVnTv8xn3QUc1HYLf+lJS3eSaRT4Xbyxi4Wd4zTxK/O46I36AGgFsp3mvsRJ86GE2jYlwm3AvOxUMJQnaQ7A74CjnCZeTExcpTllths2nhBhMbDbrKVMO/Dn4V4aLPUkuxXz6gmzHYDewU3T3Z36IAh4HHjPmLKrBY5w07wE/FPhXT8orU+bCBsa7Xw3yhyE+43WeshowhUxSIUmgQ2BX1sWVxlqcy1hVq8D0BsaepNe1C1NHm9E3TSzzCneSZVnRPgbcLIIo+NxXjBreEOVxawuC6cw61LYcV0sS9jMHKwwEyZsTHgz+X9VeUHCNR0VsZhG1w5DFlDnpBmGgggJA+YY5hb09KPB+CJjgJMVXpVQcx9n2fytB9OKoV/fBGardr4iZhIdRnM6Tf3rdCUbKTpp/mb8nc2BeWJRZ/59hyrPi3AdcK4IaWOZuuSNnDTDzD5WA98ze/nkmHNKnkYMONpN0/nReL7CYx1Oz3bASd1+9pfwLn8L4fP/bgC2NFz0QYErbIsha/rm5eHp3c+YwhkaGsCHjRYd04PAFwGXG0dnmuFbt9IVuNXm85aNbuzZVzJ/nzAbe4XhlFGztruAu0TYZm6616kPV6Fxp/U41RLOA/5CyPHuEkEFTgCSCk+r4AM3E15LOih7axczXw/cJDBThJmGTqSAW1RDLj52LDYw3lC4lzW0eDOAXWSlo9edD9oG1Fk/WHuFQeb0LzPas8ZtAgk5/8bAnSoUDK1U4ESnqUsGtwq4UmCmhHJ4gpBO3qfwWBnNqmLA4d3wOhEY3aGhHzDOSOdRAHwTbfg8m+ZKCTdmPaNtzzYcadrqvjkijAAmALXAhVYoiJjZjKNFuKs7T1R4WkK+eg5wWeDRYnX1aVsMJdjdaWJOYuIqWnYDc2DmGa3ttE5letTiIQO63cx6fz5SOY2eS1brJNSYBfPzEPCgwmyBdQ2/rhe4TMK5RI2mOUMiPNZJS7cDDxpnaFvzvl8ppDu0qCVsbrSzL3CtaXJTb9ZwvJvmjc7Oo9FuOeAzYDM7QrKTo9XdOnpmfT1dHqgG2rWMtgFtt65QgIH5/nrjfI40+1swVmkocCjCH1nZDtkHHjdBg+HAJGCawiWJxrIKmxzjg8zurj87YNIeb1y1Ed/SW8FNMxQYpcr7hrO0Ok3MF+F7xnPtdWSngghjgZ2Af3QywR7wjHGC9sk28UAXc9mI76a5E/i3Kk/XntTVdCp8KmFo6lQRnsymmZtsDE33wQeTIIySLAb+5TQRE2EbhfeLOdz605jn3Mp8ibClsULRXgA915z6FgX1A7y6E1FnKmCxN+HBnmU0kWU261/AngK7L7iah1eEm+D2eCNvOGmSAgkTiXlq4U28Vx/FNs6UEvaB6+gJ2Aa8aBza28xrK4m5T8Gy+bvx+L/tpHk0YcKJJsy5NdCmoVO+ENjFSVOTaAzB64S+0e7AXFUWllJJ6zQhImxkFNSbwIcIOxM6gC8ZOXZY/ZeBvQW+6zatALQHzIg38pTTRNTQr6MF7l92Ky8M+XFZhmJZT5jtAPSmbpoje4g4vATsD/xKhIfcNI8bT3M/4+H/cbXc2SJpIhFPacgbO9OGKgmpxNkSeul048JLjElapWw575GrtrnKUJEmC5rdNO8bDXks8F/GgrxvQlNNAu9Fa7jHTfMJYRuu8YRmLr8aoRXijV0r8gxfPAG4U2EynSr2BIYYi3XcsCE8ucoJmUt209FcTBgV+u2QGCcRNseZBFyvoTy10+dtYOjZMU4TsxOdwpzJSeCmucvw6GsEbnPTPGcAta+xBE0o1xkt+XuBK900D5jQ4lizN+chOPR8S8kG9nXTjDL/v41xhD3gfAVHQnm/BUzUzlfilKgI/03Y++ShHjh+0U1zFfAt4DdRixM6olgljKiZV/fGQrkOQI8xXmp3ynEMYcuA3cypPNX83gamoyvCLz1mHyV8kM8OwPmLwO3Md9+agrvpaB4GrhJhW8ookRw2CbJTmWVZnGk86huNJowZM3iVwiOJRgInzYeG355teFfOmNrXgUwPXvjqnNsO521X4NoObdfJA18CNAG/M2vqIo/tp4DbxHsI15vIyGGGCtQAfzcRpJUaMc2nElq2A0QYDnzZ7dAvctJcZOjZL01ITAzg7kFpVp+C2DxgYuJnmFxAYEB9u8IDyUZwevYlqkxuoGNv2oyl/W17ntnVVWxmwm6/92FRbWOXPfTdNA8ZB3h/emgD7PosjEeYAjSJ8FOnid8kJpZU0lsDXMKqj/f45P8A2lLp+Ayuer4AAAAASUVORK5CYII=" alt="Logo APOS" class="h-12 w-auto object-contain">
                 <div class="h-10 w-px bg-slate-200 mx-2 hidden md:block"></div>
                 <div>
-                    <h1 class="text-xl font-800 text-slate-800 tracking-tight leading-none">MONITOR DE DERIVACIONES</h1>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Gestión 2026 | APOS La Rioja</p>
-                    <p class="text-[9px] text-slate-400 font-semibold mt-1 tracking-wide">
-                        <span class="text-aposTeal font-bold">Análisis y Desarrollo:</span> Testa, F.
+                    <h1 class="text-xl font-800 text-slate-500 tracking-tight leading-none">MONITOR DE DERIVACIONES</h1>
+                    <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-1">Gestión 2026 | APOS La Rioja</p>
+                    <p class="text-[9px] text-slate-400 font-normal mt-1 tracking-wide">
+                        <span class="text-aposTeal font-medium">Análisis y Desarrollo:</span> Testa, F.
                         &nbsp;·&nbsp;
-                        <span class="text-aposTeal font-bold">Fuente de Datos:</span> Pelliza, M. · Pistek, G.
+                        <span class="text-aposTeal font-medium">Fuente de Datos:</span> Pelliza, M. · Pistek, G.
                     </p>
                 </div>
             </div>
@@ -259,7 +259,7 @@ body {
             <div class="flex flex-wrap items-center justify-center gap-2">
                 <button id="btn-mes-Total" onclick="setMes('Total')" class="tab-btn tab-btn-active">Total 2026</button>
                 <div class="h-6 w-px bg-slate-200 mx-1"></div>
-                <select id="select-mes" onchange="setMes(this.value)" class="bg-white border border-slate-200 rounded-md px-3 py-1.5 text-sm font-semibold text-slate-600 focus:outline-none focus:ring-2 focus:ring-aposTeal">
+                <select id="select-mes" onchange="setMes(this.value)" class="bg-white border border-slate-200 rounded-md px-3 py-1.5 text-sm font-normal text-slate-500 focus:outline-none focus:ring-2 focus:ring-aposTeal">
                     <option value="Total">Seleccionar Mes</option>
                     <option value="Enero">Enero</option>
                     <option value="Febrero">Febrero</option>
@@ -293,8 +293,8 @@ body {
                     <i class="fas fa-users text-xl"></i>
                 </div>
                 <div>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mb-1">Total de Afiliados</p>
-                    <p class="text-xl font-800 text-slate-700 leading-none">129.302</p>
+                    <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest leading-none mb-1">Total de Afiliados</p>
+                    <p class="text-xl font-800 text-slate-500 leading-none">129.302</p>
                 </div>
             </div>
         </div>
@@ -310,17 +310,17 @@ body {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Volumen Total -->
             <div id="kpi-total-card" class="card border-l-slate-400">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Volumen Total</p>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Volumen Total</p>
                 <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                    <h3 class="text-4xl font-extrabold text-slate-800" id="kpi-total">0</h3>
+                    <h3 class="text-4xl font-normal text-slate-500" id="kpi-total">0</h3>
                     <div id="kpi-total-pct-container" class="flex items-baseline gap-1 transition-opacity duration-300">
-                        <span class="text-lg font-bold text-slate-400" id="kpi-total-pct">(0%)</span>
+                        <span class="text-lg font-medium text-slate-400" id="kpi-total-pct">(0%)</span>
                     </div>
                 </div>
                 <div id="kpi-total-trend-row" class="mt-2" style="display:none;">
                     <span id="kpi-total-trend" class="kpi-trend kpi-trend-neutral"></span>
                 </div>
-                <div id="kpi-parcial-badge" style="display:none;" class="mb-3 flex items-center gap-2 bg-amber-50 border border-amber-300 text-amber-800 text-xs font-bold px-4 py-2 rounded-xl">
+                <div id="kpi-parcial-badge" style="display:none;" class="mb-3 flex items-center gap-2 bg-amber-50 border border-amber-300 text-amber-600 text-xs font-medium px-4 py-2 rounded-xl">
                 <i class="fas fa-triangle-exclamation"></i>
                 Datos parciales — 01 al 23 de julio de 2026. Los valores reflejan los primeros 23 días del mes.
             </div>
@@ -331,12 +331,12 @@ body {
             
             <!-- Ambulatorias -->
             <div class="card">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Ambulatorias</p>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Ambulatorias</p>
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl font-extrabold text-slate-800" id="kpi-amb">0</h3>
-                    <span class="text-lg font-bold text-slate-400" id="kpi-amb-pct">(0%)</span>
+                    <h3 class="text-4xl font-normal text-slate-500" id="kpi-amb">0</h3>
+                    <span class="text-lg font-medium text-slate-400" id="kpi-amb-pct">(0%)</span>
                 </div>
-                <div class="mt-1 text-[10px] font-bold text-slate-300 uppercase tracking-widest">Ref. esperada: 80%</div>
+                <div class="mt-1 text-[10px] font-medium text-slate-300 uppercase tracking-widest">Ref. esperada: 80%</div>
                 <div id="kpi-amb-trend-row" class="mt-2" style="display:none;">
                     <span id="kpi-amb-trend" class="kpi-trend kpi-trend-neutral"></span>
                 </div>
@@ -345,12 +345,12 @@ body {
 
             <!-- Internación -->
             <div id="kpi-int-card" class="card border-l-aposOrange">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Internación</p>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Internación</p>
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl font-extrabold text-slate-800" id="kpi-int">0</h3>
-                    <span class="text-lg font-bold text-slate-400" id="kpi-int-pct">(0%)</span>
+                    <h3 class="text-4xl font-normal text-slate-500" id="kpi-int">0</h3>
+                    <span class="text-lg font-medium text-slate-400" id="kpi-int-pct">(0%)</span>
                 </div>
-                <div class="mt-1 text-[10px] font-bold text-slate-300 uppercase tracking-widest">Ref. esperada: 20%</div>
+                <div class="mt-1 text-[10px] font-medium text-slate-300 uppercase tracking-widest">Ref. esperada: 20%</div>
                 <div id="kpi-int-trend-row" class="mt-2" style="display:none;">
                     <span id="kpi-int-trend" class="kpi-trend kpi-trend-neutral"></span>
                 </div>
@@ -359,10 +359,10 @@ body {
 
             <!-- Teleconsulta -->
             <div class="card border-l-slate-300">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Teleconsulta</p>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Teleconsulta</p>
                 <div class="flex items-baseline gap-2">
-                    <h3 class="text-4xl font-extrabold text-slate-800" id="kpi-tele">0</h3>
-                    <span class="text-lg font-bold text-slate-400" id="kpi-tele-pct">(0%)</span>
+                    <h3 class="text-4xl font-normal text-slate-500" id="kpi-tele">0</h3>
+                    <span class="text-lg font-medium text-slate-400" id="kpi-tele-pct">(0%)</span>
                 </div>
             </div>
         </div>
@@ -375,7 +375,7 @@ body {
 
         <!-- ── ACTIVIDAD DIARIA ──────────────────────────────────────────── -->
         <div id="actividad-diaria-section" class="mt-6 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm" style="display:none;">
-            <h3 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2">
+            <h3 class="text-sm font-medium text-slate-500 mb-3 flex items-center gap-2">
                 <i class="fas fa-calendar-days text-aposTeal"></i>
                 Actividad por Día
             </h3>
@@ -385,16 +385,16 @@ body {
                 <!-- TARJETAS MENSUALES - Solo visible en Total 2026 -->
         <div id="monthly-cards-section" class="mb-8" style="display:none;">
             <div class="flex items-center gap-3 mb-4">
-                <h3 class="font-bold text-slate-700 uppercase text-sm tracking-widest">Resumen por Mes</h3>
+                <h3 class="font-medium text-slate-500 uppercase text-sm tracking-widest">Resumen por Mes</h3>
                 <div class="flex items-center gap-2 ml-auto">
-                    <span class="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-400"></span> ≥ 450 derivaciones
+                    <span class="flex items-center gap-1 text-[10px] font-medium text-slate-400">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-red-300"></span> ≥ 450 derivaciones
                     </span>
-                    <span class="flex items-center gap-1 text-[10px] font-bold text-slate-400 ml-3">
-                        <span class="text-red-400">▲</span> Sube vs mes ant.
+                    <span class="flex items-center gap-1 text-[10px] font-medium text-slate-400 ml-3">
+                        <span class="text-red-300">▲</span> Sube vs mes ant.
                     </span>
-                    <span class="flex items-center gap-1 text-[10px] font-bold text-slate-400">
-                        <span class="text-green-500">▼</span> Baja vs mes ant.
+                    <span class="flex items-center gap-1 text-[10px] font-medium text-slate-400">
+                        <span class="text-green-400">▼</span> Baja vs mes ant.
                     </span>
                 </div>
             </div>
@@ -406,12 +406,12 @@ body {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="bg-aposTeal rounded-2xl p-6 text-white shadow-lg flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-bold uppercase tracking-wider opacity-80">Consultas Autorizadas</p>
-                    <h4 class="text-3xl font-extrabold" id="kpi-ordenes-total">0</h4>
+                    <p class="text-xs font-medium uppercase tracking-wider opacity-80">Consultas Autorizadas</p>
+                    <h4 class="text-3xl font-normal" id="kpi-ordenes-total">0</h4>
                 </div>
                 <div class="text-right">
-                    <p class="text-xs font-bold uppercase tracking-wider opacity-80">Promedio Consultas / Derivación</p>
-                    <h4 class="text-3xl font-extrabold" id="kpi-ordenes-prom">0</h4>
+                    <p class="text-xs font-medium uppercase tracking-wider opacity-80">Promedio Consultas / Derivación</p>
+                    <h4 class="text-3xl font-normal" id="kpi-ordenes-prom">0</h4>
                 </div>
             </div>
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
@@ -419,7 +419,7 @@ body {
                     <i class="fas fa-info-circle text-xl"></i>
                 </div>
                 <p class="text-sm text-slate-500 leading-tight">
-                    El <span class="font-bold text-slate-700">Promedio Consultas / Derivación</span> indica cuántas órdenes de práctica se emiten por cada paciente ambulatorio derivado.
+                    El <span class="font-medium text-slate-500">Promedio Consultas / Derivación</span> indica cuántas órdenes de práctica se emiten por cada paciente ambulatorio derivado.
                 </p>
             </div>
         </div>
@@ -427,18 +427,20 @@ body {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-800 text-slate-800 uppercase text-sm tracking-wider">Top Instituciones por Volumen</h3>
-                    <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded font-bold uppercase">Ambulatorio vs Internación</span>
+                    <h3 class="font-800 text-slate-500 uppercase text-sm tracking-wider">Top Instituciones por Volumen</h3>
+                    <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded font-medium uppercase">Ambulatorio vs Internación</span>
                 </div>
-                <div class="h-[400px]">
-                    <canvas id="chartInstituciones"></canvas>
+                <div class="overflow-x-auto">
+                    <div id="inst-chart-wrap" class="h-[400px]" style="min-width:100%;">
+                        <canvas id="chartInstituciones"></canvas>
+                    </div>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-800 text-slate-800 uppercase text-sm tracking-wider">Perfil Diagnóstico</h3>
-                    <span id="tag-total-dx" class="text-[10px] bg-aposTeal/10 text-aposTeal px-2 py-1 rounded font-bold uppercase"></span>
+                    <h3 class="font-800 text-slate-500 uppercase text-sm tracking-wider">Perfil Diagnóstico</h3>
+                    <span id="tag-total-dx" class="text-[10px] bg-aposTeal/10 text-aposTeal px-2 py-1 rounded font-medium uppercase"></span>
                 </div>
                 <div class="h-[300px]">
                     <canvas id="chartDiagnosticos"></canvas>
@@ -449,8 +451,8 @@ body {
 
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="font-800 text-slate-800 uppercase text-sm tracking-wider">Intensidad de Consultas por Derivación</h3>
-                <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded font-bold uppercase">Consultas por Derivación Amb.</span>
+                <h3 class="font-800 text-slate-500 uppercase text-sm tracking-wider">Intensidad de Consultas por Derivación</h3>
+                <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-1 rounded font-medium uppercase">Consultas por Derivación Amb.</span>
             </div>
             <div class="h-[300px]">
                 <canvas id="chartOrdenes"></canvas>
@@ -458,54 +460,54 @@ body {
         </div>
 
         <div class="mt-6 bg-white rounded-2xl border border-slate-200 p-6">
-            <h3 class="font-800 text-slate-800 uppercase text-sm tracking-widest mb-4 flex items-center gap-2">
+            <h3 class="font-800 text-slate-500 uppercase text-sm tracking-widest mb-4 flex items-center gap-2">
                 <i class="fas fa-book-medical text-aposTeal"></i> Detalle de Patologías Complejas
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
                         <span class="w-3 h-3 rounded-full bg-aposTeal"></span> Oncología
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Adenocarcinomas, Cáncer de Pulmón, Linfomas, Tumores del SNC, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
                         <span class="w-3 h-3 rounded-full bg-aposOrange"></span> Traumatología Compleja
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Artroplastia de cadera, Escoliosis, Fracturas expuestas de pelvis, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
-                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span> Neurología y Neurocirugía
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
+                        <span class="w-3 h-3 rounded-full bg-yellow-300"></span> Neurología y Neurocirugía
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Esclerosis Múltiple, Cirugía de base de cráneo, Parkinson, ACV, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
                         <span class="w-3 h-3 rounded-full bg-[#94a3b8]"></span> Oftalmología
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Desprendimiento de retina, Queratocono, Cirugía de glaucoma, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
-                        <span class="w-3 h-3 rounded-full bg-pink-400"></span> Patologías Raras
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
+                        <span class="w-3 h-3 rounded-full bg-pink-300"></span> Patologías Raras
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Fibrosis Quística, Mucopolisacaridosis, Miastenia Gravis, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
-                        <span class="w-3 h-3 rounded-full bg-indigo-400"></span> Trasplantes
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
+                        <span class="w-3 h-3 rounded-full bg-indigo-300"></span> Trasplantes
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Trasplante Renal, Córnea, Hepático, Médula Ósea, etc.</p>
                 </div>
 
                 <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 md:col-span-2">
-                    <h4 class="font-bold text-slate-700 text-sm flex items-center gap-2 mb-1">
+                    <h4 class="font-medium text-slate-500 text-sm flex items-center gap-2 mb-1">
                         <span class="w-3 h-3 rounded-full bg-[#cbd5e1]"></span> Otras Patologías
                     </h4>
                     <p class="text-xs text-slate-500 leading-relaxed">Renales, Autoinmunes, Gastroenterológicas (Enfermedad de Crohn), Ginecológicas (Endometriosis, Fertilidad), etc.</p>
@@ -517,7 +519,7 @@ body {
                     FUENTE DE DATOS: Pelliza, M.; Pistek, G. (Dirección de Sistemas) | ANÁLISIS Y DESARROLLO: Testa, F.
                 </div>
                 <div class="text-[10px] text-slate-400 font-medium">
-                    POBLACIÓN DE REFERENCIA: <span class="font-bold">129.302 AFILIADOS</span>
+                    POBLACIÓN DE REFERENCIA: <span class="font-medium">129.302 AFILIADOS</span>
                 </div>
             </div>
         </div>
@@ -986,12 +988,12 @@ function procesarDatos() {
     // ── SEMÁFOROS ─────────────────────────────────────────────────────────────
     const ktEl=document.getElementById('kpi-total'); const ktCard=document.getElementById('kpi-total-card');
     let tc='';
-    if (currentMes==='Total'&&currentDestino==='General') { const p=total/5400*100; tc=p>95?'#ef4444':p>=81?'#f59e0b':'#22c55e'; }
-    else { tc=total>450?'#ef4444':total>=401?'#f59e0b':total>=1?'#22c55e':''; }
+    if (currentMes==='Total'&&currentDestino==='General') { const p=total/5400*100; tc=p>95?'#f08a8a':p>=81?'#f2bf78':'#7dd1a0'; }
+    else { tc=total>450?'#f08a8a':total>=401?'#f2bf78':total>=1?'#7dd1a0':''; }
     ktEl.style.color=tc; ktCard.style.borderLeftColor=tc||'';
     const kiEl=document.getElementById('kpi-int'); const kiCard=document.getElementById('kpi-int-card');
     if (total>0) {
-        const intColor = intPct>=20 ? '#ef4444' : intPct>=18 ? '#f59e0b' : '#22c55e';
+        const intColor = intPct>=20 ? '#f08a8a' : intPct>=18 ? '#f2bf78' : '#7dd1a0';
         kiEl.style.color=intColor; kiCard.style.borderLeftColor=intColor;
     }
 
@@ -1036,23 +1038,23 @@ function renderOrigen(totalGlobal) {
     el.innerHTML = `
         <div class="flex items-center gap-2 mb-2">
             <i class="fas fa-map-marker-alt text-aposTeal text-sm"></i>
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Origen de Derivaciones</span>
+            <span class="text-xs font-medium uppercase tracking-wider text-slate-500">Origen de Derivaciones</span>
         </div>
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-aposTeal/5 border border-aposTeal/20 rounded-xl p-3 text-center">
-                <div class="text-[10px] font-bold uppercase text-slate-400 mb-1"><i class="fas fa-hospital-alt mr-1"></i>Casa Central — La Rioja</div>
-                <div class="text-2xl font-extrabold text-aposTeal">${lrTotal.toLocaleString()}</div>
-                <div class="text-sm font-bold text-slate-500">${lrPct}%</div>
+                <div class="text-[10px] font-medium uppercase text-slate-400 mb-1"><i class="fas fa-hospital-alt mr-1"></i>Casa Central — La Rioja</div>
+                <div class="text-2xl font-normal text-aposTeal">${lrTotal.toLocaleString()}</div>
+                <div class="text-sm font-medium text-slate-500">${lrPct}%</div>
             </div>
             <div class="bg-aposOrange/5 border border-aposOrange/20 rounded-xl p-3 text-center">
-                <div class="text-[10px] font-bold uppercase text-slate-400 mb-1"><i class="fas fa-building mr-1"></i>Delegación — Córdoba</div>
-                <div class="text-2xl font-extrabold text-aposOrange">${cbaTotal.toLocaleString()}</div>
-                <div class="text-sm font-bold text-slate-500">${cbaPct}%</div>
+                <div class="text-[10px] font-medium uppercase text-slate-400 mb-1"><i class="fas fa-building mr-1"></i>Delegación — Córdoba</div>
+                <div class="text-2xl font-normal text-aposOrange">${cbaTotal.toLocaleString()}</div>
+                <div class="text-sm font-medium text-slate-500">${cbaPct}%</div>
             </div>
         </div>
         <div class="mt-2 h-2 rounded-full overflow-hidden bg-slate-100 flex">
-            <div style="width:${lrPct}%;background:#00a896;" class="transition-all duration-500"></div>
-            <div style="width:${cbaPct}%;background:#f59e0b;" class="transition-all duration-500"></div>
+            <div style="width:${lrPct}%;background:#45b5a9;" class="transition-all duration-500"></div>
+            <div style="width:${cbaPct}%;background:#f2bf78;" class="transition-all duration-500"></div>
         </div>
         <div class="flex justify-between text-[10px] text-slate-400 mt-1">
             <span>La Rioja ${lrPct}%</span><span>Córdoba ${cbaPct}%</span>
@@ -1086,8 +1088,8 @@ function renderActividadDiaria() {
                 labels: dias.map(d => d.d),
                 datasets: [{ label: 'Derivaciones', data: dias.map(d => d.v),
                     backgroundColor: dias.map(d =>
-                        d.v === maxVal ? '#f59e0b' :
-                        (d.d.includes('Sáb') || d.d.includes('Dom')) ? '#e2e8f0' : '#00a896'),
+                        d.v === maxVal ? '#f2bf78' :
+                        (d.d.includes('Sáb') || d.d.includes('Dom')) ? '#e2e8f0' : '#45b5a9'),
                     borderRadius: 4 }]
             },
             options: {
@@ -1095,8 +1097,8 @@ function renderActividadDiaria() {
                 layout: { padding: { top: 22 } },
                 plugins: {
                     legend: { display: false },
-                    datalabels: { anchor:'end', align:'top', offset:1, color:'#334155',
-                        font:{ weight:'700', size:9 }, formatter: v => v > 0 ? v : '', clip: false }
+                    datalabels: { anchor:'end', align:'top', offset:1, color:'#6b7280',
+                        font:{ weight:'500', size:9 }, formatter: v => v > 0 ? v : '', clip: false }
                 },
                 scales: {
                     x: { ticks: { maxRotation:60, minRotation:60, font:{ size:8 } }, grid:{ display:false } },
@@ -1110,17 +1112,20 @@ function renderActividadDiaria() {
 // ─── CHART INSTITUCIONES ──────────────────────────────────────────────────────
 function renderChartInst(labels,amb,int) {
     const ctx=document.getElementById('chartInstituciones').getContext('2d');
+    // Ancho mínimo por institución para que las etiquetas no se superpongan (si no entra, se desplaza horizontalmente)
+    const wrap=document.getElementById('inst-chart-wrap');
+    if (wrap) wrap.style.minWidth = Math.max(labels.length*58, 0) + 'px';
     if (chartInstObj) chartInstObj.destroy();
     chartInstObj=new Chart(ctx,{
         type:'bar',
         data:{ labels, datasets:[
-            { label:'Ambulatorias', data:amb, backgroundColor:'#00a896', borderRadius:4 },
-            { label:'Internación',  data:int, backgroundColor:'#f59e0b', borderRadius:4 }
+            { label:'Ambulatorias', data:amb, backgroundColor:'#45b5a9', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 },
+            { label:'Internación',  data:int, backgroundColor:'#f2bf78', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 }
         ]},
         options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:25}},
             scales:{ x:{ticks:{maxRotation:45,minRotation:45,font:{size:10}},grid:{display:false}}, y:{beginAtZero:true} },
             plugins:{ legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,padding:20}},
-                datalabels:{anchor:'end',align:'top',offset:2,color:'#334155',font:{weight:'700',size:10},display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,formatter:Math.round,clip:false} } }
+                datalabels:{anchor:'end',align:'top',offset:1,color:'#6b7280',font:{weight:'400',size:9},display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,formatter:Math.round,clip:false} } }
     });
 }
 
@@ -1137,10 +1142,10 @@ function renderChartOrdenes(labels,data,hasData) {
     const fl=labels.filter((_,i)=>parseFloat(data[i])>0);
     const fd=data.filter(v=>parseFloat(v)>0);
     chartOrdenesObj=new Chart(ctx,{ type:'bar',
-        data:{ labels:fl, datasets:[{ label:'Consultas/derivación', data:fd, backgroundColor:'#00a896', borderRadius:5 }] },
+        data:{ labels:fl, datasets:[{ label:'Consultas/derivación', data:fd, backgroundColor:'#45b5a9', borderRadius:5 }] },
         options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:30}},
             scales:{ x:{ticks:{maxRotation:45,minRotation:45,font:{size:10}}} },
-            plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'top',offset:2,color:'#334155',font:{weight:'700',size:10},formatter:v=>v>0?v:'',clip:false} } }
+            plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'top',offset:2,color:'#6b7280',font:{weight:'500',size:10},formatter:v=>v>0?v:'',clip:false} } }
     });
 }
 
@@ -1208,13 +1213,13 @@ function renderChartDx() {
             dxTableEl.innerHTML = rows.map(r => `
                 <div class="flex items-center justify-between text-xs py-0.5 border-b border-slate-50">
                     <span class="text-slate-500">${r.l}</span>
-                    <span class="font-bold text-slate-700">${r.v.toLocaleString()}
+                    <span class="font-medium text-slate-500">${r.v.toLocaleString()}
                         <span class="text-slate-400 font-normal">(${dd.total > 0 ? (r.v / dd.total * 100).toFixed(1) : '0.0'}%)</span>
                     </span>
                 </div>`).join('') +
-                `<div class="flex items-center justify-between text-xs pt-1 mt-1 border-t-2 border-slate-200 font-bold">
-                    <span class="text-slate-700">Total analizado</span>
-                    <span class="text-slate-900">${dd.total.toLocaleString()} <span class="text-slate-400 font-normal">(100%)</span></span>
+                `<div class="flex items-center justify-between text-xs pt-1 mt-1 border-t-2 border-slate-200 font-medium">
+                    <span class="text-slate-500">Total analizado</span>
+                    <span class="text-slate-500">${dd.total.toLocaleString()} <span class="text-slate-400 font-normal">(100%)</span></span>
                 </div>` +
                 (mesesSinDx.length ? `
                 <div class="mt-2 text-[10px] text-slate-400 bg-slate-50 rounded p-1.5 leading-tight">
@@ -1243,8 +1248,8 @@ function renderChartDx() {
             datasets: [{
                 data: [dd.onco, dd.trauma, dd.oftalmo, dd.gineco,
                        dd.gastro, dd.nefro, dd.neuro, dd.cardio, otros],
-                backgroundColor: ['#00a896','#f59e0b','#94a3b8','#e07bb5',
-                                  '#7c6d8e','#5b9bd5','#007A72','#d95f5f','#cbd5e1'],
+                backgroundColor: ['#45b5a9','#f2bf78','#94a3b8','#e8a9cb',
+                                  '#ab9fbb','#92bde4','#6fb3ab','#e8a0a0','#cbd5e1'],
                 borderWidth: 0
             }]
         },
@@ -1254,7 +1259,7 @@ function renderChartDx() {
                 legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } },
                 datalabels: {
                     color: '#fff',
-                    font: { weight: '800', size: 10 },
+                    font: { weight:'500', size: 10 },
                     formatter: v => v > 0 ? v.toLocaleString() : ''
                 }
             }
@@ -1279,7 +1284,7 @@ function renderMonthlyCards() {
         return { mes,total,amb,int,tele,intPct,ambPct,o };
     });
 
-    function ic(p) { return p>=20?'#ef4444':p>=18?'#f59e0b':'#22c55e'; }
+    function ic(p) { return p>=20?'#f08a8a':p>=18?'#f2bf78':'#7dd1a0'; }
     function badge(d,p) {
         if (d>0) return `<span class="mc-trend mc-trend-up"><i class="fas fa-arrow-trend-up"></i> +${d} (${p}%)</span>`;
         if (d<0) return `<span class="mc-trend mc-trend-down"><i class="fas fa-arrow-trend-down"></i> ${d} (${p}%)</span>`;
@@ -1299,26 +1304,26 @@ function renderMonthlyCards() {
         }
         const origenHTML=item.o?`
             <div class="mc-divider"></div>
-            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#00a896;min-width:3.5rem;font-size:0.6rem;">LR</span>
+            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#45b5a9;min-width:3.5rem;font-size:0.6rem;">LR</span>
                 <span class="mc-sub-val" style="font-size:0.75rem;">${item.o.lr} <span style="font-size:0.55rem;color:#94a3b8;">(${(item.o.lr/item.o.total*100).toFixed(1)}%)</span></span></div>
-            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#f59e0b;min-width:3.5rem;font-size:0.6rem;">CBA</span>
+            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#f2bf78;min-width:3.5rem;font-size:0.6rem;">CBA</span>
                 <span class="mc-sub-val" style="font-size:0.75rem;">${item.o.cba} <span style="font-size:0.55rem;color:#94a3b8;">(${(item.o.cba/item.o.total*100).toFixed(1)}%)</span></span></div>`:''
         ;
         return `
-        <div class="monthly-card ${isAlert?'alert':''}" style="border-top-color:${isAlert?'#ef4444':'#00a896'};">
+        <div class="monthly-card ${isAlert?'alert':''}" style="border-top-color:${isAlert?'#f08a8a':'#45b5a9'};">
             <div class="month-label">${item.mes}</div>
-            <div class="month-total" style="color:${isAlert?'#ef4444':'#1e293b'};">${item.total}</div>
+            <div class="month-total" style="color:${isAlert?'#f08a8a':'#6b7280'};">${item.total}</div>
             <div class="month-indicator">${tTrend}</div>
             ${isAlert?`<div class="alert-badge"><i class="fas fa-circle-exclamation"></i> Alto volumen</div>`:''}
             <div class="mc-divider"></div>
             <div class="mc-sub-row">
-                <span class="mc-sub-label"><i class="fas fa-walking" style="color:#00a896"></i> Amb.</span>
+                <span class="mc-sub-label"><i class="fas fa-walking" style="color:#45b5a9"></i> Amb.</span>
                 <span class="mc-sub-val">${item.amb} <span style="font-size:0.6rem;color:#94a3b8;">(${item.ambPct.toFixed(1)}%)</span></span>
                 ${aTrend?`<span class="mc-sub-trend">${aTrend}</span>`:''}
             </div>
             <div class="mc-sub-row">
                 <span class="mc-sub-label"><i class="fas fa-bed" style="color:${color}"></i> Int.</span>
-                <span class="mc-sub-val" style="color:${color};font-weight:800;">${item.int} <span style="font-size:0.6rem;font-weight:600;">(${item.intPct.toFixed(1)}%)</span></span>
+                <span class="mc-sub-val" style="color:${color};font-weight: 400;">${item.int} <span style="font-size:0.6rem;font-weight: 400;">(${item.intPct.toFixed(1)}%)</span></span>
                 ${iTrend?`<span class="mc-sub-trend">${iTrend}</span>`:''}
             </div>
             ${origenHTML}
