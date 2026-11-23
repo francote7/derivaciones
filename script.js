@@ -460,12 +460,12 @@ function procesarDatos() {
     // ── SEMÁFOROS ─────────────────────────────────────────────────────────────
     const ktEl=document.getElementById('kpi-total'); const ktCard=document.getElementById('kpi-total-card');
     let tc='';
-    if (currentMes==='Total'&&currentDestino==='General') { const p=total/5400*100; tc=p>95?'#ef4444':p>=81?'#f59e0b':'#22c55e'; }
-    else { tc=total>450?'#ef4444':total>=401?'#f59e0b':total>=1?'#22c55e':''; }
+    if (currentMes==='Total'&&currentDestino==='General') { const p=total/5400*100; tc=p>95?'#f08a8a':p>=81?'#f2bf78':'#7dd1a0'; }
+    else { tc=total>450?'#f08a8a':total>=401?'#f2bf78':total>=1?'#7dd1a0':''; }
     ktEl.style.color=tc; ktCard.style.borderLeftColor=tc||'';
     const kiEl=document.getElementById('kpi-int'); const kiCard=document.getElementById('kpi-int-card');
     if (total>0) {
-        const intColor = intPct>=20 ? '#ef4444' : intPct>=18 ? '#f59e0b' : '#22c55e';
+        const intColor = intPct>=20 ? '#f08a8a' : intPct>=18 ? '#f2bf78' : '#7dd1a0';
         kiEl.style.color=intColor; kiCard.style.borderLeftColor=intColor;
     }
 
@@ -510,23 +510,23 @@ function renderOrigen(totalGlobal) {
     el.innerHTML = `
         <div class="flex items-center gap-2 mb-2">
             <i class="fas fa-map-marker-alt text-aposTeal text-sm"></i>
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Origen de Derivaciones</span>
+            <span class="text-xs font-medium uppercase tracking-wider text-slate-500">Origen de Derivaciones</span>
         </div>
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-aposTeal/5 border border-aposTeal/20 rounded-xl p-3 text-center">
-                <div class="text-[10px] font-bold uppercase text-slate-400 mb-1"><i class="fas fa-hospital-alt mr-1"></i>Casa Central — La Rioja</div>
-                <div class="text-2xl font-extrabold text-aposTeal">${lrTotal.toLocaleString()}</div>
-                <div class="text-sm font-bold text-slate-500">${lrPct}%</div>
+                <div class="text-[10px] font-medium uppercase text-slate-400 mb-1"><i class="fas fa-hospital-alt mr-1"></i>Casa Central — La Rioja</div>
+                <div class="text-2xl font-normal text-aposTeal">${lrTotal.toLocaleString()}</div>
+                <div class="text-sm font-medium text-slate-500">${lrPct}%</div>
             </div>
             <div class="bg-aposOrange/5 border border-aposOrange/20 rounded-xl p-3 text-center">
-                <div class="text-[10px] font-bold uppercase text-slate-400 mb-1"><i class="fas fa-building mr-1"></i>Delegación — Córdoba</div>
-                <div class="text-2xl font-extrabold text-aposOrange">${cbaTotal.toLocaleString()}</div>
-                <div class="text-sm font-bold text-slate-500">${cbaPct}%</div>
+                <div class="text-[10px] font-medium uppercase text-slate-400 mb-1"><i class="fas fa-building mr-1"></i>Delegación — Córdoba</div>
+                <div class="text-2xl font-normal text-aposOrange">${cbaTotal.toLocaleString()}</div>
+                <div class="text-sm font-medium text-slate-500">${cbaPct}%</div>
             </div>
         </div>
         <div class="mt-2 h-2 rounded-full overflow-hidden bg-slate-100 flex">
-            <div style="width:${lrPct}%;background:#00a896;" class="transition-all duration-500"></div>
-            <div style="width:${cbaPct}%;background:#f59e0b;" class="transition-all duration-500"></div>
+            <div style="width:${lrPct}%;background:#45b5a9;" class="transition-all duration-500"></div>
+            <div style="width:${cbaPct}%;background:#f2bf78;" class="transition-all duration-500"></div>
         </div>
         <div class="flex justify-between text-[10px] text-slate-400 mt-1">
             <span>La Rioja ${lrPct}%</span><span>Córdoba ${cbaPct}%</span>
@@ -560,8 +560,8 @@ function renderActividadDiaria() {
                 labels: dias.map(d => d.d),
                 datasets: [{ label: 'Derivaciones', data: dias.map(d => d.v),
                     backgroundColor: dias.map(d =>
-                        d.v === maxVal ? '#f59e0b' :
-                        (d.d.includes('Sáb') || d.d.includes('Dom')) ? '#e2e8f0' : '#00a896'),
+                        d.v === maxVal ? '#f2bf78' :
+                        (d.d.includes('Sáb') || d.d.includes('Dom')) ? '#e2e8f0' : '#45b5a9'),
                     borderRadius: 4 }]
             },
             options: {
@@ -569,8 +569,8 @@ function renderActividadDiaria() {
                 layout: { padding: { top: 22 } },
                 plugins: {
                     legend: { display: false },
-                    datalabels: { anchor:'end', align:'top', offset:1, color:'#334155',
-                        font:{ weight:'700', size:9 }, formatter: v => v > 0 ? v : '', clip: false }
+                    datalabels: { anchor:'end', align:'top', offset:1, color:'#6b7280',
+                        font:{ weight:'500', size:9 }, formatter: v => v > 0 ? v : '', clip: false }
                 },
                 scales: {
                     x: { ticks: { maxRotation:60, minRotation:60, font:{ size:8 } }, grid:{ display:false } },
@@ -584,17 +584,20 @@ function renderActividadDiaria() {
 // ─── CHART INSTITUCIONES ──────────────────────────────────────────────────────
 function renderChartInst(labels,amb,int) {
     const ctx=document.getElementById('chartInstituciones').getContext('2d');
+    // Ancho mínimo por institución para que las etiquetas no se superpongan (si no entra, se desplaza horizontalmente)
+    const wrap=document.getElementById('inst-chart-wrap');
+    if (wrap) wrap.style.minWidth = Math.max(labels.length*58, 0) + 'px';
     if (chartInstObj) chartInstObj.destroy();
     chartInstObj=new Chart(ctx,{
         type:'bar',
         data:{ labels, datasets:[
-            { label:'Ambulatorias', data:amb, backgroundColor:'#00a896', borderRadius:4 },
-            { label:'Internación',  data:int, backgroundColor:'#f59e0b', borderRadius:4 }
+            { label:'Ambulatorias', data:amb, backgroundColor:'#45b5a9', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 },
+            { label:'Internación',  data:int, backgroundColor:'#f2bf78', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 }
         ]},
         options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:25}},
             scales:{ x:{ticks:{maxRotation:45,minRotation:45,font:{size:10}},grid:{display:false}}, y:{beginAtZero:true} },
             plugins:{ legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,padding:20}},
-                datalabels:{anchor:'end',align:'top',offset:2,color:'#334155',font:{weight:'700',size:10},display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,formatter:Math.round,clip:false} } }
+                datalabels:{anchor:'end',align:'top',offset:1,color:'#6b7280',font:{weight:'400',size:9},display:ctx=>ctx.dataset.data[ctx.dataIndex]>0,formatter:Math.round,clip:false} } }
     });
 }
 
@@ -611,10 +614,10 @@ function renderChartOrdenes(labels,data,hasData) {
     const fl=labels.filter((_,i)=>parseFloat(data[i])>0);
     const fd=data.filter(v=>parseFloat(v)>0);
     chartOrdenesObj=new Chart(ctx,{ type:'bar',
-        data:{ labels:fl, datasets:[{ label:'Consultas/derivación', data:fd, backgroundColor:'#00a896', borderRadius:5 }] },
+        data:{ labels:fl, datasets:[{ label:'Consultas/derivación', data:fd, backgroundColor:'#45b5a9', borderRadius:5 }] },
         options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:30}},
             scales:{ x:{ticks:{maxRotation:45,minRotation:45,font:{size:10}}} },
-            plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'top',offset:2,color:'#334155',font:{weight:'700',size:10},formatter:v=>v>0?v:'',clip:false} } }
+            plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'top',offset:2,color:'#6b7280',font:{weight:'500',size:10},formatter:v=>v>0?v:'',clip:false} } }
     });
 }
 
@@ -682,13 +685,13 @@ function renderChartDx() {
             dxTableEl.innerHTML = rows.map(r => `
                 <div class="flex items-center justify-between text-xs py-0.5 border-b border-slate-50">
                     <span class="text-slate-500">${r.l}</span>
-                    <span class="font-bold text-slate-700">${r.v.toLocaleString()}
+                    <span class="font-medium text-slate-500">${r.v.toLocaleString()}
                         <span class="text-slate-400 font-normal">(${dd.total > 0 ? (r.v / dd.total * 100).toFixed(1) : '0.0'}%)</span>
                     </span>
                 </div>`).join('') +
-                `<div class="flex items-center justify-between text-xs pt-1 mt-1 border-t-2 border-slate-200 font-bold">
-                    <span class="text-slate-700">Total analizado</span>
-                    <span class="text-slate-900">${dd.total.toLocaleString()} <span class="text-slate-400 font-normal">(100%)</span></span>
+                `<div class="flex items-center justify-between text-xs pt-1 mt-1 border-t-2 border-slate-200 font-medium">
+                    <span class="text-slate-500">Total analizado</span>
+                    <span class="text-slate-500">${dd.total.toLocaleString()} <span class="text-slate-400 font-normal">(100%)</span></span>
                 </div>` +
                 (mesesSinDx.length ? `
                 <div class="mt-2 text-[10px] text-slate-400 bg-slate-50 rounded p-1.5 leading-tight">
@@ -717,8 +720,8 @@ function renderChartDx() {
             datasets: [{
                 data: [dd.onco, dd.trauma, dd.oftalmo, dd.gineco,
                        dd.gastro, dd.nefro, dd.neuro, dd.cardio, otros],
-                backgroundColor: ['#00a896','#f59e0b','#94a3b8','#e07bb5',
-                                  '#7c6d8e','#5b9bd5','#007A72','#d95f5f','#cbd5e1'],
+                backgroundColor: ['#45b5a9','#f2bf78','#94a3b8','#e8a9cb',
+                                  '#ab9fbb','#92bde4','#6fb3ab','#e8a0a0','#cbd5e1'],
                 borderWidth: 0
             }]
         },
@@ -728,7 +731,7 @@ function renderChartDx() {
                 legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } },
                 datalabels: {
                     color: '#fff',
-                    font: { weight: '800', size: 10 },
+                    font: { weight:'500', size: 10 },
                     formatter: v => v > 0 ? v.toLocaleString() : ''
                 }
             }
@@ -753,7 +756,7 @@ function renderMonthlyCards() {
         return { mes,total,amb,int,tele,intPct,ambPct,o };
     });
 
-    function ic(p) { return p>=20?'#ef4444':p>=18?'#f59e0b':'#22c55e'; }
+    function ic(p) { return p>=20?'#f08a8a':p>=18?'#f2bf78':'#7dd1a0'; }
     function badge(d,p) {
         if (d>0) return `<span class="mc-trend mc-trend-up"><i class="fas fa-arrow-trend-up"></i> +${d} (${p}%)</span>`;
         if (d<0) return `<span class="mc-trend mc-trend-down"><i class="fas fa-arrow-trend-down"></i> ${d} (${p}%)</span>`;
@@ -773,26 +776,26 @@ function renderMonthlyCards() {
         }
         const origenHTML=item.o?`
             <div class="mc-divider"></div>
-            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#00a896;min-width:3.5rem;font-size:0.6rem;">LR</span>
+            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#45b5a9;min-width:3.5rem;font-size:0.6rem;">LR</span>
                 <span class="mc-sub-val" style="font-size:0.75rem;">${item.o.lr} <span style="font-size:0.55rem;color:#94a3b8;">(${(item.o.lr/item.o.total*100).toFixed(1)}%)</span></span></div>
-            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#f59e0b;min-width:3.5rem;font-size:0.6rem;">CBA</span>
+            <div class="mc-sub-row"><span class="mc-sub-label" style="color:#f2bf78;min-width:3.5rem;font-size:0.6rem;">CBA</span>
                 <span class="mc-sub-val" style="font-size:0.75rem;">${item.o.cba} <span style="font-size:0.55rem;color:#94a3b8;">(${(item.o.cba/item.o.total*100).toFixed(1)}%)</span></span></div>`:''
         ;
         return `
-        <div class="monthly-card ${isAlert?'alert':''}" style="border-top-color:${isAlert?'#ef4444':'#00a896'};">
+        <div class="monthly-card ${isAlert?'alert':''}" style="border-top-color:${isAlert?'#f08a8a':'#45b5a9'};">
             <div class="month-label">${item.mes}</div>
-            <div class="month-total" style="color:${isAlert?'#ef4444':'#1e293b'};">${item.total}</div>
+            <div class="month-total" style="color:${isAlert?'#f08a8a':'#6b7280'};">${item.total}</div>
             <div class="month-indicator">${tTrend}</div>
             ${isAlert?`<div class="alert-badge"><i class="fas fa-circle-exclamation"></i> Alto volumen</div>`:''}
             <div class="mc-divider"></div>
             <div class="mc-sub-row">
-                <span class="mc-sub-label"><i class="fas fa-walking" style="color:#00a896"></i> Amb.</span>
+                <span class="mc-sub-label"><i class="fas fa-walking" style="color:#45b5a9"></i> Amb.</span>
                 <span class="mc-sub-val">${item.amb} <span style="font-size:0.6rem;color:#94a3b8;">(${item.ambPct.toFixed(1)}%)</span></span>
                 ${aTrend?`<span class="mc-sub-trend">${aTrend}</span>`:''}
             </div>
             <div class="mc-sub-row">
                 <span class="mc-sub-label"><i class="fas fa-bed" style="color:${color}"></i> Int.</span>
-                <span class="mc-sub-val" style="color:${color};font-weight:800;">${item.int} <span style="font-size:0.6rem;font-weight:600;">(${item.intPct.toFixed(1)}%)</span></span>
+                <span class="mc-sub-val" style="color:${color};font-weight: 400;">${item.int} <span style="font-size:0.6rem;font-weight: 400;">(${item.intPct.toFixed(1)}%)</span></span>
                 ${iTrend?`<span class="mc-sub-trend">${iTrend}</span>`:''}
             </div>
             ${origenHTML}
