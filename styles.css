@@ -8,22 +8,22 @@ body {
     border-radius: 1rem; 
     padding: 1.5rem; 
     box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); 
-    border-left: 5px solid #00a896;
+    border-left: 5px solid #45b5a9;
 }
 
 .tab-btn { 
     padding: 0.5rem 1.25rem; 
     border-radius: 0.5rem; 
-    font-weight: 600; 
+    font-weight: 400; 
     font-size: 0.875rem; 
     transition: all 0.2s; 
     cursor: pointer; 
 }
 
 .tab-btn-active { 
-    background-color: #00a896; 
+    background-color: #45b5a9; 
     color: white; 
-    box-shadow: 0 4px 6px rgba(0, 168, 150, 0.3); 
+    box-shadow: 0 4px 6px rgba(69, 181, 169, 0.3); 
 }
 
 .tab-btn-inactive { 
@@ -34,8 +34,8 @@ body {
 
 .tab-btn-inactive:hover { 
     background-color: #f8fafc; 
-    border-color: #00a896; 
-    color: #00a896; 
+    border-color: #45b5a9; 
+    color: #45b5a9; 
 }
 
 /* Indicadores de tendencia en KPI cards */
@@ -44,17 +44,17 @@ body {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
 }
 .kpi-trend-up {
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
 }
 .kpi-trend-down {
     background-color: #f0fdf4;
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .kpi-trend-neutral {
     background-color: #f8fafc;
@@ -67,7 +67,7 @@ body {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
     text-transform: uppercase;
@@ -75,15 +75,15 @@ body {
 }
 .kpi-balance-warn {
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
 }
 .kpi-balance-mid {
     background-color: #fffbeb;
-    color: #f59e0b;
+    color: #f2bf78;
 }
 .kpi-balance-ok {
     background-color: #f0fdf4;
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .monthly-card {
     background-color: white;
@@ -91,7 +91,7 @@ body {
     padding: 1.25rem;
     box-shadow: 0 2px 12px -2px rgba(0,0,0,0.06);
     border: 1px solid #e2e8f0;
-    border-top: 4px solid #00a896;
+    border-top: 4px solid #45b5a9;
     transition: transform 0.15s, box-shadow 0.15s;
     cursor: default;
 }
@@ -100,12 +100,12 @@ body {
     box-shadow: 0 8px 24px -4px rgba(0,0,0,0.10);
 }
 .monthly-card.alert {
-    border-top-color: #f87171;
+    border-top-color: #f5a8a8;
     background: linear-gradient(135deg, #fff 80%, #fff5f5 100%);
 }
 .monthly-card .month-label {
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: #94a3b8;
@@ -113,12 +113,12 @@ body {
 }
 .monthly-card .month-total {
     font-size: 2rem;
-    font-weight: 800;
+    font-weight: 400;
     line-height: 1;
-    color: #1e293b;
+    color: #6b7280;
 }
 .monthly-card.alert .month-total {
-    color: #ef4444;
+    color: #f08a8a;
 }
 .monthly-card .month-indicator {
     display: flex;
@@ -126,13 +126,13 @@ body {
     gap: 0.35rem;
     margin-top: 0.5rem;
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 500;
 }
 .monthly-card .trend-up {
-    color: #22c55e;
+    color: #7dd1a0;
 }
 .monthly-card .trend-down {
-    color: #f87171;
+    color: #f5a8a8;
 }
 .monthly-card .trend-neutral {
     color: #94a3b8;
@@ -142,9 +142,9 @@ body {
     align-items: center;
     gap: 0.25rem;
     background-color: #fef2f2;
-    color: #ef4444;
+    color: #f08a8a;
     font-size: 0.6rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     margin-top: 0.5rem;
@@ -157,7 +157,7 @@ body {
     margin-top: 0.6rem;
     font-size: 0.65rem;
     color: #94a3b8;
-    font-weight: 600;
+    font-weight: 400;
 }
 .monthly-card .sub-breakdown span {
     display: flex;
@@ -180,14 +180,14 @@ body {
 }
 .mc-sub-label {
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #94a3b8;
     min-width: 2.5rem;
 }
 .mc-sub-val {
     font-size: 0.8rem;
-    font-weight: 700;
-    color: #334155;
+    font-weight: 500;
+    color: #6b7280;
 }
 .mc-sub-trend {
     margin-left: auto;
@@ -197,10 +197,10 @@ body {
     align-items: center;
     gap: 0.2rem;
     font-size: 0.6rem;
-    font-weight: 700;
+    font-weight: 500;
     padding: 0.1rem 0.4rem;
     border-radius: 999px;
 }
-.mc-trend-up   { background: #fef2f2; color: #ef4444; }
-.mc-trend-down { background: #f0fdf4; color: #22c55e; }
+.mc-trend-up   { background: #fef2f2; color: #f08a8a; }
+.mc-trend-down { background: #f0fdf4; color: #7dd1a0; }
 .mc-trend-neutral { background: #f8fafc; color: #94a3b8; }
