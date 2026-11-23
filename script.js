@@ -803,4 +803,591 @@ function renderMonthlyCards() {
     }).join('');
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// ANÁLISIS DE COSTOS POR TIPO DE DERIVACIÓN
+// Fuente: hoja "Detalle" de 26-08, 26-09 y 26-10.xlsx.
+// Para ACTUALIZAR: agregar las filas del mes nuevo a costosCat, costosInst y costosOrig
+// (misma estructura). El selector de período, gráficos y textos se arman solos.
+//   Tipos (k): T Teleconsulta | A Consulta/interconsulta/control | B Solo estudios |
+//     C Control+estudios+tratamiento amb. | C2 Control posquirúrgico | D Cirugía amb. |
+//     F Internación clínica/tratamiento | E Internación con cirugía
+//   flag: 'B' = internación con cirugía de patología benigna/electiva; 'S' = internación
+//     clínica con diagnóstico sintomático/"en estudio"; '' = sin marca
+//   costosCat  = [mes, tipo, categoría dx, flag, n]
+//   costosInst = [mes, tipo, prestador, n]
+//   costosOrig = [mes, tipo, origen (LR/CBA/SIN), n]
+// ═══════════════════════════════════════════════════════════════════════════
+const COSTOS_GRUPOS = [
+    {k:'A',  label:'Consulta / interconsulta / control', color:'#8fd0c8'},
+    {k:'B',  label:'Solo estudios',                      color:'#b9d9d5'},
+    {k:'C',  label:'Control + estudios + tratamiento amb.', color:'#45b5a9'},
+    {k:'C2', label:'Control posquirúrgico',              color:'#92bde4'},
+    {k:'D',  label:'Cirugía ambulatoria',                color:'#ab9fbb'},
+    {k:'F',  label:'Internación clínica / tratamiento',  color:'#f2bf78'},
+    {k:'E',  label:'Internación con cirugía',            color:'#f08a8a'},
+    {k:'T',  label:'Teleconsulta',                       color:'#cbd5e1'}
+];
+const COSTOS_PESOS_DEF = { A:1, B:2, C:4, C2:1.5, D:10, F:15, E:40, T:0.7 };
+const costosPesos = Object.assign({}, COSTOS_PESOS_DEF);
+const COSTOS_CAT = { onco:'Oncología', trauma:'Traumatología', nefro:'Nefrología', oftalmo:'Oftalmología', gineco:'Ginecología', gastro:'Gastroenterología', neuro:'Neurología', cardio:'Cardiología', otras:'Otras' };
+const COSTOS_ORG = { LR:'La Rioja', CBA:'Córdoba', SIN:'Sin origen registrado' };
+let costosUnidad = 'indice', costosPeriodo = 'Total';
+let chartCostoTipoObj=null, chartCostoMesObj=null;
+
+const costosCat = [
+    // Agosto
+    ['Agosto','T','gineco','',1],
+    ['Agosto','T','onco','',1],
+    ['Agosto','A','cardio','',12],
+    ['Agosto','A','gastro','',10],
+    ['Agosto','A','gineco','',18],
+    ['Agosto','A','nefro','',15],
+    ['Agosto','A','neuro','',16],
+    ['Agosto','A','oftalmo','',16],
+    ['Agosto','A','onco','',32],
+    ['Agosto','A','otras','',40],
+    ['Agosto','A','trauma','',22],
+    ['Agosto','B','cardio','',4],
+    ['Agosto','B','gastro','',1],
+    ['Agosto','B','gineco','',6],
+    ['Agosto','B','nefro','',1],
+    ['Agosto','B','neuro','',2],
+    ['Agosto','B','onco','',21],
+    ['Agosto','B','otras','',2],
+    ['Agosto','B','trauma','',1],
+    ['Agosto','C','cardio','',16],
+    ['Agosto','C','gastro','',20],
+    ['Agosto','C','gineco','',9],
+    ['Agosto','C','nefro','',62],
+    ['Agosto','C','neuro','',14],
+    ['Agosto','C','oftalmo','',46],
+    ['Agosto','C','onco','',100],
+    ['Agosto','C','otras','',90],
+    ['Agosto','C','trauma','',31],
+    ['Agosto','C2','cardio','',1],
+    ['Agosto','C2','gastro','',2],
+    ['Agosto','C2','nefro','',2],
+    ['Agosto','C2','oftalmo','',4],
+    ['Agosto','C2','onco','',6],
+    ['Agosto','C2','otras','',1],
+    ['Agosto','C2','trauma','',11],
+    ['Agosto','D','cardio','',1],
+    ['Agosto','D','oftalmo','',15],
+    ['Agosto','D','onco','',2],
+    ['Agosto','D','otras','',2],
+    ['Agosto','F','cardio','',4],
+    ['Agosto','F','cardio','S',4],
+    ['Agosto','F','gastro','',9],
+    ['Agosto','F','gastro','S',2],
+    ['Agosto','F','gineco','',1],
+    ['Agosto','F','nefro','',12],
+    ['Agosto','F','nefro','S',1],
+    ['Agosto','F','neuro','',3],
+    ['Agosto','F','neuro','S',2],
+    ['Agosto','F','onco','',14],
+    ['Agosto','F','onco','S',1],
+    ['Agosto','F','otras','',12],
+    ['Agosto','F','otras','S',4],
+    ['Agosto','E','cardio','',7],
+    ['Agosto','E','cardio','B',1],
+    ['Agosto','E','gastro','',8],
+    ['Agosto','E','gastro','B',5],
+    ['Agosto','E','gineco','',1],
+    ['Agosto','E','gineco','B',5],
+    ['Agosto','E','nefro','',9],
+    ['Agosto','E','nefro','B',2],
+    ['Agosto','E','neuro','',3],
+    ['Agosto','E','oftalmo','',3],
+    ['Agosto','E','oftalmo','B',1],
+    ['Agosto','E','onco','',34],
+    ['Agosto','E','onco','B',1],
+    ['Agosto','E','otras','',11],
+    ['Agosto','E','otras','B',4],
+    ['Agosto','E','trauma','',8],
+    ['Agosto','E','trauma','B',9],
+    // Septiembre
+    ['Septiembre','T','neuro','',1],
+    ['Septiembre','T','onco','',1],
+    ['Septiembre','A','cardio','',15],
+    ['Septiembre','A','gastro','',14],
+    ['Septiembre','A','gineco','',13],
+    ['Septiembre','A','nefro','',17],
+    ['Septiembre','A','neuro','',13],
+    ['Septiembre','A','oftalmo','',25],
+    ['Septiembre','A','onco','',54],
+    ['Septiembre','A','otras','',67],
+    ['Septiembre','A','trauma','',39],
+    ['Septiembre','B','cardio','',2],
+    ['Septiembre','B','gineco','',6],
+    ['Septiembre','B','neuro','',3],
+    ['Septiembre','B','oftalmo','',2],
+    ['Septiembre','B','onco','',23],
+    ['Septiembre','B','otras','',6],
+    ['Septiembre','B','trauma','',1],
+    ['Septiembre','C','cardio','',15],
+    ['Septiembre','C','gastro','',24],
+    ['Septiembre','C','gineco','',21],
+    ['Septiembre','C','nefro','',53],
+    ['Septiembre','C','neuro','',22],
+    ['Septiembre','C','oftalmo','',45],
+    ['Septiembre','C','onco','',77],
+    ['Septiembre','C','otras','',98],
+    ['Septiembre','C','trauma','',31],
+    ['Septiembre','C2','gastro','',5],
+    ['Septiembre','C2','gineco','',3],
+    ['Septiembre','C2','nefro','',6],
+    ['Septiembre','C2','neuro','',1],
+    ['Septiembre','C2','oftalmo','',4],
+    ['Septiembre','C2','onco','',4],
+    ['Septiembre','C2','otras','',9],
+    ['Septiembre','C2','trauma','',17],
+    ['Septiembre','D','oftalmo','',7],
+    ['Septiembre','F','cardio','',5],
+    ['Septiembre','F','cardio','S',3],
+    ['Septiembre','F','gastro','',7],
+    ['Septiembre','F','gastro','S',3],
+    ['Septiembre','F','nefro','',10],
+    ['Septiembre','F','neuro','',4],
+    ['Septiembre','F','neuro','S',1],
+    ['Septiembre','F','oftalmo','',3],
+    ['Septiembre','F','onco','',15],
+    ['Septiembre','F','otras','',9],
+    ['Septiembre','F','otras','S',1],
+    ['Septiembre','F','trauma','',5],
+    ['Septiembre','E','cardio','',9],
+    ['Septiembre','E','cardio','B',1],
+    ['Septiembre','E','gastro','',11],
+    ['Septiembre','E','gastro','B',5],
+    ['Septiembre','E','gineco','',2],
+    ['Septiembre','E','gineco','B',10],
+    ['Septiembre','E','nefro','',5],
+    ['Septiembre','E','nefro','B',2],
+    ['Septiembre','E','neuro','',6],
+    ['Septiembre','E','oftalmo','',7],
+    ['Septiembre','E','onco','',21],
+    ['Septiembre','E','otras','',15],
+    ['Septiembre','E','otras','B',6],
+    ['Septiembre','E','trauma','',16],
+    ['Septiembre','E','trauma','B',7],
+    // Octubre
+    ['Octubre','T','nefro','',1],
+    ['Octubre','T','otras','',1],
+    ['Octubre','A','cardio','',18],
+    ['Octubre','A','gastro','',26],
+    ['Octubre','A','gineco','',15],
+    ['Octubre','A','nefro','',32],
+    ['Octubre','A','neuro','',20],
+    ['Octubre','A','oftalmo','',17],
+    ['Octubre','A','onco','',60],
+    ['Octubre','A','otras','',96],
+    ['Octubre','A','trauma','',43],
+    ['Octubre','B','cardio','',1],
+    ['Octubre','B','gastro','',3],
+    ['Octubre','B','gineco','',3],
+    ['Octubre','B','nefro','',1],
+    ['Octubre','B','neuro','',1],
+    ['Octubre','B','onco','',23],
+    ['Octubre','B','otras','',10],
+    ['Octubre','B','trauma','',1],
+    ['Octubre','C','cardio','',13],
+    ['Octubre','C','gastro','',12],
+    ['Octubre','C','gineco','',10],
+    ['Octubre','C','nefro','',41],
+    ['Octubre','C','neuro','',16],
+    ['Octubre','C','oftalmo','',65],
+    ['Octubre','C','onco','',72],
+    ['Octubre','C','otras','',106],
+    ['Octubre','C','trauma','',30],
+    ['Octubre','C2','cardio','',2],
+    ['Octubre','C2','gastro','',3],
+    ['Octubre','C2','gineco','',1],
+    ['Octubre','C2','nefro','',6],
+    ['Octubre','C2','neuro','',2],
+    ['Octubre','C2','oftalmo','',2],
+    ['Octubre','C2','onco','',8],
+    ['Octubre','C2','otras','',11],
+    ['Octubre','C2','trauma','',18],
+    ['Octubre','D','oftalmo','',4],
+    ['Octubre','D','trauma','',1],
+    ['Octubre','F','cardio','',3],
+    ['Octubre','F','gastro','',3],
+    ['Octubre','F','gastro','S',1],
+    ['Octubre','F','gineco','',1],
+    ['Octubre','F','nefro','',7],
+    ['Octubre','F','neuro','',6],
+    ['Octubre','F','onco','',11],
+    ['Octubre','F','otras','',8],
+    ['Octubre','F','otras','S',3],
+    ['Octubre','F','trauma','',2],
+    ['Octubre','E','cardio','',8],
+    ['Octubre','E','cardio','B',1],
+    ['Octubre','E','gastro','',12],
+    ['Octubre','E','gastro','B',4],
+    ['Octubre','E','gineco','',5],
+    ['Octubre','E','gineco','B',2],
+    ['Octubre','E','nefro','',5],
+    ['Octubre','E','nefro','B',3],
+    ['Octubre','E','neuro','',3],
+    ['Octubre','E','oftalmo','',2],
+    ['Octubre','E','onco','',29],
+    ['Octubre','E','onco','B',1],
+    ['Octubre','E','otras','',22],
+    ['Octubre','E','otras','B',8],
+    ['Octubre','E','trauma','',19],
+    ['Octubre','E','trauma','B',7],
+];
+const costosInst = [
+    // Agosto
+    ['Agosto','T','Hospital Privado',2],
+    ['Agosto','A','Clinica de Ojos Reyes-Giobellina',15],
+    ['Agosto','A','Hospital Italiano',2],
+    ['Agosto','A','Hospital Privado',115],
+    ['Agosto','A','Instituto Oulton',17],
+    ['Agosto','A','Nascentis',1],
+    ['Agosto','A','Sanatorio Allende',28],
+    ['Agosto','A','Sanatorio Guemes',1],
+    ['Agosto','A','Sanatorio Mayo',2],
+    ['Agosto','B','Hospital Privado',5],
+    ['Agosto','B','Instituto Oulton',32],
+    ['Agosto','B','Sanatorio Allende',1],
+    ['Agosto','C','Clinica de Ojos Reyes-Giobellina',63],
+    ['Agosto','C','Fecundart',2],
+    ['Agosto','C','Fund. Bulimia y Anorexia',1],
+    ['Agosto','C','Hospital Italiano',1],
+    ['Agosto','C','Hospital Privado',227],
+    ['Agosto','C','Instituto Oulton',24],
+    ['Agosto','C','Instituto Radioterapia',10],
+    ['Agosto','C','Sanatorio Allende',56],
+    ['Agosto','C','Sanatorio Mayo',3],
+    ['Agosto','C','Sanatorio Morra',1],
+    ['Agosto','C2','Clinica de Ojos Reyes-Giobellina',3],
+    ['Agosto','C2','Hospital Privado',15],
+    ['Agosto','C2','Instituto Oulton',1],
+    ['Agosto','C2','Sanatorio Allende',6],
+    ['Agosto','C2','Sanatorio Mayo',2],
+    ['Agosto','D','Clinica de Ojos Reyes-Giobellina',15],
+    ['Agosto','D','Hospital Privado',3],
+    ['Agosto','D','Instituto Oulton',1],
+    ['Agosto','D','Sanatorio Allende',1],
+    ['Agosto','F','Clinica de Ojos Reyes-Giobellina',1],
+    ['Agosto','F','Hospital Italiano',1],
+    ['Agosto','F','Hospital Privado',53],
+    ['Agosto','F','Instituto Oulton',4],
+    ['Agosto','F','Instituto Radioterapia',1],
+    ['Agosto','F','Sanatorio Allende',5],
+    ['Agosto','F','Sanatorio Mayo',1],
+    ['Agosto','F','Sanatorio Morra',3],
+    ['Agosto','E','Clinica de Ojos Reyes-Giobellina',5],
+    ['Agosto','E','Hospital Privado',73],
+    ['Agosto','E','Instituto Oulton',6],
+    ['Agosto','E','Instituto Radioterapia',2],
+    ['Agosto','E','Sanatorio Allende',22],
+    ['Agosto','E','Sanatorio Mayo',4],
+    // Septiembre
+    ['Septiembre','T','Hospital Italiano',1],
+    ['Septiembre','T','Hospital Privado',1],
+    ['Septiembre','A','Centro Kuspide',1],
+    ['Septiembre','A','Clinica Central de Ojos',1],
+    ['Septiembre','A','Clinica de Ojos Reyes-Giobellina',29],
+    ['Septiembre','A','Hospital Alemán',1],
+    ['Septiembre','A','Hospital Italiano',1],
+    ['Septiembre','A','Hospital Privado',161],
+    ['Septiembre','A','Instituto Oulton',14],
+    ['Septiembre','A','Instituto Radioterapia',3],
+    ['Septiembre','A','Nascentis',2],
+    ['Septiembre','A','Sanatorio Allende',35],
+    ['Septiembre','A','Sanatorio Guemes',2],
+    ['Septiembre','A','Sanatorio Mayo',7],
+    ['Septiembre','B','Clinica de Ojos Reyes-Giobellina',1],
+    ['Septiembre','B','Fecundart',1],
+    ['Septiembre','B','Hospital Privado',10],
+    ['Septiembre','B','Instituto Oulton',31],
+    ['Septiembre','C','Centro Kuspide',1],
+    ['Septiembre','C','Clinica Central de Ojos',1],
+    ['Septiembre','C','Clinica de Ojos Reyes-Giobellina',64],
+    ['Septiembre','C','Fecundart',4],
+    ['Septiembre','C','Hospital Garrahan',1],
+    ['Septiembre','C','Hospital Italiano',7],
+    ['Septiembre','C','Hospital Privado',214],
+    ['Septiembre','C','Instituto Oulton',22],
+    ['Septiembre','C','Instituto Radioterapia',6],
+    ['Septiembre','C','Nascentis',4],
+    ['Septiembre','C','Sanatorio Allende',47],
+    ['Septiembre','C','Sanatorio Mayo',15],
+    ['Septiembre','C2','Clinica de Ojos Reyes-Giobellina',4],
+    ['Septiembre','C2','Hospital Garrahan',1],
+    ['Septiembre','C2','Hospital Privado',23],
+    ['Septiembre','C2','Instituto Oulton',1],
+    ['Septiembre','C2','Sanatorio Allende',18],
+    ['Septiembre','C2','Sanatorio Mayo',2],
+    ['Septiembre','D','Clinica de Ojos Reyes-Giobellina',7],
+    ['Septiembre','F','Clinica de Ojos Reyes-Giobellina',2],
+    ['Septiembre','F','Hospital Privado',49],
+    ['Septiembre','F','Instituto Oulton',6],
+    ['Septiembre','F','Instituto Radioterapia',1],
+    ['Septiembre','F','Sanatorio Allende',3],
+    ['Septiembre','F','Sanatorio Mayo',4],
+    ['Septiembre','F','Sanatorio Morra',1],
+    ['Septiembre','E','Clinica de Ojos Reyes-Giobellina',8],
+    ['Septiembre','E','Hospital Italiano',1],
+    ['Septiembre','E','Hospital Privado',79],
+    ['Septiembre','E','Instituto Oulton',3],
+    ['Septiembre','E','Instituto Radioterapia',1],
+    ['Septiembre','E','Sanatorio Allende',29],
+    ['Septiembre','E','Sanatorio Guemes',1],
+    ['Septiembre','E','Sanatorio Mayo',1],
+    // Octubre
+    ['Octubre','T','Hospital Italiano',1],
+    ['Octubre','T','Hospital Privado',1],
+    ['Octubre','A','Clinica de Ojos Reyes-Giobellina',21],
+    ['Octubre','A','Clínica Velez Sarsfield',6],
+    ['Octubre','A','Hospital Alemán',3],
+    ['Octubre','A','Hospital Italiano',3],
+    ['Octubre','A','Hospital Privado',211],
+    ['Octubre','A','Instituto Oulton',38],
+    ['Octubre','A','Sanatorio Allende',34],
+    ['Octubre','A','Sanatorio Guemes',1],
+    ['Octubre','A','Sanatorio Mayo',9],
+    ['Octubre','A','Sanatorio Morra',1],
+    ['Octubre','B','Hospital Privado',8],
+    ['Octubre','B','Instituto Oulton',34],
+    ['Octubre','B','Sanatorio Allende',1],
+    ['Octubre','C','Centro Kuspide',1],
+    ['Octubre','C','Clinica Central de Ojos',1],
+    ['Octubre','C','Clinica de Ojos Reyes-Giobellina',86],
+    ['Octubre','C','Clínica Velez Sarsfield',9],
+    ['Octubre','C','Fecundart',2],
+    ['Octubre','C','Hospital Garrahan',1],
+    ['Octubre','C','Hospital Italiano',3],
+    ['Octubre','C','Hospital Privado',185],
+    ['Octubre','C','Instituto Oulton',26],
+    ['Octubre','C','Instituto Radioterapia',9],
+    ['Octubre','C','Nascentis',4],
+    ['Octubre','C','Sanatorio Allende',30],
+    ['Octubre','C','Sanatorio Mayo',8],
+    ['Octubre','C2','Clinica de Ojos Reyes-Giobellina',2],
+    ['Octubre','C2','Hospital Italiano',1],
+    ['Octubre','C2','Hospital Privado',29],
+    ['Octubre','C2','Instituto Oulton',4],
+    ['Octubre','C2','Sanatorio Allende',16],
+    ['Octubre','C2','Sanatorio Mayo',1],
+    ['Octubre','D','Clinica de Ojos Reyes-Giobellina',4],
+    ['Octubre','D','Hospital Privado',1],
+    ['Octubre','F','Clinica de Ojos Reyes-Giobellina',1],
+    ['Octubre','F','Clínica Velez Sarsfield',5],
+    ['Octubre','F','Hospital Alemán',1],
+    ['Octubre','F','Hospital Privado',25],
+    ['Octubre','F','Instituto Oulton',1],
+    ['Octubre','F','Instituto Radioterapia',2],
+    ['Octubre','F','Sanatorio Allende',10],
+    ['Octubre','E','Clinica de Ojos Reyes-Giobellina',3],
+    ['Octubre','E','Clínica Velez Sarsfield',2],
+    ['Octubre','E','Hospital Garrahan',1],
+    ['Octubre','E','Hospital Privado',95],
+    ['Octubre','E','Instituto Oulton',6],
+    ['Octubre','E','Nascentis',2],
+    ['Octubre','E','Sanatorio Allende',19],
+    ['Octubre','E','Sanatorio Guemes',1],
+    ['Octubre','E','Sanatorio Mayo',2],
+];
+const costosOrig = [
+    // Agosto
+    ['Agosto','T','LR',2],
+    ['Agosto','A','CBA',12],
+    ['Agosto','A','LR',169],
+    ['Agosto','B','LR',38],
+    ['Agosto','C','CBA',59],
+    ['Agosto','C','LR',329],
+    ['Agosto','C2','LR',27],
+    ['Agosto','D','LR',20],
+    ['Agosto','F','CBA',32],
+    ['Agosto','F','LR',37],
+    ['Agosto','E','CBA',41],
+    ['Agosto','E','LR',71],
+    // Septiembre
+    ['Septiembre','T','LR',2],
+    ['Septiembre','A','CBA',15],
+    ['Septiembre','A','LR',241],
+    ['Septiembre','A','SIN',1],
+    ['Septiembre','B','CBA',1],
+    ['Septiembre','B','LR',42],
+    ['Septiembre','C','CBA',69],
+    ['Septiembre','C','LR',310],
+    ['Septiembre','C','SIN',7],
+    ['Septiembre','C2','LR',49],
+    ['Septiembre','D','CBA',1],
+    ['Septiembre','D','LR',6],
+    ['Septiembre','F','CBA',27],
+    ['Septiembre','F','LR',38],
+    ['Septiembre','F','SIN',1],
+    ['Septiembre','E','CBA',37],
+    ['Septiembre','E','LR',86],
+    // Octubre
+    ['Octubre','T','LR',2],
+    ['Octubre','A','CBA',14],
+    ['Octubre','A','LR',313],
+    ['Octubre','B','CBA',2],
+    ['Octubre','B','LR',41],
+    ['Octubre','C','CBA',59],
+    ['Octubre','C','LR',306],
+    ['Octubre','C2','LR',53],
+    ['Octubre','D','LR',5],
+    ['Octubre','F','CBA',13],
+    ['Octubre','F','LR',32],
+    ['Octubre','E','CBA',28],
+    ['Octubre','E','LR',103],
+];
+
+const costosMeses = () => MESES_ORDEN.filter(m => costosCat.some(r => r[0]===m));
+const cSel   = arr => costosPeriodo==='Total' ? arr : arr.filter(r => r[0]===costosPeriodo);
+const cNum   = v => v.toLocaleString('es-AR');
+const cPct   = v => (isFinite(v)?v:0).toFixed(1).replace('.',',')+'%';
+function cFmt(v) {
+    if (costosUnidad==='pesos') return '$ '+Math.round(v).toLocaleString('es-AR');
+    return v.toLocaleString('es-AR',{minimumFractionDigits:1,maximumFractionDigits:1});
+}
+function cGroupBy(rows, keyFn) {
+    const m = {};
+    rows.forEach(r => {
+        const n = r[r.length-1], g = r[1], k = keyFn(r);
+        const o = m[k] || (m[k] = {n:0, c:0, int:0, g:{}});
+        o.n += n; o.c += n*(costosPesos[g]||0); if (g==='E'||g==='F') o.int += n;
+        o.g[g] = (o.g[g]||0) + n;
+    });
+    return m;
+}
+
+function setCostosPeriodo(p) { costosPeriodo = p; renderCostos(); }
+function setCostosUnidad(u) { costosUnidad = u; renderCostos(); }
+function setCostosPeso(k, v) { const x = parseFloat(String(v).replace(',','.')); costosPesos[k] = isFinite(x)&&x>=0 ? x : 0; renderCostos(false); }
+function resetCostosPesos() { Object.assign(costosPesos, COSTOS_PESOS_DEF); renderCostos(); }
+
+function setVista(v) {
+    ['monitor','costos'].forEach(x => {
+        document.getElementById('view-'+x).classList.toggle('hidden', x!==v);
+        const b = document.getElementById('btn-vista-'+x);
+        b.classList.toggle('tab-btn-active', x===v); b.classList.toggle('tab-btn-inactive', x!==v);
+    });
+    document.getElementById('nav-filtros').classList.toggle('hidden', v!=='monitor');
+    if (v==='costos') renderCostos(); else procesarDatos();
+    window.scrollTo({top:0});
+}
+
+function renderCostos(rebuildPesos = true) {
+    const meses = costosMeses();
+    if (costosPeriodo!=='Total' && !meses.includes(costosPeriodo)) costosPeriodo = 'Total';
+    document.getElementById('costos-meses-cubiertos').innerText = meses.join(', ');
+    document.getElementById('costos-subtitulo').innerText =
+        `${costosPeriodo==='Total' ? meses[0]+' a '+meses[meses.length-1]+' 2026' : costosPeriodo+' 2026'} · costo en ${costosUnidad==='pesos'?'pesos ($)':'índice relativo (valores supuestos)'}`;
+
+    // selector de período
+    document.getElementById('costos-periodos').innerHTML = ['Total',...meses].map(p =>
+        `<button onclick="setCostosPeriodo('${p}')" class="tab-btn ${p===costosPeriodo?'tab-btn-active':'tab-btn-inactive'}">${p==='Total'?'Total período':p}</button>`).join('');
+    // editor de pesos
+    if (rebuildPesos) {
+        document.getElementById('costos-unidad').value = costosUnidad;
+        document.getElementById('costos-pesos').innerHTML = COSTOS_GRUPOS.map(g => `
+            <label class="block">
+                <span class="flex items-center gap-2 text-[11px] text-slate-500 mb-1"><span style="width:8px;height:8px;border-radius:50%;background:${g.color};display:inline-block"></span>${g.label}</span>
+                <input type="number" min="0" step="any" value="${costosPesos[g.k]}" onchange="setCostosPeso('${g.k}',this.value)"
+                    class="w-full bg-white border border-slate-200 rounded-md px-3 py-1.5 text-sm font-normal text-slate-500 focus:outline-none focus:ring-2 focus:ring-aposTeal">
+            </label>`).join('');
+    }
+
+    const cat = cSel(costosCat);
+    const byG = cGroupBy(cat, r => r[1]);
+    const totN = Object.values(byG).reduce((s,o)=>s+o.n,0);
+    const totC = Object.values(byG).reduce((s,o)=>s+o.c,0);
+    const gN = k => (byG[k]?byG[k].n:0), gC = k => (byG[k]?byG[k].c:0);
+    const intN = gN('E')+gN('F'), intC = gC('E')+gC('F');
+
+    // KPIs
+    document.getElementById('cs-total').innerText = cNum(totN);
+    document.getElementById('cs-total-sub').innerText = costosPeriodo==='Total' ? `${meses.length} meses con detalle cargado` : 'derivaciones del mes';
+    document.getElementById('cs-int').innerText = cPct(totN?intN/totN*100:0);
+    document.getElementById('cs-int-sub').innerText = `${cNum(intN)} casos · ${cNum(gN('E'))} con cirugía, ${cNum(gN('F'))} clínicas`;
+    document.getElementById('cs-intcosto').innerText = cPct(totC?intC/totC*100:0);
+    document.getElementById('cs-intcosto-sub').innerText = `con el ${cPct(totN?intN/totN*100:0)} de los casos`;
+    document.getElementById('cs-medio').innerText = totN ? cFmt(totC/totN) : '—';
+    document.getElementById('cs-medio-sub').innerText = `costo total estimado: ${cFmt(totC)}`;
+
+    // Gráfico casos vs costo por tipo
+    const gs = COSTOS_GRUPOS.filter(g => gN(g.k)>0);
+    if (chartCostoTipoObj) chartCostoTipoObj.destroy();
+    chartCostoTipoObj = new Chart(document.getElementById('chartCostoTipo').getContext('2d'), {
+        type:'bar',
+        data:{ labels: gs.map(g=>g.label), datasets:[
+            { label:'% de casos', data: gs.map(g=>totN?gN(g.k)/totN*100:0), backgroundColor:'#45b5a9', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 },
+            { label:'% del costo estimado', data: gs.map(g=>totC?gC(g.k)/totC*100:0), backgroundColor:'#f08a8a', borderRadius:4, categoryPercentage:0.8, barPercentage:0.9 }
+        ]},
+        options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, layout:{padding:{right:38}},
+            scales:{ x:{beginAtZero:true, ticks:{callback:v=>v+'%', font:{size:10}}, grid:{color:'#f1f5f9'}}, y:{ticks:{font:{size:10}}, grid:{display:false}} },
+            plugins:{ legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,padding:16}},
+                datalabels:{anchor:'end',align:'right',color:'#6b7280',font:{weight:'400',size:9},formatter:v=>v.toFixed(1).replace('.',',')+'%',clip:false} } }
+    });
+
+    // Evolución mensual (siempre todos los meses)
+    const evo = meses.map(m => {
+        const o = cGroupBy(costosCat.filter(r=>r[0]===m), r=>'x').x || {n:0,c:0,int:0};
+        return {m, n:o.n, intPct:o.n?o.int/o.n*100:0, medio:o.n?o.c/o.n:0};
+    });
+    if (chartCostoMesObj) chartCostoMesObj.destroy();
+    chartCostoMesObj = new Chart(document.getElementById('chartCostoMes').getContext('2d'), {
+        type:'bar',
+        data:{ labels: evo.map(e=>e.m), datasets:[
+            { type:'bar',  label:'Derivaciones', data:evo.map(e=>e.n), backgroundColor:'#b9d9d5', borderRadius:4, yAxisID:'y',
+              datalabels:{anchor:'end',align:'top',color:'#6b7280',font:{size:9},formatter:v=>cNum(v)} },
+            { type:'line', label:'Costo medio / derivación', data:evo.map(e=>e.medio), borderColor:'#f08a8a', backgroundColor:'#f08a8a', tension:0.3, pointRadius:4, yAxisID:'y2',
+              datalabels:{anchor:'end',align:'top',color:'#f08a8a',font:{size:9},formatter:v=>cFmt(v)} }
+        ]},
+        options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:22}},
+            scales:{ y:{beginAtZero:true, grace:'15%', ticks:{font:{size:10}}, grid:{color:'#f1f5f9'}},
+                     y2:{position:'right', beginAtZero:false, grace:'20%', display:false},
+                     x:{ticks:{font:{size:10}}, grid:{display:false}} },
+            plugins:{ legend:{position:'top',labels:{usePointStyle:true,boxWidth:8,padding:12}} } }
+    });
+
+    // Tabla por diagnóstico
+    const hdr = (cols) => `<thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>`;
+    const bar = (p,color) => `<div class="cost-bar"><span style="width:${Math.min(100,p)}%;background:${color}"></span></div>`;
+    const byCat = cGroupBy(cat, r=>r[2]);
+    const catRows = Object.entries(byCat).sort((a,b)=>b[1].c-a[1].c).map(([k,o]) => {
+        const surg = (o.g.E||0), amb = (o.g.C||0);
+        return `<tr><td>${COSTOS_CAT[k]||k}</td><td class="num">${cNum(o.n)}</td><td class="num">${cPct(o.n/totN*100)}</td>
+            <td class="num">${cPct(o.int/o.n*100)}</td><td class="num">${cPct(surg/o.n*100)}</td><td class="num">${cPct(amb/o.n*100)}</td>
+            <td class="num">${cFmt(o.c)}</td><td>${bar(totC?o.c/totC*100:0,'#f08a8a')}<span class="cost-pct">${cPct(totC?o.c/totC*100:0)}</span></td><td class="num">${cFmt(o.c/o.n)}</td></tr>`;
+    }).join('');
+    document.getElementById('tabla-costo-dx').innerHTML = hdr(['Diagnóstico','Casos','% casos','% internación','% int. con cirugía','% trat. ambulatorio','Costo estimado','% del costo','Costo medio']) + `<tbody>${catRows}</tbody>`;
+
+    // Tabla por prestador
+    const inst = cGroupBy(cSel(costosInst), r=>r[2]);
+    const instRows = Object.entries(inst).sort((a,b)=>b[1].c-a[1].c).slice(0,10).map(([k,o]) =>
+        `<tr><td>${k}</td><td class="num">${cNum(o.n)}</td><td class="num">${cPct(o.n/totN*100)}</td><td class="num">${cPct(o.int/o.n*100)}</td>
+         <td>${bar(totC?o.c/totC*100:0,'#45b5a9')}<span class="cost-pct">${cPct(totC?o.c/totC*100:0)}</span></td><td class="num">${cFmt(o.c/o.n)}</td></tr>`).join('');
+    document.getElementById('tabla-costo-inst').innerHTML = hdr(['Prestador','Casos','% casos','% internación','% del costo','Costo medio']) + `<tbody>${instRows}</tbody>`;
+
+    // Tabla por origen
+    const org = cGroupBy(cSel(costosOrig), r=>r[2]);
+    const orgRows = ['LR','CBA','SIN'].filter(k=>org[k]).map(k => { const o = org[k];
+        return `<tr><td>${COSTOS_ORG[k]}</td><td class="num">${cNum(o.n)}</td><td class="num">${cPct(o.int/o.n*100)}</td><td class="num">${cPct(totC?o.c/totC*100:0)}</td><td class="num">${cFmt(o.c/o.n)}</td></tr>`; }).join('');
+    document.getElementById('tabla-costo-org').innerHTML = hdr(['Origen','Casos','% internación','% del costo','Costo medio']) + `<tbody>${orgRows}</tbody>`;
+
+    // Lectura y oportunidades (se recalcula con los datos del período)
+    const ins = [];
+    ins.push({i:'fa-bed', c:'#f08a8a', t:`La internación (clínica + cirugía) es el <span class="font-medium text-slate-500">${cPct(totN?intN/totN*100:0)}</span> de los casos y concentra el <span class="font-medium text-slate-500">${cPct(totC?intC/totC*100:0)}</span> del costo estimado. Con la cirugía ambulatoria llega a ${cPct(totC?(intC+gC('D'))/totC*100:0)}.`});
+    const benN = cat.filter(r=>r[3]==='B').reduce((s,r)=>s+r[4],0);
+    if (gN('E')) ins.push({i:'fa-calendar-check', c:'#45b5a9', t:`<span class="font-medium text-slate-500">${cNum(benN)}</span> de ${cNum(gN('E'))} internaciones con cirugía (${cPct(benN/gN('E')*100)}) son de patología benigna o electiva (miomatosis, endometriosis, litiasis, hemorroides, hernias, cataratas, artrosis…). Son programables y negociables por módulo; evaluar resolución local o convenios.`});
+    const sinN = cat.filter(r=>r[3]==='S').reduce((s,r)=>s+r[4],0);
+    if (gN('F')) ins.push({i:'fa-magnifying-glass', c:'#f2bf78', t:`<span class="font-medium text-slate-500">${cNum(sinN)}</span> de ${cNum(gN('F'))} internaciones clínicas (${cPct(sinN/gN('F')*100)}) tienen diagnóstico sintomático o "en estudio" (dolor precordial, síncope, anemia en estudio…). Candidatas a hospital de día o estudio ambulatorio, previa validación médica.`});
+    const instArr = Object.entries(inst).sort((a,b)=>b[1].n-a[1].n);
+    if (instArr.length) { const [k,o] = instArr[0];
+        const mayor = Object.entries(inst).filter(([,x])=>x.n>=20).sort((a,b)=>b[1].c/b[1].n-a[1].c/a[1].n)[0];
+        ins.push({i:'fa-hospital', c:'#92bde4', t:`<span class="font-medium text-slate-500">${k}</span> reúne el ${cPct(o.n/totN*100)} de los casos y el ${cPct(totC?o.c/totC*100:0)} del costo estimado.${mayor?` El mayor costo medio entre prestadores con 20+ casos es <span class="font-medium text-slate-500">${mayor[0]}</span> (${cFmt(mayor[1].c/mayor[1].n)}).`:''} Priorizar auditoría de módulos y prótesis en estos prestadores.`}); }
+    if (org.CBA && org.LR) ins.push({i:'fa-route', c:'#ab9fbb', t:`Las derivaciones con origen en Córdoba son el ${cPct(org.CBA.n/totN*100)} de los casos y el ${cPct(totC?org.CBA.c/totC*100:0)} del costo; se internan el ${cPct(org.CBA.int/org.CBA.n*100)} contra ${cPct(org.LR.int/org.LR.n*100)} de las de La Rioja.`});
+    if (costosPeriodo==='Total' && evo.length>1) { const a=evo[0], z=evo[evo.length-1];
+        ins.push({i:'fa-chart-line', c:'#7dd1a0', t:`${a.m} → ${z.m}: la internación pasó de ${cPct(a.intPct)} a ${cPct(z.intPct)} de los casos y el costo medio por derivación de ${cFmt(a.medio)} a ${cFmt(z.medio)} (${((z.medio/a.medio-1)*100).toFixed(1).replace('.',',')}%), con ${cNum(a.n)} → ${cNum(z.n)} derivaciones.`}); }
+    document.getElementById('costos-insights').innerHTML = ins.map(x => `
+        <div class="insight-card"><i class="fas ${x.i}" style="color:${x.c}"></i><p>${x.t}</p></div>`).join('');
+}
+
 window.onload = () => procesarDatos();
